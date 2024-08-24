@@ -4,6 +4,63 @@
   "sourceRoot": "apps/starter-tcc",
   "projectType": "application",
   "tags": [],
-  "// targets": "to see all targets run: nx show project starter-tcc --web",
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/store",
+        "outputPath": "apps/store/dist",
+        "assets": []
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "store:build",
+        "dev": true,
+        "hostname": "localdev.studio78.com",
+        "port": 3004
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "store:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "store:build:production",
+          "dev": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "store:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/store/jest.config.ts"
+      }
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p apps/store/tsconfig.json"
+          }
+        ]
+      }
+    }
+  }
 }
