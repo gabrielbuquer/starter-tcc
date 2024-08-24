@@ -1,0 +1,9 @@
+{
+  "name": "starter-tcc",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/starter-tcc",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project starter-tcc --web",
+  "targets": {}
+}
