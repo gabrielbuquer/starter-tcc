@@ -8,7 +8,7 @@ import { NestFactory } from '@nestjs/core';
 import { NextFunction, Request, Response } from 'express';
 import Next from 'next';
 import { workspaceRoot } from '@nx/devkit';
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 import { join } from 'path';
 
 async function bootstrap() {
