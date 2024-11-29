@@ -10,6 +10,8 @@ import Next from 'next';
 import { workspaceRoot } from '@nx/devkit';
 import { AppModule } from './app.module';
 import { join } from 'path';
+import { SwaggerModule,DocumentBuilder } from '@nestjs/swagger';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +22,12 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
 
   await nextApp.prepare();
+
+  const config = new DocumentBuilder()
+  .setTitle('Api Monetix')
+  .setDescription("Api for Monetix project")
+  .setVersion('1.0')
+  .build();
 
   app.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,6 +45,8 @@ async function bootstrap() {
   }
   });
 
+  const documentFactory = () => SwaggerModule.createDocument(app,config);
+  SwaggerModule.setup('api',app,documentFactory);
   await app.listen(port);
 
   Logger.log(

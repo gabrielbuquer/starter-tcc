@@ -4,8 +4,8 @@ import { AppController } from './app/app.controller';
 import { AppService } from './app/app.service';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
+import { User } from './auth/entities/user.entity';
+import { StudentModule } from './student/student.module';
 
 
 
@@ -20,7 +20,7 @@ import { User } from './user/entities/user.entity';
     database: 'monetix',
     synchronize: true,
     logging: true,
-  }), AuthModule, UserModule],
+  }), AuthModule, StudentModule],
   controllers: [AppController],
   providers: [AppService],
 })
