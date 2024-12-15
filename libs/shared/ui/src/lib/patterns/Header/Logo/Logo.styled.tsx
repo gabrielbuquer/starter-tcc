@@ -1,14 +1,8 @@
 import styled, { css } from 'styled-components';
+import Link from 'next/link'
 
-export const Wrapper = styled.div`
+export const LogoAsLink = styled(Link)`
   ${({ theme }) => css`
-    position: relative;
-    display: grid;
-    grid-template-columns: max-content minmax(160px, 1fr) minmax(
-        min-content,
-        auto
-      );
-    align-items: center;
-    width: 100%;
+
   `}
 `;

@@ -1,0 +1,33 @@
+{
+  "name": "shared-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/config/src",
+  "projectType": "library",
+  "targets": {
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/shared/config/tsconfig.json"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared/config",
+        "main": "libs/shared/config/src/*",
+        "tsConfig": "libs/shared/config/tsconfig.lib.json",
+        "assets": ["libs/shared/config/*.md"]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:util"]
+}

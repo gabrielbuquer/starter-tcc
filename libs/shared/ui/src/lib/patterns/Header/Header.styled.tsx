@@ -1,15 +1,13 @@
-import styled, { css } from 'styled-components';
+import { styled } from '@mui/material';
 
-export const HeaderWrapper = styled.section`
-  ${({ theme }) => css`
-    position: relative;
-    display: grid;
-    grid-template-columns: max-content minmax(160px, 1fr) minmax(
-        min-content,
-        auto
-      );
+export const HeaderWrapper = styled('header')`
+  ${({ theme }) => `
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: ${theme.spacing[100]};
-  `}
+    box-sizing: border-box;
+    gap: ${theme.spacing(2)};
+    padding: ${theme.spacing(1)} ${theme.spacing(4)};
+  `};
 `;

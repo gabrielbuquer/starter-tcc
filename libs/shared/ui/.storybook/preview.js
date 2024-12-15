@@ -1,7 +1,7 @@
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Script from 'next/script';
-import { ThemeProvider } from 'styled-components';
+import { MonetixProvider } from '../src/lib/components/MonetixProvider';
 
 export const decorators = [
   (Story) => {
@@ -27,9 +27,9 @@ export const decorators = [
             },
           }}
         >
-          <ThemeProvider theme={{}}>
+          <MonetixProvider>
             <Story />
-          </ThemeProvider>
+          </MonetixProvider>
         </RouterContext.Provider>
       </>
     );
