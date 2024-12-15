@@ -1,9 +1,16 @@
 import { HeaderWrapper } from './Header.styled';
+import { Logo } from './Logo';
+
+export type HeaderPropsType = {
+  string: string;
+}
 
 export const Header = () => {
   return (
-    <HeaderWrapper>
-      header
-    </HeaderWrapper>
+    <div>
+      <Logo />
+      <div> menu </div>
+      <div> account </div>
+    </div>
   )
 };

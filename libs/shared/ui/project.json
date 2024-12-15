@@ -5,6 +5,105 @@
   "projectType": "library",
   "tags": [],
   "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/shared/ui/tsconfig.json"
+          }
+        ]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared/ui/**/*.styled.tsx"]
+      }
+    },
+    "storybook": {
+      "executor": "@nx/storybook:storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "libs/shared/ui/.storybook",
+        "assets": [
+          {
+            "input": "libs/shared/assets/src/assets",
+            "glob": "**/*",
+            "output": "assets"
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "favicon.ico",
+            "output": ""
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "robots.txt",
+            "output": ""
+          }
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/shared-ui",
+        "configDir": "libs/shared/ui/.storybook",
+        "assets": [
+          {
+            "input": "libs/shared/assets/src/assets",
+            "glob": "**/*",
+            "output": "assets"
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "favicon.ico",
+            "output": ""
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "robots.txt",
+            "output": ""
+          }
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "skipCommit": true
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "shared-ui:build-storybook",
+        "staticFilePath": "dist/storybook/shared-ui"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "shared-ui:build-storybook:ci"
+        }
+      }
+    },
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
