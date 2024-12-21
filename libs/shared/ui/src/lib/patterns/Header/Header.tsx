@@ -1,3 +1,4 @@
+import { Menu } from '../Menu';
 import { HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';
 import { getBaseUrls } from '@monetix/shared/config';
@@ -12,7 +13,7 @@ export const Header = () => {
   return (
     <HeaderWrapper>
       <Logo href={HOME} />
-      <div> menu </div>
+      <Menu />
       <div> account </div>
     </HeaderWrapper>
   )
