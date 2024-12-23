@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/entities/user.entity';
 import { StudentModule } from './student/student.module';
+import { ClassroomModule } from './classroom/classroom.module';
 
 
 
@@ -20,7 +21,7 @@ import { StudentModule } from './student/student.module';
     database: 'monetix',
     synchronize: true,
     logging: true,
-  }), AuthModule, StudentModule],
+  }), AuthModule, StudentModule, ClassroomModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -32,7 +32,7 @@ export class AuthService {
     user.name = createUserDto.name;
     user.birthDate = createUserDto.birthDate;
     user.email = createUserDto.email;
-    user.password = createUserDto.password;
+    user.password = createUserDto.password; //TODO: encrypt the password
     return this.userRepository.save(user);
   }
 
