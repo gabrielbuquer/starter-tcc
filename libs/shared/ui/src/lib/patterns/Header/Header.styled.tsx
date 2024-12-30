@@ -1,13 +1,15 @@
-import { styled } from '@mui/material';
+import { css, styled } from '@mui/material';
 
 export const HeaderWrapper = styled('header')`
-  ${({ theme }) => `
-    display: flex;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     box-sizing: border-box;
     gap: ${theme.spacing(2)};
     padding: ${theme.spacing(1)} ${theme.spacing(4)};
+    background-color: ${theme.palette.common.white};
   `};
 `;

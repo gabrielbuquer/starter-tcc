@@ -1,4 +1,4 @@
 export * from './MonetixProvider';
 export * from './MetaTags';
 export * from './Preconnect';
-export * from './Header';
+export * from './Avatar';

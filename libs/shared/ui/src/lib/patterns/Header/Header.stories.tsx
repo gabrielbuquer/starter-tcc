@@ -1,12 +1,17 @@
+import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
 import { Header, HeaderPropsType } from './Header';
+
 
 export default {
   title: 'Patterns / Header',
   args: {},
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      appDirectory: true,
+    }
   },
 } as Meta<typeof Header>;
 

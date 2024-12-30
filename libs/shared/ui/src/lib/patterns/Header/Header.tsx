@@ -1,3 +1,4 @@
+import { AccountMenu } from '../AccountMenu';
 import { Menu } from '../Menu';
 import { HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';
@@ -14,7 +15,7 @@ export const Header = () => {
     <HeaderWrapper>
       <Logo href={HOME} />
       <Menu />
-      <div> account </div>
+      <AccountMenu />
     </HeaderWrapper>
   )
 };
