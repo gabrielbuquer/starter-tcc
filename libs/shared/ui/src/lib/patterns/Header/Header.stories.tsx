@@ -18,7 +18,7 @@ export default {
 export const Mobile: StoryFn<HeaderPropsType> = (props) => {
   return (
     <div style={{ width: '100%' }}>
-      <div> tetes </div>
+      <Header {...props} />
     </div>
   );
 };

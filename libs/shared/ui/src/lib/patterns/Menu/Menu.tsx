@@ -1,4 +1,5 @@
-import DesktopView from "../../utils/DesktopView/DesktopView";
+
+import { DesktopView } from "../../utils";
 import { MENU_LINKS } from "./constants";
 import { MenuDesktop } from "./MenuDesktop";
 

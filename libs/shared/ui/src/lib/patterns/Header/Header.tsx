@@ -1,8 +1,9 @@
 import { AccountMenu } from '../AccountMenu';
 import { Menu } from '../Menu';
-import { HeaderWrapper } from './Header.styled';
+import { Actions, HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';
 import { getBaseUrls } from '@monetix/shared/config';
+import { DesktopView, MobileView } from "../../utils";
 
 export type HeaderPropsType = {
   string: string;
@@ -14,8 +15,17 @@ export const Header = () => {
   return (
     <HeaderWrapper>
       <Logo href={HOME} />
+
       <Menu />
-      <AccountMenu />
+
+      <Actions>
+        <DesktopView>
+          <AccountMenu />
+        </DesktopView>
+        <MobileView>
+          <div> menu </div>
+        </MobileView>
+      </Actions>
     </HeaderWrapper>
   )
 };

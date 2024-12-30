@@ -1,7 +1,7 @@
 import { AvatarWrapper } from './Avatar.styled';
 
 type AvatarProps = {
-  acronym: string;
+  acronym?: string;
 }
 
 export const Avatar = ({ acronym }: AvatarProps) => {
