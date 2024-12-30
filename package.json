@@ -7,19 +7,21 @@
     "start:app": "npx nx run starter-tcc:start",
     "build:api": "npx nx run api:build",
     "serve:api": "npx nx run api:serve",
-    "storybook:shared-ui": "nx run shared-ui:storybook",
-    "start:storybook:shared-ui": "yarn nx storybook shared-ui -p 4404"
+    "storybook:shared-ui": "npx nx run shared-ui:storybook",
+    "start:storybook:shared-ui": "npx nx storybook shared-ui -p 4404"
   },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.2.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/platform-fastify": "^10.4.1",
     "@nestjs/serve-static": "^4.0.2",
+    "@radix-ui/react-navigation-menu": "^1.2.3",
     "axios": "^1.6.0",
     "nest-next": "^10.1.0",
     "next": "14.2.3",

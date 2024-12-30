@@ -29,5 +29,19 @@ export const MENU_LINKS: MenuLinksProps[] = [
         link: '/financas/orcamento',
       }
     ],
+  },
+  {
+    title: 'Professor',
+    link: '/professor',
+    submenu: [
+      {
+        title: 'Gestão de Aula',
+        link: '/professor/aulas',
+      },
+      {
+        title: 'Gestão de Alunos',
+        link: '/professor/alunos',
+      }
+    ],
   }
 ]

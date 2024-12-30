@@ -1,6 +1,6 @@
-import { MenuOption } from "./MenuOption";
+import { MenuItem } from "./MenuItem";
 import { MenuLinksProps } from "../types";
-import { Container } from "./MenuDesktop.styled";
+import { NavigationList, NavigationRoot } from "./MenuDesktop.styled";
 
 type MenuDesktopProps = {
   content: MenuLinksProps[];
@@ -8,8 +8,10 @@ type MenuDesktopProps = {
 
 export const MenuDesktop = ({ content }: MenuDesktopProps) => {
   return (
-    <Container>
-      {content.map((item) => <MenuOption key={item.title} {...item} />)}
-    </Container>
+    <NavigationRoot>
+      <NavigationList>
+        {content.map((item) => <MenuItem key={item.title} {...item} />)}
+      </NavigationList>
+    </NavigationRoot>
   );
 }
