@@ -1,5 +1,5 @@
 import { AccountMenu } from '../AccountMenu';
-import { Menu } from '../Menu';
+import { MenuDesktop, DrawerMobile } from '../Menu';
 import { Actions, HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';
 import { getBaseUrls } from '@monetix/shared/config';
@@ -16,14 +16,17 @@ export const Header = () => {
     <HeaderWrapper>
       <Logo href={HOME} />
 
-      <Menu />
+
+      <DesktopView>
+        <MenuDesktop />
+      </DesktopView>
 
       <Actions>
         <DesktopView>
           <AccountMenu />
         </DesktopView>
         <MobileView>
-          <div> menu </div>
+          <DrawerMobile />
         </MobileView>
       </Actions>
     </HeaderWrapper>

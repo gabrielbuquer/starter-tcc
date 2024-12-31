@@ -1,16 +1,13 @@
 import { MenuItem } from "./MenuItem";
-import { MenuLinksProps } from "../types";
 import { NavigationList, NavigationRoot } from "./MenuDesktop.styled";
 
-type MenuDesktopProps = {
-  content: MenuLinksProps[];
-}
+import { MENU_LINKS } from "../constants";
 
-export const MenuDesktop = ({ content }: MenuDesktopProps) => {
+export const MenuDesktop = () => {
   return (
     <NavigationRoot>
       <NavigationList>
-        {content.map((item) => <MenuItem key={item.title} {...item} />)}
+        {MENU_LINKS.map((item) => <MenuItem key={item.title} {...item} />)}
       </NavigationList>
     </NavigationRoot>
   );
