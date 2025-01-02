@@ -25,28 +25,40 @@ const theme = createTheme({
     ].join(','),
     h1: {
       fontSize: '32px',
+      lineHeight: '34px',
     },
     h2: {
       fontSize: '24px',
+      lineHeight: '26px',
     },
     h3: {
       fontSize: '20px',
+      lineHeight: '22px',
     },
     h4: {
       fontSize: '16px',
+      lineHeight: '18px',
     },
     h5: {
       fontSize: '14px',
+      lineHeight: '16px',
     },
     h6: {
       fontSize: '12px',
+      lineHeight: '14px',
     },
     body1: {
-      fontSize: '14px',
+      fontSize: '16px',
+      lineHeight: '18px',
     },
     body2: {
       fontSize: '12px',
+      lineHeight: '14px',
     },
+    caption: {
+      fontSize: '14px',
+      lineHeight: '16px',
+    }
   },
   palette: {
     text: {
