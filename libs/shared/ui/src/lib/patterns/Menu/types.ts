@@ -1,6 +1,6 @@
 export type MenuLinksProps = {
   title: string;
   link: string;
-  icon?: any;
+  icon?: JSX.Element;
   submenu?: Omit<MenuLinksProps, 'submenu'>[];
 }

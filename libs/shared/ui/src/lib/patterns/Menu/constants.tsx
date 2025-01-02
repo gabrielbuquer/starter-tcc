@@ -1,7 +1,6 @@
 import { MenuLinksProps } from "./types";
 
-import { HomeOutlined, SchoolOutlined, AutoStoriesOutlined, AccountBalanceWalletOutlined } from '@mui/icons-material';
-
+import { HomeOutlined, SchoolOutlined, AutoStoriesOutlined, AccountBalanceWalletOutlined, Home } from '@mui/icons-material';
 
 export const MENU_LINKS: MenuLinksProps[] = [
   {
