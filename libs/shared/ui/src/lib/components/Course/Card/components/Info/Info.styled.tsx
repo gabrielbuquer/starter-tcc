@@ -6,6 +6,7 @@ export const Box = styled('div')`
     align-items: center;
     gap: ${theme.spacing(1)};
     padding: ${theme.spacing(.6)} ${theme.spacing(2)};
+    box-sizing: border-box;
   `};
 `;
 

@@ -8,6 +8,7 @@ export const Box = styled('div')`
     background-color: ${theme.palette.common.white};
     border-radius: ${theme.shape.borderRadius}px;
     box-shadow: 0 2px 10px ${theme.palette.grey[200]};
+    box-sizing: border-box;
   `};
 `;
 
