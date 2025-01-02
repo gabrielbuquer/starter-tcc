@@ -19,7 +19,7 @@ export default {
   },
 } as Meta<typeof Summary>;
 
-export const Desktop: StoryFn<SummaryProps> = (props) => {
+export const Default: StoryFn<SummaryProps> = (props) => {
   return (
     <div style={{ width: '300px' }}>
       <Summary {...props} />
