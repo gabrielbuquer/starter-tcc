@@ -55,5 +55,12 @@
       }
     }
   },
-  "cacheDirectory": "/tmp/nx-cache"
+  "cacheDirectory": "/tmp/nx-cache",
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    }
+  }
 }

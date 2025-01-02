@@ -19,8 +19,8 @@ export default function Index() {
         <div className="container">
           <div id="welcome">
             <h1>
-              <span> Hello there, </span>
-              Welcome starter-tcc 👋
+              <span> Hellos there, </span>
+              Welcome startasaser-tcc 👋
             </h1>
           </div>
 
