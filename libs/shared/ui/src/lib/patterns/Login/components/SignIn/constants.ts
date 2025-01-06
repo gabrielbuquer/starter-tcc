@@ -5,6 +5,18 @@ export const EMAIL_ATTRIBUTES = {
   controlHint: 'email-hint',
   type: 'text',
   errorMessages: {
-    REQUIRED: 'Informe o seu email corretamente.',
+    REQUIRED: 'Informe seu email.',
+  },
+};
+
+export const PASSWORD_ATTRIBUTES = {
+  id: 'password',
+  placeholder: 'Digite sua senha',
+  label: 'Senha',
+  controlHint: 'password-hint',
+  type: 'text',
+  errorMessages: {
+    REQUIRED: 'Informe sua senha.',
+    INVALID: 'Senha inválida.'
   },
 };

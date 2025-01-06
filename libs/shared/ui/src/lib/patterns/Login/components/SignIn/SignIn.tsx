@@ -1,9 +1,8 @@
-import { useState } from "react";
-import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button, TextField } from "@mui/material";
 import { useForm } from 'react-hook-form';
-import { EMAIL_ATTRIBUTES } from "./constants";
+import { EMAIL_ATTRIBUTES, PASSWORD_ATTRIBUTES } from "./constants";
 import { Form } from "./SignIn.styled";
+import { PasswordInput } from "../../../../components/PasswordInput";
 
 type SignInFormData = {
   email: string;
@@ -11,10 +10,6 @@ type SignInFormData = {
 }
 
 export const SignIn = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const methods = useForm<SignInFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
@@ -45,35 +40,18 @@ export const SignIn = () => {
           },
         })}
       />
-      <TextField
-        id="password"
-        label="Senha"
+      <PasswordInput
+        id={PASSWORD_ATTRIBUTES.id}
+        label={PASSWORD_ATTRIBUTES.label}
         variant="outlined"
         error={!!errors.password}
         helperText={errors.password?.message}
         {...register('password', {
           required: {
             value: true,
-            message: EMAIL_ATTRIBUTES.errorMessages.REQUIRED,
+            message: PASSWORD_ATTRIBUTES.errorMessages.REQUIRED,
           },
         })}
-        slotProps={{
-          input: {
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label={
-                    showPassword ? 'hide the password' : 'display the password'
-                  }
-                  onClick={handleClickShowPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          },
-        }}
       />
       <Button type="submit" variant="contained" disabled={!isValid}>
         Entrar
