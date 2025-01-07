@@ -6329,6 +6329,11 @@ body-parser@1.20.2:
     type-is "~1.6.18"
     unpipe "1.0.0"
 
+body-scroll-lock-upgrade@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/body-scroll-lock-upgrade/-/body-scroll-lock-upgrade-1.1.0.tgz#3df63fca3d1db2f896bd9a050bd14c33cd0085d2"
+  integrity sha512-nnfVAS+tB7CS9RaksuHVTpgHWHF7fE/ptIBJnwZrMqImIvWJF1OGcLnMpBhC6qhkx9oelvyxmWXwmIJXCV98Sw==
+
 bonjour-service@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/bonjour-service/-/bonjour-service-1.2.1.tgz"

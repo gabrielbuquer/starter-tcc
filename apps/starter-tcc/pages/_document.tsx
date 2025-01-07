@@ -1,11 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { Montserrat } from 'next/font/google'
-
-export const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '900'],
-  variable: '--font-montserrat',
-});
+import { montserrat } from '@monetix/shared/config';
 
 export default function Document() {
   return (
