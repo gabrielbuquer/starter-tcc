@@ -1,4 +1,4 @@
-import { AccountMenu } from '../AccountMenu';
+import { AccountMenu } from '../Menu/AccountMenu';
 import { MenuDesktop, DrawerMobile } from '../Menu';
 import { Actions, HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';

@@ -1,7 +1,7 @@
-import { Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Box, Divider, IconButton, ListItemIcon, MenuItem, Tooltip, Typography } from "@mui/material";
 import { Person, Logout } from '@mui/icons-material';
 import { useState } from "react";
-import { Avatar } from "../../components";
+import { Avatar } from "../../../components";
 
 import { UserMenu, UserWrapper } from './AccountMenu.styled';
 

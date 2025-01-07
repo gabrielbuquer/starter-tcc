@@ -11,8 +11,8 @@ export const Summary = ({title, content, icon}: SummaryProps) => {
   return (
     <Container>
       <TextWrapper>
-        {title ?? <Typography variant="caption">{title}</Typography>}
-        {content ?? <Typography variant="h3">{content}</Typography>}
+        {title ? <Typography variant="caption">{title}</Typography> : null}
+        {content ?  <Typography variant="h3">{content}</Typography> : null}
       </TextWrapper>
       {icon}
     </Container>
