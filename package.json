@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:app": "npx nx run starter-tcc:build",
-    "start:app": "npx nx run starter-tcc:start",
+    "build:app": "npx nx build starter-tcc --configuration=development",
+    "start:app": "npx nx serve starter-tcc --configuration=development",
     "build:api": "npx nx run api:build",
     "serve:api": "npx nx run api:serve",
     "storybook:shared-ui": "npx nx run shared-ui:storybook",

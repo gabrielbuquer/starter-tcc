@@ -4,5 +4,104 @@
   "sourceRoot": "apps/starter-tcc",
   "projectType": "application",
   "tags": [],
-  "targets": {}
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/starter-tcc",
+        "outputPath": "apps/starter-tcc/dist",
+        "assets": [
+          {
+            "input": "libs/shared/assets/src/assets",
+            "glob": "**/*",
+            "output": "assets"
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "favicon.ico",
+            "output": ""
+          },
+          {
+            "input": "libs/shared/assets/src",
+            "glob": "robots.txt",
+            "output": ""
+          }
+        ]
+      },
+      "configurations": {
+        "production": {},
+        "development": {
+          "outputPath": "apps/starter-tcc"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "starter-tcc:build",
+        "dev": true,
+        "port": 3004
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "starter-tcc:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "starter-tcc:build:production",
+          "dev": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "starter-tcc:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/starter-tcc/jest.config.ts"
+      }
+    },
+    "build-storybook": {
+      "executor": "@nx/storybook:build",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/starter-tcc",
+        "configDir": "apps/starter-tcc/.storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/starter-tcc/**/*.styled.tsx"]
+      }
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p apps/starter-tcc/tsconfig.json"
+          }
+        ]
+      }
+    },
+  }
 }
