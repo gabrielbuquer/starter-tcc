@@ -1,6 +1,6 @@
 export default {
   displayName: 'Feature Login',
-  preset: '../../../../jest.preset.js',
+  preset: '../../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -16,6 +16,5 @@ export default {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/libs/feature/login',
-  setupFiles: ['<rootDir>/jest.envs.ts'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

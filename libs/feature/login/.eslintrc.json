@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:@nx/react-typescript", "../../../../.eslintrc.json"],
+  "extends": ["plugin:@nx/react-typescript", "../../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
