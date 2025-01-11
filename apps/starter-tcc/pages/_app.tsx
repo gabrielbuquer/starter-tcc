@@ -26,18 +26,20 @@ type MyAppPropsWithLayout = AppProps & {
 
 export default function CustomApp({ Component, pageProps }: MyAppPropsWithLayout) {
   const mainLayoutProps = Component.mainLayoutProps;
-
+  console.log(pageProps);
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <MainLayout
         {...mainLayoutProps}
+        simpleHeader={pageProps.simpleHeader}
       >
         {page}
       </MainLayout>
     ));
 
   const componentLayout = getLayout(<Component {...pageProps} />);
+
   return (
     <MonetixProvider>
       {/* <Head>

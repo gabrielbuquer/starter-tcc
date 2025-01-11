@@ -24,14 +24,14 @@ export const MainLayout = ({
 
   return (
     <LayoutContainer>
-      <PageLayout id="page-layout" testId="page-layout">
+      <PageLayout id="main-layout" testId="main-layout">
         <PageLayout.Header>
-          <Header />
+          <Header simpleHeader={simpleHeader} />
         </PageLayout.Header>
         <PageLayout.Main>
           {children}
         </PageLayout.Main>
-        <PageLayout.Footer>
+        <PageLayout.Footer id="footer" testId="footer">
           <Footer />
         </PageLayout.Footer>
       </PageLayout>

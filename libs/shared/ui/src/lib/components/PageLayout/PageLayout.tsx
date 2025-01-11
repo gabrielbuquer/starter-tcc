@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 import { StyledPageLayout } from './PageLayout.styled';
-import { Aside, Footer, Header, Main, Nav } from './components';
+import { Footer, Header, Main } from './components';
 
 export type PageLayoutPropTypes = {
   id: string;
@@ -29,6 +29,4 @@ export function PageLayout({ children, testId, id }: PageLayoutPropTypes) {
 
 PageLayout.Header = Header;
 PageLayout.Main = Main;
-PageLayout.Nav = Nav;
-PageLayout.Aside = Aside;
 PageLayout.Footer = Footer;

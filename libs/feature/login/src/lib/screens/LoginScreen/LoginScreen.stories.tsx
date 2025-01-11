@@ -1,11 +1,11 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
-import { Login } from './Login';
+import { LoginScreen } from './LoginScreen';
 
 
 export default {
-  title: 'Patterns / Login',
+  title: 'Screens / LoginScreen',
   args: {},
   parameters: {
     layout: 'fullscreen',
@@ -13,12 +13,12 @@ export default {
       appDirectory: true,
     }
   },
-} as Meta<typeof Login>;
+} as Meta<typeof LoginScreen>;
 
 export const Mobile: StoryFn = (props) => {
   return (
     <div style={{ maxWidth: '400px', width: '100%' }}>
-      <Login {...props} />
+      <LoginScreen {...props} />
     </div>
   );
 };
@@ -31,7 +31,7 @@ Mobile.parameters = {
 export const Desktop: StoryFn = (props) => {
   return (
     <div style={{ width: '400px' }}>
-      <Login {...props} />
+      <LoginScreen {...props} />
     </div>
   );
 };

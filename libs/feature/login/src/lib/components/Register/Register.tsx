@@ -2,7 +2,7 @@ import { Resolver, useForm } from 'react-hook-form';
 import { Button, TextField } from "@mui/material";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Form } from "./Register.styled";
-import { PasswordInput } from "../../../../components/PasswordInput";
+import { PasswordInput } from "@monetix/shared/ui";
 import { schema } from './Register.schema';
 import { BIRTHDATE_ATTRIBUTES, EMAIL_ATTRIBUTES, MATCHED_PASSWORD_ATTRIBUTES, NAME_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
 

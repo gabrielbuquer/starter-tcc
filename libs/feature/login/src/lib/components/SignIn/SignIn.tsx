@@ -2,7 +2,7 @@ import { Button, TextField } from "@mui/material";
 import { useForm } from 'react-hook-form';
 import { EMAIL_ATTRIBUTES, PASSWORD_ATTRIBUTES } from "./constants";
 import { Form } from "./SignIn.styled";
-import { PasswordInput } from "../../../../components/PasswordInput";
+import { PasswordInput } from "@monetix/shared/ui";
 
 type SignInFormData = {
   email: string;
