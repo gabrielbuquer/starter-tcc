@@ -6,6 +6,10 @@ import { PasswordInput } from "@monetix/shared/ui";
 import { schema } from './Register.schema';
 import { BIRTHDATE_ATTRIBUTES, EMAIL_ATTRIBUTES, MATCHED_PASSWORD_ATTRIBUTES, NAME_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
 
+type RegisterProps = {
+  onBack: () => void;
+}
+
 type RegisterFormData = {
   name: string;
   email: string;
@@ -14,7 +18,7 @@ type RegisterFormData = {
   matchedPassword: string;
 }
 
-export const Register = () => {
+export const Register = ({ onBack }: RegisterProps) => {
   const methods = useForm<RegisterFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
@@ -75,6 +79,9 @@ export const Register = () => {
       />
       <Button type="submit" variant="contained" disabled={!isValid}>
         Entrar
+      </Button>
+      <Button variant="contained" sx={{ bgcolor: 'primary.light' }} onClick={() => onBack()}>
+        Voltar
       </Button>
     </Form>
   )
