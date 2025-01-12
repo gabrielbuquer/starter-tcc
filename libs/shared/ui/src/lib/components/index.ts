@@ -5,3 +5,4 @@ export * from './Avatar';
 export * from './PageLayout';
 export * from './Box';
 export * from './PasswordInput';
+export * from './QuickMenu';

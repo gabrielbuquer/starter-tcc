@@ -36,6 +36,7 @@ export default function CustomApp({ Component, pageProps }: MyAppPropsWithLayout
         centeredContent={pageProps.centeredContent}
         hasMargin={pageProps.hasMargin}
         hasContainer={pageProps.hasContainer}
+        hasQuickMenu={pageProps.hasQuickMenu}
         simpleHeader={pageProps.simpleHeader}
       >
         {page}
