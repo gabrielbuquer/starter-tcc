@@ -19,7 +19,8 @@
       "@monetix/shared/ui": ["libs/shared/ui/src/index.ts"],
       "@monetix/shared/assets": ["libs/shared/assets/src/index.ts"],
       "@monetix/shared/config": ["libs/shared/config/src/index.ts"],
-      "@monetix/feature/login": ["libs/feature/login/src/index.ts"]
+      "@monetix/feature/login": ["libs/feature/login/src/index.ts"],
+      "@monetix/feature/finances": ["libs/feature/finances/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

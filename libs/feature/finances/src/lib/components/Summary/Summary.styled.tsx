@@ -8,13 +8,21 @@ export const Container = styled('div')`
     background-color: ${theme.palette.common.white};
     border-radius: ${theme.shape.borderRadius}px;
     box-shadow: 0 2px 5px ${theme.palette.grey[300]};
-    padding: ${theme.spacing(1)} ${theme.spacing(2)};
+    padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
     box-sizing: border-box;
 
     & > svg {
       font-size: 40px;
-      color: ${theme.palette.primary.main};
-      fill: ${theme.palette.primary.main};
+      color: ${theme.palette.primary.light};
+      fill: ${theme.palette.primary.light};
+      transition: all .15s ease-in-out;
+
+    }
+
+    &:hover {
+      & > svg {
+        transform: scale(1.08);
+      }
     }
   `};
 `;
