@@ -1,4 +1,4 @@
-const rootMain = require('../../../../../.storybook/main');
+const rootMain = require('../../../../.storybook/main');
 
 module.exports = {
   ...rootMain,
@@ -14,9 +14,8 @@ module.exports = {
   addons: [...rootMain.addons],
 
   staticDirs: [
-    { from: '../../../../shared/assets/src/assets', to: '/assets' },
     {
-      from: '../../../../../public',
+      from: '../../../../public',
       to: '/',
     },
   ],

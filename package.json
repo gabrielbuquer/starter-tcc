@@ -9,6 +9,7 @@
     "serve:api": "npx nx run api:serve",
     "storybook:shared-ui": "npx nx run shared-ui:storybook",
     "storybook:feature-login": "npx nx run feature-login:storybook",
+    "storybook:feature-finances": "npx nx run feature-finances:storybook",
     "start:storybook:shared-ui": "npx nx storybook shared-ui -p 4404",
     "start:storybook:feature-login": "npx nx storybook feature-login -p 4404"
   },

@@ -1,14 +1,10 @@
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
-import { initialize, mswDecorator } from 'msw-storybook-addon';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import Script from 'next/script';
 
 import { MonetixProvider } from '@monetix/shared/ui';
 
-initialize({ onUnhandledRequest: 'bypass' });
-
 export const decorators = [
-  mswDecorator,
   (Story) => {
     return (
       <>
