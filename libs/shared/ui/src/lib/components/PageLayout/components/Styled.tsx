@@ -20,6 +20,7 @@ export const PageLayoutContainerStyled = styled('div')<PageLayoutContainerStyled
     display: flex;
     flex-direction: column;
     width: 100vw;
+    padding: 0 ${theme.spacing(2)};
 
     ${fullHeight &&
     css`

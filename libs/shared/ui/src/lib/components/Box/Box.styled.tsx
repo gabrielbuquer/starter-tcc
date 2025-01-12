@@ -8,7 +8,7 @@ export const Wrapper = styled(Box)`
     width: 100%;
     background-color: ${theme.palette.common.white};
     border-radius: ${theme.shape.borderRadius}px;
-    box-shadow: 0 2px 5px ${theme.palette.grey[300]};
+    box-shadow: 0 2px 5px ${theme.palette.grey[700]};
     box-sizing: border-box;
   `};
 `;
