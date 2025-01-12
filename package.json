@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:app": "npx nx run starter-tcc:build",
-    "start:app": "npx nx run starter-tcc:start",
+    "build:app": "npx nx build starter-tcc --configuration=development",
+    "start:app": "npx nx serve starter-tcc --configuration=development",
     "build:api": "npx nx run api:build",
     "serve:api": "npx nx run api:serve",
     "storybook:shared-ui": "npx nx run shared-ui:storybook",
-    "start:storybook:shared-ui": "npx nx storybook shared-ui -p 4404"
+    "storybook:feature-login": "npx nx run feature-login:storybook",
+    "start:storybook:shared-ui": "npx nx storybook shared-ui -p 4404",
+    "start:storybook:feature-login": "npx nx storybook feature-login -p 4404"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +26,7 @@
     "@nestjs/serve-static": "^4.0.2",
     "@radix-ui/react-navigation-menu": "^1.2.3",
     "axios": "^1.6.0",
+    "body-scroll-lock-upgrade": "^1.1.0",
     "nest-next": "^10.1.0",
     "next": "14.2.3",
     "react": "18.3.1",
@@ -65,6 +68,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@swc/jest": "^0.2.37",
     "@swc/plugin-styled-components": "^1.5.67",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.0",
@@ -88,6 +92,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.7.0",
+    "msw-storybook-addon": "^2.0.4",
     "prettier": "^2.6.2",
     "storybook": "7.6.20",
     "storybook-addon-cookie": "4.0.0-alpha.0",

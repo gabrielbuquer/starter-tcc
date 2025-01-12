@@ -23,7 +23,7 @@ export const MenuItem = (option: MenuLinksProps) => {
             <Arrow />
           </NavigationIndicator>
           <MenuContent>
-            {option.submenu.map((item) => (
+            {option?.submenu?.map((item) => (
                 <MenuContentItem key={item.title} onClick={() => push(item.link)}>{item.title}</MenuContentItem>
             ))}
           </MenuContent>

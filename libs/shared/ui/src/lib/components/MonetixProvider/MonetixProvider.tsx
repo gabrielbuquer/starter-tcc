@@ -11,7 +11,7 @@ export type MonetixProviderPropsType = {
   };
 
 const preconnectUrls = [
-
+  'google.com'
 ];
 
 const theme = createTheme({
@@ -67,6 +67,7 @@ const theme = createTheme({
     },
     primary: {
       main: '#2c597b',
+      light: '#73a1c8',
     }
   }
 });

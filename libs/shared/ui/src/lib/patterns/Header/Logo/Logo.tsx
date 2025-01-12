@@ -13,7 +13,7 @@ export const Logo = ({ href }: LogoProps) => {
 
   return (
     <LogoAsLink href={href}>
-      <Image width={isMobile ? 60 : 120} height={isMobile ? 40 : 80} src="/assets/images/logo/logo.png" alt="logo" />
+      <Image width={isMobile ? 60 : 120} height={isMobile ? 40 : 80} src="/assets/images/logo/logo.png" alt="Logo do Monetix" />
     </LogoAsLink>
   );
 };

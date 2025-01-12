@@ -14,7 +14,6 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const isDev = process.env.NODE_ENV !== 'production';
-  console.log(join(workspaceRoot, 'apps/starter-tcc'))
   const nextApp = Next({ dev: isDev, dir: join(workspaceRoot, 'apps/starter-tcc') });
   const handle = nextApp.getRequestHandler();
   const port = process.env.PORT || 3000;
