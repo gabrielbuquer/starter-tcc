@@ -26,12 +26,16 @@ type MyAppPropsWithLayout = AppProps & {
 
 export default function CustomApp({ Component, pageProps }: MyAppPropsWithLayout) {
   const mainLayoutProps = Component.mainLayoutProps;
-  console.log(pageProps);
+
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <MainLayout
         {...mainLayoutProps}
+        bgColor={pageProps.bgColor}
+        centeredContent={pageProps.centeredContent}
+        hasMargin={pageProps.hasMargin}
+        hasContainer={pageProps.hasContainer}
         simpleHeader={pageProps.simpleHeader}
       >
         {page}

@@ -15,31 +15,31 @@ export type PageLayoutMainStyledPropTypes = PageLayoutWrapperStyledPropsType & {
   children: ReactNode;
   width?: string;
   hasMargin?: boolean;
+  bgColor?: string;
 };
 
 export const Main = ({
   children,
   testId,
   id,
-  background,
-  backgroundOpacity,
+  bgColor,
   fullHeight,
-  hasContainer = false,
   width,
+  centeredContent = false,
+  hasContainer = false,
   hasMargin = true,
 }: PageLayoutMainStyledPropTypes) => {
   return (
     <PageLayoutMainStyled
       id={id}
-      background={background}
-      backgroundOpacity={backgroundOpacity}
       data-testid={testId}
       as="main"
       width={width}
       hasMargin={hasMargin}
+      sx={{ bgcolor: bgColor }}
     >
       {hasContainer ? (
-        <PageLayoutContainerStyled fullHeight={fullHeight}>
+        <PageLayoutContainerStyled fullHeight={fullHeight} centeredContent={centeredContent}>
           {children}
         </PageLayoutContainerStyled>
       ) : (

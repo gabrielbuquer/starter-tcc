@@ -7,7 +7,6 @@ type PageLayoutFooterStyledProps = {
 };
 
 export const PageLayoutFooterStyled = styled(PageLayoutWrapperStyled)<PageLayoutFooterStyledProps>`
-  grid-column: 1 / -1;
   margin-top: auto;
   ${({ hasMargin }) =>
     hasMargin &&

@@ -10,8 +10,10 @@ export const getServerSideProps: GetServerSideProps = async ({
   try {
     return {
       props: {
+        bgColor: 'primary.main',
+        centeredContent: true,
         simpleHeader: true,
-        hasContainer: false,
+        hasContainer: true,
         hasMargin: false,
       },
     };

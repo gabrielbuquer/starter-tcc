@@ -1,16 +1,24 @@
-import { css, styled } from '@mui/material';
+import { Box, css, styled } from '@mui/material';
 
-export const PageLayoutWrapperStyled = styled('div')`
+export type PageLayoutWrapperStyledPropsType = {
+
+}
+
+export const PageLayoutWrapperStyled = styled(Box)`
   ${({ theme }) => css`
+
   `}
 `;
 
 export type PageLayoutContainerStyledProps = {
   fullHeight?: boolean;
+  centeredContent?: boolean;
 };
 
 export const PageLayoutContainerStyled = styled('div')<PageLayoutContainerStyledProps>`
-  ${({ theme, fullHeight = true }) => css`
+  ${({ theme, fullHeight = true, centeredContent = false }) => css`
+    display: flex;
+    flex-direction: column;
     width: 100vw;
 
     ${fullHeight &&
@@ -18,8 +26,14 @@ export const PageLayoutContainerStyled = styled('div')<PageLayoutContainerStyled
       min-height: 85vmax;
     `}
 
+    ${centeredContent &&
+    css`
+      align-items: center;
+      justify-content: center;
+    `}
+
     ${theme.breakpoints.up('md')} {
-      width: calc(100vw - ${theme.spacing[800]});
+      width: calc(100vw - ${theme.spacing(6)});
       max-width: 1400px;
       ${fullHeight &&
       css`
