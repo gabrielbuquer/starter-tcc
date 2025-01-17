@@ -17,6 +17,7 @@ const preconnectUrls = [
 const theme = createTheme({
   typography: {
     fontFamily: [
+      'var(--font-montserrat)',
       'Montserrat',
       'sans-serif',
       'Arial',
