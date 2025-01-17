@@ -1,3 +1,12 @@
+export const FORM_DATA = {
+  income: {
+    title: 'Nova receita',
+  },
+  expense: {
+    title: 'Nova despesa',
+  }
+}
+
 export const DIALOG_TITLE = 'Nova despesa';
 
 export const DESCRIPTION_ATTRIBUTES = {

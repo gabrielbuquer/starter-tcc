@@ -3,29 +3,32 @@ import InputMask from 'react-input-mask';
 import { NumericFormat } from 'react-number-format';
 import { Button, FormControl, Grid2 as Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { ActionDialog } from '@monetix/shared/ui';
-import { Actions } from './ExpenseForm.styled';
+import { Actions } from './TransactionForm.styled';
 
-import { CATEGORY_ATTRIBUTES, DATE_ATTRIBUTES, DESCRIPTION_ATTRIBUTES, DIALOG_TITLE, VALUE_ATTRIBUTES } from './constants';
+import { FORM_DATA, CATEGORY_ATTRIBUTES, DATE_ATTRIBUTES, DESCRIPTION_ATTRIBUTES, VALUE_ATTRIBUTES } from './constants';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './ExpenseForm.schema';
+import { schema } from './TransactionForm.schema';
 
-type ExpenseFormData = {
+type TransactionFormData = {
   description: string;
-  value: string;
-  date: string;
+  value: number;
+  date: Date;
   category: string;
 }
 
-export type ExpenseFormProps = {
+export type TransactionFormProps = {
   open: boolean;
+  formType: 'expense' | 'income';
 }
 
-export const ExpenseForm = ({ open = true }: ExpenseFormProps) => {
-  const methods = useForm<ExpenseFormData>({
+export const TransactionForm = ({ open = true, formType }: TransactionFormProps) => {
+  const { title } = FORM_DATA[formType];
+
+  const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
-    resolver: yupResolver(schema) as Resolver<ExpenseFormData>,
+    resolver: yupResolver(schema) as Resolver<TransactionFormData>,
   });
 
   const {
@@ -35,14 +38,14 @@ export const ExpenseForm = ({ open = true }: ExpenseFormProps) => {
     control,
   } = methods;
 
-  const onSubmit = async (formData: ExpenseFormData) => {
+  const onSubmit = async (formData: TransactionFormData) => {
     console.log(formData);
   }
 
   return (
     <ActionDialog
       open={open}
-      title={DIALOG_TITLE}
+      title={title}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
@@ -116,7 +119,7 @@ export const ExpenseForm = ({ open = true }: ExpenseFormProps) => {
             fullWidth
             variant="contained"
             type="submit"
-            // disabled={!isValid}
+            disabled={!isValid}
           >
             Salvar
           </Button>
