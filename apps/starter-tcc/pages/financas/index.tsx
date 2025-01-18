@@ -1,12 +1,7 @@
 import { SummaryScreen } from '@monetix/feature/finances';
 import { GetServerSideProps } from 'next';
 
-export const getServerSideProps: GetServerSideProps = async ({
-  res,
-  req,
-  query,
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
     return {
       props: {

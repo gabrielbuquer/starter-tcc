@@ -8,3 +8,4 @@ export * from './PasswordInput';
 export * from './QuickMenu';
 export * from './ActionDialog';
 export * from './PieChart';
+export * from './BarChart';
