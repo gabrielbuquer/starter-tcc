@@ -4,24 +4,18 @@ import { Classroom } from './entities/classroom.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../auth/entities/user.entity';
+import { ClassroomMapper } from './classroom.mapper';
 
 @Injectable()
 export class ClassroomService {
-  constructor( @InjectRepository(Classroom) private readonly classRoomRepository: Repository<Classroom>){}
+  constructor( @InjectRepository(Classroom) private readonly repository: Repository<Classroom>){}
 
-  create(createClassroomDto: CreateClassroomDto) {
-    return 'This action adds a new classroom';
-  }
-
-  findAll() {
-    return `This action returns all classroom`;
+  create(createClassroomDto: CreateClassroomDto): Promise<Classroom> {
+    return this.repository.save(ClassroomMapper.toEntity(createClassroomDto));
   }
 
   findOne(id: string): Promise<Classroom> {
-    return this.classRoomRepository.findOneBy({id});
+    return this.repository.findOneBy({id});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} classroom`;
-  }
 }

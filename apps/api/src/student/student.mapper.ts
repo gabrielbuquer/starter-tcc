@@ -8,9 +8,9 @@ export class StudentMapper {
         const student = new Student();
         student.name = dto.name;
         student.email = dto.email;
-        student.password = student.password; //TODO: encrypt the password
+        student.password = dto.password; //TODO: encrypt the password
         student.classroom = classRoom;
+        student.birthDate = dto.birthDate;
         return student;
     }
-
 }

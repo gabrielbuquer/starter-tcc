@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
     IsAlphanumeric,
     IsDate,
@@ -18,13 +19,16 @@ import {
     @IsString()
     @MinLength(2, { message: 'Name must have atleast 2 characters.' })
     @IsNotEmpty()
+    @ApiProperty({ description: 'The name' })
     name: string;
   
     @IsNotEmpty()
     @IsEmail(null, { message: 'Please provide valid Email.' })
+    @ApiProperty({ description: 'Email' })
     email: string;
 
     @IsDate()
+    @ApiProperty({ description: 'BirthDate' })
     birthDate: Date;
   
     @IsNotEmpty()
@@ -35,5 +39,6 @@ import {
       one number and 
       one special character`,
     })
+    @ApiProperty({ description: 'Password' })
     password: string;
   }

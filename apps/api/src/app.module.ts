@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './auth/entities/user.entity';
 import { StudentModule } from './student/student.module';
 import { ClassroomModule } from './classroom/classroom.module';
+import { Classroom } from './classroom/entities/classroom.entity';
+import { Student } from './student/entities/student.entity';
 
 
 
@@ -17,7 +19,7 @@ import { ClassroomModule } from './classroom/classroom.module';
     port: 5432,
     password: 'postgres',
     username: 'postgres',
-    entities: [User],
+    entities: [Classroom,User,Student],
     database: 'monetix',
     synchronize: true,
     logging: true,
