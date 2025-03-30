@@ -1,19 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { UpdateStudentDto } from './dto/student.update';
 import { StudentService } from './student.service';
-import { CreateStudentDto } from './dto/create-student.dto';
-import { UpdateStudentDto } from './dto/update-student.dto';
-import { ApiBody } from '@nestjs/swagger';
 
 @Controller('/api/student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
-
-  @Post()
-  @ApiBody({type: CreateStudentDto})
-  async create(@Body() createStudentDto: CreateStudentDto) {
-    await this.studentService.create(createStudentDto);
-    return new Response("Ok")
-  }
 
   @Get()
   findAll() {

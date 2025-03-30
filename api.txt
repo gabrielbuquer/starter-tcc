@@ -1,0 +1,101 @@
+yarn run v1.22.22
+$ npx nx run api:serve
+
+ NX   Running target serve for project api and 1 task it depends on:
+
+
+
+> nx run api:build  [local cache]
+
+[2m> [22mwebpack-cli build --node-env=production
+
+chunk (runtime: main) [1m[32mmain.js[39m[22m (main) 29.3 KiB [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+webpack compiled [1m[32msuccessfully[39m[22m (e628e8930595dc89)
+
+> nx run api:serve:development
+
+[2m> [22m[2mnx run[22m api:build  [2m[local cache][22m
+[2m> [22mwebpack-cli build --node-env=production
+chunk (runtime: main) [1m[32mmain.js[39m[22m (main) 29.3 KiB [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+webpack compiled [1m[32msuccessfully[39m[22m (e628e8930595dc89)
+[0m[7m[1m[32m NX [39m[22m[27m[0m  [32mSuccessfully ran target build for project api[39m
+[2mNx read the output from the cache instead of running the command for 1 out of 1 tasks.[22m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +39ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m * [94mFROM[39m [95mcurrent_schema[39m()
+[90m[4mquery:[24m[39m [94mCREATE[39m EXTENSION IF [94mNOT[39m [94mEXISTS[39m "uuid-ossp"
+[90m[4mquery:[24m[39m [94mSELECT[39m version();
+[90m[4mquery:[24m[39m [94mSTART[39m TRANSACTION
+[90m[4mquery:[24m[39m [94mSELECT[39m * [94mFROM[39m [95mcurrent_schema[39m()
+[90m[4mquery:[24m[39m [94mSELECT[39m * [94mFROM[39m current_database()
+[90m[4mquery:[24m[39m [94mSELECT[39m "table_schema", "table_name", obj_description(([37m'"'[39m || "table_schema" || [37m'"."'[39m || "table_name" || [37m'"'[39m)::regclass, [37m'pg_class'[39m) [94mAS[39m table_comment [94mFROM[39m "information_schema"."tables" [94mWHERE[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'user'[39m) [94mOR[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'classroom'[39m) [94mOR[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'student'[39m)
+[90m[4mquery:[24m[39m [94mSELECT[39m [94mTRUE[39m [94mFROM[39m information_schema.columns [94mWHERE[39m table_name = [37m'pg_class'[39m [94mand[39m column_name = [37m'relispartition'[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m columns.*, pg_catalog.col_description(([37m'"'[39m || table_catalog || [37m'"."'[39m || table_schema || [37m'"."'[39m || table_name || [37m'"'[39m)::regclass::oid, ordinal_position) [94mAS[39m description, ([37m'"'[39m || "udt_schema" || [37m'"."'[39m || "udt_name" || [37m'"'[39m)::"regtype" [94mAS[39m "regtype", pg_catalog.format_type("col_attr"."atttypid", "col_attr"."atttypmod") [94mAS[39m "format_type" [94mFROM[39m "information_schema"."columns" [94mLEFT[39m [94mJOIN[39m "pg_catalog"."pg_attribute" [94mAS[39m "col_attr" [94mON[39m "col_attr"."attname" = "columns"."column_name" [94mAND[39m "col_attr"."attrelid" = ( [94mSELECT[39m "cls"."oid" [94mFROM[39m "pg_catalog"."pg_class" [94mAS[39m "cls" [94mLEFT[39m [94mJOIN[39m "pg_catalog"."pg_namespace" [94mAS[39m "ns" [94mON[39m "ns"."oid" = "cls"."relnamespace" [94mWHERE[39m "cls"."relname" = "columns"."table_name" [94mAND[39m "ns"."nspname" = "columns"."table_schema" ) [94mWHERE[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'user'[39m) [94mOR[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'student'[39m) [94mOR[39m ("table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'classroom'[39m)
+[90m[4mquery:[24m[39m [94mSELECT[39m "ns"."nspname" [94mAS[39m "table_schema", "t"."relname" [94mAS[39m "table_name", "cnst"."conname" [94mAS[39m "constraint_name", pg_get_constraintdef("cnst"."oid") [94mAS[39m "expression", [94mCASE[39m "cnst"."contype" [94mWHEN[39m [37m'p'[39m [94mTHEN[39m [37m'PRIMARY'[39m [94mWHEN[39m [37m'u'[39m [94mTHEN[39m [37m'UNIQUE'[39m [94mWHEN[39m [37m'c'[39m [94mTHEN[39m [37m'CHECK'[39m [94mWHEN[39m [37m'x'[39m [94mTHEN[39m [37m'EXCLUDE'[39m [94mEND[39m [94mAS[39m "constraint_type", "a"."attname" [94mAS[39m "column_name" [94mFROM[39m "pg_constraint" "cnst" [94mINNER[39m [94mJOIN[39m "pg_class" "t" [94mON[39m "t"."oid" = "cnst"."conrelid" [94mINNER[39m [94mJOIN[39m "pg_namespace" "ns" [94mON[39m "ns"."oid" = "cnst"."connamespace" [94mLEFT[39m [94mJOIN[39m "pg_attribute" "a" [94mON[39m "a"."attrelid" = "cnst"."conrelid" [94mAND[39m "a"."attnum" = [94mANY[39m ("cnst"."conkey") [94mWHERE[39m "t"."relkind" [94mIN[39m ([37m'r'[39m, [37m'p'[39m) [94mAND[39m (("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'user'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'student'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'classroom'[39m))
+[90m[4mquery:[24m[39m [94mSELECT[39m "ns"."nspname" [94mAS[39m "table_schema", "t"."relname" [94mAS[39m "table_name", "i"."relname" [94mAS[39m "constraint_name", "a"."attname" [94mAS[39m "column_name", [94mCASE[39m "ix"."indisunique" [94mWHEN[39m [37m't'[39m [94mTHEN[39m [37m'TRUE'[39m [94mELSE[39m[37m'FALSE'[39m [94mEND[39m [94mAS[39m "is_unique", pg_get_expr("ix"."indpred", "ix"."indrelid") [94mAS[39m "condition", "types"."typname" [94mAS[39m "type_name", "am"."amname" [94mAS[39m "index_type" [94mFROM[39m "pg_class" "t" [94mINNER[39m [94mJOIN[39m "pg_index" "ix" [94mON[39m "ix"."indrelid" = "t"."oid" [94mINNER[39m [94mJOIN[39m "pg_attribute" "a" [94mON[39m "a"."attrelid" = "t"."oid"  [94mAND[39m "a"."attnum" = [94mANY[39m ("ix"."indkey") [94mINNER[39m [94mJOIN[39m "pg_namespace" "ns" [94mON[39m "ns"."oid" = "t"."relnamespace" [94mINNER[39m [94mJOIN[39m "pg_class" "i" [94mON[39m "i"."oid" = "ix"."indexrelid" [94mINNER[39m [94mJOIN[39m "pg_type" "types" [94mON[39m "types"."oid" = "a"."atttypid" [94mINNER[39m [94mJOIN[39m "pg_am" "am" [94mON[39m "i"."relam" = "am"."oid" [94mLEFT[39m [94mJOIN[39m "pg_constraint" "cnst" [94mON[39m "cnst"."conname" = "i"."relname" [94mWHERE[39m "t"."relkind" [94mIN[39m ([37m'r'[39m, [37m'p'[39m) [94mAND[39m "cnst"."contype" [94mIS[39m [94mNULL[39m [94mAND[39m (("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'user'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'student'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "t"."relname" = [37m'classroom'[39m))
+[90m[4mquery:[24m[39m [94mSELECT[39m "con"."conname" [94mAS[39m "constraint_name", "con"."nspname" [94mAS[39m "table_schema", "con"."relname" [94mAS[39m "table_name", "att2"."attname" [94mAS[39m "column_name", "ns"."nspname" [94mAS[39m "referenced_table_schema", "cl"."relname" [94mAS[39m "referenced_table_name", "att"."attname" [94mAS[39m "referenced_column_name", "con"."confdeltype" [94mAS[39m "on_delete", "con"."confupdtype" [94mAS[39m "on_update", "con"."condeferrable" [94mAS[39m "deferrable", "con"."condeferred" [94mAS[39m "deferred" [94mFROM[39m ( [94mSELECT[39m [95mUNNEST[39m ("con1"."conkey") [94mAS[39m "parent", [95mUNNEST[39m ("con1"."confkey") [94mAS[39m "child", "con1"."confrelid", "con1"."conrelid", "con1"."conname", "con1"."contype", "ns"."nspname", "cl"."relname", "con1"."condeferrable", [94mCASE[39m [94mWHEN[39m "con1"."condeferred" [94mTHEN[39m [37m'INITIALLY DEFERRED'[39m [94mELSE[39m [37m'INITIALLY IMMEDIATE'[39m [94mEND[39m [94mas[39m condeferred, [94mCASE[39m "con1"."confdeltype" [94mWHEN[39m [37m'a'[39m [94mTHEN[39m [37m'NO ACTION'[39m [94mWHEN[39m [37m'r'[39m [94mTHEN[39m [37m'RESTRICT'[39m [94mWHEN[39m [37m'c'[39m [94mTHEN[39m [37m'CASCADE'[39m [94mWHEN[39m [37m'n'[39m [94mTHEN[39m [37m'SET NULL'[39m [94mWHEN[39m [37m'd'[39m [94mTHEN[39m [37m'SET DEFAULT'[39m [94mEND[39m [94mas[39m "confdeltype", [94mCASE[39m "con1"."confupdtype" [94mWHEN[39m [37m'a'[39m [94mTHEN[39m [37m'NO ACTION'[39m [94mWHEN[39m [37m'r'[39m [94mTHEN[39m [37m'RESTRICT'[39m [94mWHEN[39m [37m'c'[39m [94mTHEN[39m [37m'CASCADE'[39m [94mWHEN[39m [37m'n'[39m [94mTHEN[39m [37m'SET NULL'[39m [94mWHEN[39m [37m'd'[39m [94mTHEN[39m [37m'SET DEFAULT'[39m [94mEND[39m [94mas[39m "confupdtype" [94mFROM[39m "pg_class" "cl" [94mINNER[39m [94mJOIN[39m "pg_namespace" "ns" [94mON[39m "cl"."relnamespace" = "ns"."oid" [94mINNER[39m [94mJOIN[39m "pg_constraint" "con1" [94mON[39m "con1"."conrelid" = "cl"."oid" [94mWHERE[39m "con1"."contype" = [37m'f'[39m [94mAND[39m (("ns"."nspname" = [37m'public'[39m [94mAND[39m "cl"."relname" = [37m'user'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "cl"."relname" = [37m'student'[39m) [94mOR[39m ("ns"."nspname" = [37m'public'[39m [94mAND[39m "cl"."relname" = [37m'classroom'[39m)) ) "con" [94mINNER[39m [94mJOIN[39m "pg_attribute" "att" [94mON[39m "att"."attrelid" = "con"."confrelid" [94mAND[39m "att"."attnum" = "con"."child" [94mINNER[39m [94mJOIN[39m "pg_class" "cl" [94mON[39m "cl"."oid" = "con"."confrelid"  [94mAND[39m "cl"."relispartition" = [37m'f'[39m[94mINNER[39m [94mJOIN[39m "pg_namespace" "ns" [94mON[39m "cl"."relnamespace" = "ns"."oid" [94mINNER[39m [94mJOIN[39m "pg_attribute" "att2" [94mON[39m "att2"."attrelid" = "con"."conrelid" [94mAND[39m "att2"."attnum" = "con"."parent"
+[90m[4mquery:[24m[39m [94mSELECT[39m * [94mFROM[39m "information_schema"."tables" [94mWHERE[39m "table_schema" = [37m'public'[39m [94mAND[39m "table_name" = [37m'typeorm_metadata'[39m
+[90m[4mquery:[24m[39m [94mCOMMIT[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +119ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStudentModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:50:49 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mClassroomModule dependencies initialized[39m[38;5;3m +0ms[39m
+/home/marcos/projects/node/starter-tcc/apps/starter-tcc
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +11644ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/sign-in, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/sing-up, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/:id, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStudentController {/api/student}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/student, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/student/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/student/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/student/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mClassroomController {/api/class-room}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/class-room, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/class-room/:id/students, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/class-room/:id/students, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +3ms[39m
+[32m[Nest] 184107  - [39m03/30/2025, 6:51:00 PM [32m    LOG[39m [32m🚀 Application is running on: http://localhost:3000/[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m "Classroom"."id" [94mAS[39m "Classroom_id", "Classroom"."name" [94mAS[39m "Classroom_name" [94mFROM[39m "classroom" "Classroom" [94mWHERE[39m (("Classroom"."id" = $[32m1[39m)) LIMIT [32m1[39m [90m-- PARAMETERS: ["8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[90m[4mquery:[24m[39m [94mSTART[39m TRANSACTION
+[90m[4mquery:[24m[39m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, [94mDEFAULT[39m, [94mDEFAULT[39m, $[32m3[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31mquery failed:[39m[24m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, [94mDEFAULT[39m, [94mDEFAULT[39m, $[32m3[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31merror:[39m[24m error: null value in column "password" of relation "student" violates not-null constraint
+[90m[4mquery:[24m[39m [94mROLLBACK[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m "Classroom"."id" [94mAS[39m "Classroom_id", "Classroom"."name" [94mAS[39m "Classroom_name" [94mFROM[39m "classroom" "Classroom" [94mWHERE[39m (("Classroom"."id" = $[32m1[39m)) LIMIT [32m1[39m [90m-- PARAMETERS: ["8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[90m[4mquery:[24m[39m [94mSTART[39m TRANSACTION
+[90m[4mquery:[24m[39m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31mquery failed:[39m[24m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31merror:[39m[24m error: null value in column "birth_date" of relation "student" violates not-null constraint
+[90m[4mquery:[24m[39m [94mROLLBACK[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m "Classroom"."id" [94mAS[39m "Classroom_id", "Classroom"."name" [94mAS[39m "Classroom_name" [94mFROM[39m "classroom" "Classroom" [94mWHERE[39m (("Classroom"."id" = $[32m1[39m)) LIMIT [32m1[39m [90m-- PARAMETERS: ["8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[90m[4mquery:[24m[39m [94mSTART[39m TRANSACTION
+[90m[4mquery:[24m[39m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31mquery failed:[39m[24m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31merror:[39m[24m error: null value in column "birth_date" of relation "student" violates not-null constraint
+[90m[4mquery:[24m[39m [94mROLLBACK[39m
+[90m[4mquery:[24m[39m [94mSELECT[39m "Classroom"."id" [94mAS[39m "Classroom_id", "Classroom"."name" [94mAS[39m "Classroom_name" [94mFROM[39m "classroom" "Classroom" [94mWHERE[39m (("Classroom"."id" = $[32m1[39m)) LIMIT [32m1[39m [90m-- PARAMETERS: ["8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[90m[4mquery:[24m[39m [94mSTART[39m TRANSACTION
+[90m[4mquery:[24m[39m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31mquery failed:[39m[24m [94mINSERT[39m [94mINTO[39m "student"("id", "name", "email", "password", "birth_date", "classroomId") [94mVALUES[39m ([94mDEFAULT[39m, $[32m1[39m, $[32m2[39m, $[32m3[39m, [94mDEFAULT[39m, $[32m4[39m) RETURNING "id" [90m-- PARAMETERS: ["outr","marcos10@gmail.com","Teste;123","8f53598c-39e9-4236-b55a-9dee1fe35dca"][39m
+[4m[31merror:[39m[24m error: null value in column "birth_date" of relation "student" violates not-null constraint
+[90m[4mquery:[24m[39m [94mROLLBACK[39m
+yarn run v1.22.22
+$ npx nx run api:serve
+
+ NX   Running target serve for project api and 1 task it depends on:
+
+
+
+> nx run api:build
+
+> webpack-cli build --node-env=production
+
