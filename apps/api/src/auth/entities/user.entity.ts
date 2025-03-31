@@ -1,7 +1,13 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
 @Entity()
-export class User {
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
+export abstract class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

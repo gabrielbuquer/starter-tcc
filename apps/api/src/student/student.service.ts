@@ -1,18 +1,13 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { CreateStudentDto } from './dto/student.create';
-import { UpdateStudentDto } from './dto/student.update';
-import { ClassroomService } from '../classroom/classroom.service';
-import { Classroom } from '../classroom/entities/classroom.entity';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
+import { Classroom } from '../classroom/entities/classroom.entity';
+import { CreateStudentDto } from './dto/student.create';
+import { IRestaurantResponseDTO } from './dto/student.response';
+import { UpdateStudentDto } from './dto/student.update';
 import { Student } from './entities/student.entity';
 import { StudentMapper } from './student.mapper';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { IRestaurantResponseDTO } from './dto/student.response';
 
 @Injectable()
 export class StudentService {

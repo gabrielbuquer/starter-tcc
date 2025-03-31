@@ -1,10 +1,10 @@
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Student } from '../student/entities/student.entity';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
 
   async signIn(
     username: string,
-    pass: string,
+    pass: string
   ): Promise<{ access_token: string }> {
     const user = await this.findOneByEmail(username);
     if (user?.password !== pass) {
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   create(createUserDto: CreateUserDto): Promise<User> {
-    const user: User = new User();
+    const user: User = new Student();
     user.name = createUserDto.name;
     user.birthDate = createUserDto.birthDate;
     user.email = createUserDto.email;

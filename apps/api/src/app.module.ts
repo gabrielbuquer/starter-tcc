@@ -10,21 +10,24 @@ import { ClassroomModule } from './classroom/classroom.module';
 import { Classroom } from './classroom/entities/classroom.entity';
 import { Student } from './student/entities/student.entity';
 
-
-
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    password: 'postgres',
-    username: 'postgres',
-    entities: [Classroom,User,Student],
-    database: 'monetix',
-    synchronize: true,
-    logging: true,
-  }), AuthModule, StudentModule, ClassroomModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      password: 'postgres',
+      username: 'postgres',
+      entities: [Classroom, User, Student],
+      database: 'monetix',
+      synchronize: true,
+      logging: true,
+    }),
+    AuthModule,
+    StudentModule,
+    ClassroomModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
