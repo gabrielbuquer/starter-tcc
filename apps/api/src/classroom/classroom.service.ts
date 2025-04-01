@@ -1,15 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
-import { Classroom } from './entities/classroom.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../auth/entities/user.entity';
-import { ClassroomMapper } from './classroom.mapper';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { Student } from '../student/entities/student.entity';
-import { StudentService } from '../student/student.service';
+import { Repository } from 'typeorm';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { IRestaurantResponseDTO } from '../student/dto/student.response';
+import { StudentService } from '../student/student.service';
+import { ClassroomMapper } from './classroom.mapper';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { Classroom } from './entities/classroom.entity';
 
 @Injectable()
 export class ClassroomService {

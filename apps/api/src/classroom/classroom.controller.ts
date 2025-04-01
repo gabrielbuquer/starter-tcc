@@ -1,20 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Query,
-  DefaultValuePipe,
-  ParseIntPipe,
-} from '@nestjs/common';
-import { ClassroomService } from './classroom.service';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { StudentService } from '../student/student.service';
+import { ClassroomService } from './classroom.service';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
 
 @Controller('/api/class-room')
 export class ClassroomController {

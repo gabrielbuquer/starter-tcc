@@ -9,6 +9,9 @@ import { StudentModule } from './student/student.module';
 import { ClassroomModule } from './classroom/classroom.module';
 import { Classroom } from './classroom/entities/classroom.entity';
 import { Student } from './student/entities/student.entity';
+import { CourseModule } from './course/course.module';
+import { Course } from './course/entities/course.entity';
+import { Leasson } from './course/entities/lesson.entity';
 
 @Module({
   imports: [
@@ -18,7 +21,7 @@ import { Student } from './student/entities/student.entity';
       port: 5432,
       password: 'postgres',
       username: 'postgres',
-      entities: [Classroom, User, Student],
+      entities: [Classroom, User, Student, Course, Leasson],
       database: 'monetix',
       synchronize: true,
       logging: true,
@@ -26,6 +29,7 @@ import { Student } from './student/entities/student.entity';
     AuthModule,
     StudentModule,
     ClassroomModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
