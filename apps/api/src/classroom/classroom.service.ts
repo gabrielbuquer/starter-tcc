@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { DataSource, Repository } from 'typeorm';
@@ -51,6 +55,27 @@ export class ClassroomService {
     id: string
   ): Promise<Pagination<IStudentResponseDTO>> {
     return await this.studentService.findByClassId(page, limit, id);
+  }
+
+  async enabledCourser(classroomId: string, courseId: string) {
+    const record = await this.classroomCourseRepository.findOne({
+      where: {
+        classroom: { id: classroomId },
+        course: { id: courseId },
+      },
+      relations: ['classroom', 'course'],
+    });
+
+    if (!record) {
+      throw new NotFoundException(
+        `ClassroomCourser not found for classroom ${classroomId} and course ${courseId}`
+      );
+    }
+
+    record.enabled = true;
+    record.startDate = new Date();
+
+    return this.classroomCourseRepository.save(record);
   }
 
   async listAllCourses(

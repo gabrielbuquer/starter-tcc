@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { StudentService } from '../student/student.service';
@@ -48,5 +56,11 @@ export class ClassroomController {
     return await this.classroomService.listAllCourses(page, limit, id);
   }
 
-  
+  @Patch('/:id/courses/:idCourse/enable')
+  async enabledCourse(
+    @Param('id') id: string,
+    @Param('idCourse') idCourse: string
+  ) {
+    await this.classroomService.enabledCourser(id, idCourse);
+  }
 }
