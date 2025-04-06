@@ -4,7 +4,7 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 import { Classroom } from '../classroom/entities/classroom.entity';
 import { CreateStudentDto } from './dto/student.create';
-import { IRestaurantResponseDTO } from './dto/student.response';
+import { IStudentResponseDTO } from './dto/student.response';
 import { UpdateStudentDto } from './dto/student.update';
 import { Student } from './entities/student.entity';
 import { StudentMapper } from './student.mapper';
@@ -26,13 +26,13 @@ export class StudentService {
     page: number,
     limit: number,
     id: string
-  ): Promise<Pagination<IRestaurantResponseDTO>> {
+  ): Promise<Pagination<IStudentResponseDTO>> {
     const queryBuilder = this.studentyRepository.createQueryBuilder('student');
     queryBuilder.where('student.classroomId = :classroomId', {
       classroomId: id,
     });
     const pagination = await paginate(queryBuilder, { page, limit });
-    return new Pagination<IRestaurantResponseDTO>(
+    return new Pagination<IStudentResponseDTO>(
       pagination.items.map(StudentMapper.createRestaurantResponse),
       pagination.meta,
       pagination.links

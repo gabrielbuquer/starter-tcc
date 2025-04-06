@@ -4,28 +4,19 @@ import { CourseMapper } from './courser.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Course } from './entities/course.entity';
 import { Repository } from 'typeorm';
+import { ClassroomService } from '../classroom/classroom.service';
 
 @Injectable()
 export class CourseService {
   constructor(
     @InjectRepository(Course)
-    private readonly repository: Repository<Course>
+    private readonly repository: Repository<Course>,
+    private readonly classroomService: ClassroomService
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
     const course = CourseMapper.toEntity(createCourseDto);
     await this.repository.save(course);
-  }
-
-  findAll() {
-    return `This action returns all course`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} course`;
+    await this.classroomService.includeCourserInAllClassroom(course);
   }
 }

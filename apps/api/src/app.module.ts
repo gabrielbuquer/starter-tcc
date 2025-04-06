@@ -12,6 +12,7 @@ import { Student } from './student/entities/student.entity';
 import { CourseModule } from './course/course.module';
 import { Course } from './course/entities/course.entity';
 import { Leasson } from './course/entities/lesson.entity';
+import { ClassroomCourser } from './classroom/entities/classroom-course';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { Leasson } from './course/entities/lesson.entity';
       port: 5432,
       password: 'postgres',
       username: 'postgres',
-      entities: [Classroom, User, Student, Course, Leasson],
+      entities: [Classroom, User, Student, Course, Leasson, ClassroomCourser],
       database: 'monetix',
       synchronize: true,
       logging: true,

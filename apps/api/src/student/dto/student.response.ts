@@ -1,4 +1,4 @@
-export interface IRestaurantResponseDTO {
+export interface IStudentResponseDTO {
   id: string;
   name: string;
   email: string;

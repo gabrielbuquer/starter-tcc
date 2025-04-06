@@ -31,11 +31,10 @@ export class ClassroomController {
   @Get('/:id/students')
   async listAllStudents(
     @Param('id') id: string,
-    @Query('page') page = 1, // Página para paginação
-    @Query('limit') limit = 10 // Limite de resultados por página
+    @Query('page') page = 1,
+    @Query('limit') limit = 10
   ) {
     limit = limit > 100 ? 100 : limit;
-    const result = await this.classroomService.listAllStudent(page, limit, id);
-    return result;
+    return await this.classroomService.listAllStudent(page, limit, id);
   }
 }

@@ -2,7 +2,7 @@ import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { Classroom } from '../classroom/entities/classroom.entity';
 import { CreateStudentDto } from './dto/student.create';
 import { Student } from './entities/student.entity';
-import { IRestaurantResponseDTO } from './dto/student.response';
+import { IStudentResponseDTO } from './dto/student.response';
 
 export class StudentMapper {
   static toEntity(dto: CreateStudentDto, classRoom: Classroom): Student {
@@ -15,7 +15,7 @@ export class StudentMapper {
     return student;
   }
 
-  static createRestaurantResponse(student: Student): IRestaurantResponseDTO {
+  static createRestaurantResponse(student: Student): IStudentResponseDTO {
     return {
       id: student.id,
       name: student.name,
