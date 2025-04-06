@@ -9,7 +9,7 @@ import { Course } from '../../course/entities/course.entity';
 import { Classroom } from './classroom.entity';
 
 @Entity()
-@Unique(['classroom', 'course']) // <- Aqui está a restrição de unicidade
+@Unique(['classroom', 'course'])
 export class ClassroomCourser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,6 +20,12 @@ export class ClassroomCourser {
   @ManyToOne(() => Course)
   course: Course;
 
-  @Column({ default: true })
+  @Column({ default: false })
   enabled: boolean;
+
+  @Column({ type: 'date', name: 'startDate', nullable: true })
+  startDate: Date;
+
+  @Column({ type: 'date', name: 'endDate', nullable: true })
+  endDate: Date;
 }

@@ -1,6 +1,6 @@
+import { assign } from 'lodash';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { Course } from './entities/course.entity';
-import { assign } from 'lodash';
 
 export class CourseMapper {
   static toEntity(dto: CreateCourseDto): Course {

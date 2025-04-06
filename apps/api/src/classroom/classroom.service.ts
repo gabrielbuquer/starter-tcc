@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pagination } from 'nestjs-typeorm-paginate';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { DataSource, Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
 import { CreateStudentDto } from '../student/dto/student.create';
@@ -9,12 +9,18 @@ import { StudentService } from '../student/student.service';
 import { ClassroomMapper } from './classroom.mapper';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { Classroom } from './entities/classroom.entity';
+import { ClassroomCourser } from './entities/classroom-course';
+import { ICourseResponseDTO } from './dto/course-classroom.dto';
+
+const DEFAULT_ENABLED_COURSER = false;
 
 @Injectable()
 export class ClassroomService {
   constructor(
     @InjectRepository(Classroom)
     private readonly repository: Repository<Classroom>,
+    @InjectRepository(ClassroomCourser)
+    private readonly classroomCourseRepository: Repository<ClassroomCourser>,
     private readonly dataSource: DataSource,
     private readonly studentService: StudentService
   ) {}
@@ -47,6 +53,28 @@ export class ClassroomService {
     return await this.studentService.findByClassId(page, limit, id);
   }
 
+  async listAllCourses(
+    page: number,
+    limit: number,
+    id: string
+  ): Promise<Pagination<ICourseResponseDTO>> {
+    const queryBuilder = this.classroomCourseRepository
+      .createQueryBuilder('classroom_course')
+      .leftJoinAndSelect('classroom_course.course', 'course')
+      .where('classroom_course.classroom = :classroomId', { classroomId: id });
+
+    const pagination = await paginate<ClassroomCourser>(queryBuilder, {
+      page,
+      limit,
+    });
+
+    return new Pagination<ICourseResponseDTO>(
+      pagination.items.map(ClassroomMapper.toResponse),
+      pagination.meta,
+      pagination.links
+    );
+  }
+
   async includeAllCurserInAllClassroom(classroom: Classroom) {
     const entityManager = this.dataSource.manager;
 
@@ -55,7 +83,7 @@ export class ClassroomService {
       .select([
         'course.id AS "courseId"',
         `'${classroom.id}' AS "classRoomId"`,
-        'true AS "enabled"',
+        `${DEFAULT_ENABLED_COURSER} AS "enabled"`,
       ])
       .from(Course, 'course')
       .getQueryAndParameters();
@@ -77,7 +105,7 @@ export class ClassroomService {
       .select([
         `'${course.id}' AS "courseId"`,
         'classroom.id AS "classRoomId"',
-        'true AS "enabled"',
+        `${DEFAULT_ENABLED_COURSER} AS "enabled"`,
       ])
       .from(Classroom, 'classroom')
       .getQueryAndParameters();

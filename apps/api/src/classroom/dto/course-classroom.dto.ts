@@ -4,8 +4,8 @@ export interface ICourseResponseDTO {
   id: string;
   name: string;
   description: string;
-  enabled: true;
-  start_date: Date;
-  end_date: Date;
-  progress: Double;
+  enabled: boolean;
+  startDate: Date;
+  endDate: Date | null;
+  progress: Double | null; //TODO: PROGRESS
 }

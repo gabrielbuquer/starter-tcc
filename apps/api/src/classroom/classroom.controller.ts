@@ -37,4 +37,16 @@ export class ClassroomController {
     limit = limit > 100 ? 100 : limit;
     return await this.classroomService.listAllStudent(page, limit, id);
   }
+
+  @Get('/:id/courses')
+  async listAllCourses(
+    @Param('id') id: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10
+  ) {
+    limit = limit > 100 ? 100 : limit;
+    return await this.classroomService.listAllCourses(page, limit, id);
+  }
+
+  
 }
