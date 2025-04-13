@@ -9,3 +9,4 @@ export * from './QuickMenu';
 export * from './ActionDialog';
 export * from './PieChart';
 export * from './BarChart';
+export * from './PaginatedTable';

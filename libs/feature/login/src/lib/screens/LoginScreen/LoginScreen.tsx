@@ -3,8 +3,9 @@ import { Container, Wrapper } from './LoginScreen.styled';
 import { Register, SignIn } from '../../components';
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
+import { a11yProps } from '@monetix/shared/config';
 
-type Mode = 'signin' | 'register';
+const COMPONENT = 'login';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -29,13 +30,6 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(mode: Mode) {
-  return {
-    id: `login-tab-${mode}`,
-    'aria-controls': `login-tabpanel-${mode}`,
-  };
-}
-
 export const LoginScreen = () => {
   const [value, setValue] = useState(0);
 
@@ -48,8 +42,8 @@ export const LoginScreen = () => {
       <Box>
         <Wrapper>
           <Tabs value={value} onChange={handleChange} aria-label="Selecione para Entrar ou Registrar" centered>
-            <Tab label="ENTRAR" {...a11yProps('signin')} />
-            <Tab label="REGISTRE-SE" {...a11yProps('register')} />
+            <Tab label="ENTRAR" {...a11yProps(COMPONENT, 'signin')} />
+            <Tab label="REGISTRE-SE" {...a11yProps(COMPONENT, 'register')} />
           </Tabs>
           <CustomTabPanel value={value} index={0}>
             <SignIn />
