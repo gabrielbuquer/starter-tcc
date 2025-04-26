@@ -14,3 +14,18 @@ export const rows = [
     result: -100,
   }
 ];
+
+export const totalizers = [
+  {
+    label: 'Meta definida',
+    value: 1000,
+  },
+  {
+    label: 'Total projetado',
+    value: -1200,
+  },
+  {
+    label: 'Diferença',
+    value: -200,
+  }
+]

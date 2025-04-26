@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { Container, Content, Controllers, MainGrid } from './GoalsScreen.styled';
 import { Tab, Tabs } from '@mui/material';
 import { Box, PaginatedTable } from '@monetix/shared/ui';
-import { rows } from './GoalsScreen.mock';
+import { rows, totalizers } from './GoalsScreen.mock';
 import { a11yProps } from '@monetix/shared/config';
+import { MonthTotalizers } from '../../components/MonthTotalizers';
 
 const COMPONENT = 'goals';
 
@@ -51,9 +52,7 @@ export const GoalsScreen = () => {
           <Box>
             Controle Data
           </Box>
-          <Box title="Total do mês">
-            teste
-          </Box>
+          <MonthTotalizers title="Total do mês" totalizers={totalizers} />
         </Controllers>
         <Content>
           <PaginatedTable columns={columns} rows={rows} page={0} rowsPerPage={10} />
