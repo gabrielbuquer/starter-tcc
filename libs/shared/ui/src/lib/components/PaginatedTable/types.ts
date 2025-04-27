@@ -3,6 +3,7 @@ export interface Props {
   rows: object[];
   page: number;
   rowsPerPage: number;
+  actions?: React.ReactNode;
   onChangePage?: (event: unknown, newPage: number) => void;
   onChangeRowsPerPage?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

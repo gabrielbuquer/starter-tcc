@@ -1,10 +1,10 @@
 import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
-import { TableFooter } from './PaginatedTable.styled';
+import { TableActions, TableFooter } from './PaginatedTable.styled';
 import { useState } from "react";
 import { Props } from "./types";
 import { Edit } from "@mui/icons-material";
 
-export const PaginatedTable = ({ columns, rows, onChangePage, onChangeRowsPerPage }: Props) => {
+export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeRowsPerPage }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -58,15 +58,12 @@ export const PaginatedTable = ({ columns, rows, onChangePage, onChangeRowsPerPag
           </TableBody>
         </Table>
         <TableFooter>
-          <Tooltip title="Editar metas" placement="right">
-            <IconButton
-              onClick={() => {console.log('teste')}}
-              size="medium"
-              aria-label={'Editar metas'}
-            >
-              <Edit />
-            </IconButton>
-          </Tooltip>
+          {actions && (
+            <TableActions>
+              {actions}
+            </TableActions>
+          )}
+
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
             component="div"

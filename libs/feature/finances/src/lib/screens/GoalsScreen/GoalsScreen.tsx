@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Container, Content, Controllers, MainGrid } from './GoalsScreen.styled';
-import { Tab, Tabs } from '@mui/material';
+import { IconButton, Tab, Tabs, Tooltip } from '@mui/material';
 import { Box, PaginatedTable } from '@monetix/shared/ui';
 import { rows, totalizers } from './GoalsScreen.mock';
 import { a11yProps } from '@monetix/shared/config';
 import { MonthTotalizers } from '../../components/MonthTotalizers';
+import Edit from '@mui/icons-material/Edit';
 
 const COMPONENT = 'goals';
 
@@ -55,7 +56,23 @@ export const GoalsScreen = () => {
           <MonthTotalizers title="Total do mês" totalizers={totalizers} />
         </Controllers>
         <Content>
-          <PaginatedTable columns={columns} rows={rows} page={0} rowsPerPage={10} />
+          <PaginatedTable
+            columns={columns}
+            rows={rows}
+            page={0}
+            rowsPerPage={10}
+            actions={
+              <Tooltip title="Editar metas" placement="right">
+                <IconButton
+                  onClick={() => {console.log('teste')}}
+                  size="medium"
+                  aria-label={'Editar metas'}
+                >
+                  <Edit />
+                </IconButton>
+              </Tooltip>
+            }
+          />
         </Content>
       </MainGrid>
     </Container>
