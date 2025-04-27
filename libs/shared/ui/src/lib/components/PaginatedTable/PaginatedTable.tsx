@@ -4,17 +4,19 @@ import { useState } from "react";
 import { Props } from "./types";
 import { Edit } from "@mui/icons-material";
 
-export const PaginatedTable = ({ columns, rows }: Props) => {
+export const PaginatedTable = ({ columns, rows, onChangePage, onChangeRowsPerPage }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    onChangePage?.(event, newPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+    onChangeRowsPerPage?.(event);
   };
 
   return (

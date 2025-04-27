@@ -3,8 +3,8 @@ export interface Props {
   rows: object[];
   page: number;
   rowsPerPage: number;
-  handleChangePage?: (event: unknown, newPage: number) => void;
-  handleChangeRowsPerPage?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePage?: (event: unknown, newPage: number) => void;
+  onChangeRowsPerPage?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface Column {

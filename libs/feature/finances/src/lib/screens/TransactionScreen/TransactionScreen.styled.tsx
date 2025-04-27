@@ -9,10 +9,20 @@ export const Container = styled('div')`
   `};
 `;
 
-export const MainGrid = styled('div')`
+export const Content = styled('div')`
   ${({ theme }) => css`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: ${theme.spacing(2)};
+    width: 100%;
+  `};
+`;
+
+export const Filters = styled('div')`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    gap: ${theme.spacing(2)};
+    width: 100%;
   `};
 `;
