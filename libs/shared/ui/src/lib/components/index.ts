@@ -7,6 +7,7 @@ export * from './Box';
 export * from './PasswordInput';
 export * from './QuickMenu';
 export * from './ActionDialog';
+export * from './ConfirmationDialog';
 export * from './PieChart';
 export * from './BarChart';
 export * from './PaginatedTable';

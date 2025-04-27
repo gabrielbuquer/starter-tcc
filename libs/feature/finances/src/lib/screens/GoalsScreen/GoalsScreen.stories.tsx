@@ -1,11 +1,11 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
-import { TransactionScreen } from './TransactionScreen';
+import { GoalsScreen } from './GoalsScreen';
 
 
 export default {
-  title: 'Screens / TransactionScreen',
+  title: 'Screens / GoalsScreen',
   args: {},
   parameters: {
     layout: 'fullscreen',
@@ -13,12 +13,12 @@ export default {
       appDirectory: true,
     }
   },
-} as Meta<typeof TransactionScreen>;
+} as Meta<typeof GoalsScreen>;
 
 export const Mobile: StoryFn = (props) => {
   return (
     <div style={{ maxWidth: '400px', width: '100%' }}>
-      <TransactionScreen {...props} />
+      <GoalsScreen {...props} />
     </div>
   );
 };
@@ -31,7 +31,7 @@ Mobile.parameters = {
 export const Desktop: StoryFn = (props) => {
   return (
     <div style={{ width: '400px' }}>
-      <TransactionScreen {...props} />
+      <GoalsScreen {...props} />
     </div>
   );
 };

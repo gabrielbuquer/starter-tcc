@@ -8,6 +8,7 @@ export type ExpenseFormProps = {
   open: boolean;
   title: string;
   children?: React.ReactNode;
+  onClose?: () => void;
 }
 
 function PaperComponent(props: PaperProps) {
@@ -23,7 +24,7 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export const ActionDialog = ({ open = true, title, children }: ExpenseFormProps) => {
+export const ActionDialog = ({ open = true, title, children, onClose }: ExpenseFormProps) => {
   return (
     <Dialog
       open={open}
@@ -34,7 +35,7 @@ export const ActionDialog = ({ open = true, title, children }: ExpenseFormProps)
         <Typography variant="h4">
         {title}
         </Typography>
-        <IconButton>
+        <IconButton onClick={onClose} aria-label="close">
           <CloseRounded />
         </IconButton>
       </DialogHeader>

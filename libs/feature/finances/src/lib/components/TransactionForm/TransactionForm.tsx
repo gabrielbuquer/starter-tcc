@@ -20,14 +20,18 @@ type TransactionFormData = {
 export type TransactionFormProps = {
   open: boolean;
   formType: 'expense' | 'income';
+  isEditing?: boolean;
+  defaultValues?: TransactionFormData | object;
+  onClose?: () => void;
 }
 
-export const TransactionForm = ({ open = true, formType }: TransactionFormProps) => {
-  const { title } = FORM_DATA[formType];
+export const TransactionForm = ({ open = true, isEditing = false, defaultValues, formType, onClose }: TransactionFormProps) => {
+  const { titleNew, titleEdit } = FORM_DATA[formType];
 
   const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
+    defaultValues,
     resolver: yupResolver(schema) as Resolver<TransactionFormData>,
   });
 
@@ -45,7 +49,8 @@ export const TransactionForm = ({ open = true, formType }: TransactionFormProps)
   return (
     <ActionDialog
       open={open}
-      title={title}
+      title={isEditing ? titleEdit : titleNew}
+      onClose={onClose}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
@@ -89,14 +94,16 @@ export const TransactionForm = ({ open = true, formType }: TransactionFormProps)
             {...register('date')}
           >
             {
-              (props) => <TextField
-                {...props}
-                fullWidth
-                label={DATE_ATTRIBUTES.label}
-                variant="outlined"
-                error={!!errors.date}
-                helperText={errors.date?.message}
-              />
+              (props) => {
+                return <TextField
+                  {...props}
+                  fullWidth
+                  label={DATE_ATTRIBUTES.label}
+                  variant="outlined"
+                  error={!!errors.date}
+                  helperText={errors.date?.message}
+                />
+              }
             }
           </InputMask>
           </Grid>

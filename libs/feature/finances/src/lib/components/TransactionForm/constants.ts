@@ -1,9 +1,11 @@
 export const FORM_DATA = {
   income: {
-    title: 'Nova receita',
+    titleNew: 'Nova receita',
+    titleEdit: 'Editar receita',
   },
   expense: {
-    title: 'Nova despesa',
+    titleNew: 'Nova despesa',
+    titleEdit: 'Editar despesa',
   }
 }
 
