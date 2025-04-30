@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CourseMapper } from './courser.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +11,7 @@ export class CourseService {
   constructor(
     @InjectRepository(Course)
     private readonly repository: Repository<Course>,
+    @Inject(forwardRef(() => ClassroomService))
     private readonly classroomService: ClassroomService
   ) {}
 

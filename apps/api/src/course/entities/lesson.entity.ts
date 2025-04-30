@@ -8,7 +8,7 @@ export enum LessonType {
 }
 
 @Entity()
-export class Leasson {
+export class Lesson {
   @PrimaryGeneratedColumn('uuid')
   id: string;
   @Column({ type: 'varchar', length: 255 })
