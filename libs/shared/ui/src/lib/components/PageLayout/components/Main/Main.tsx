@@ -13,8 +13,8 @@ export type PageLayoutMainStyledPropTypes = PageLayoutWrapperStyledPropsType & {
   fullHeight?: boolean;
   hasContainer?: boolean;
   children: ReactNode;
-  width?: string;
   hasMargin?: boolean;
+  centeredContent?: boolean;
   bgColor?: string;
 };
 
@@ -24,7 +24,6 @@ export const Main = ({
   id,
   bgColor,
   fullHeight,
-  width,
   centeredContent = false,
   hasContainer = false,
   hasMargin = true,
@@ -34,7 +33,6 @@ export const Main = ({
       id={id}
       data-testid={testId}
       as="main"
-      width={width}
       hasMargin={hasMargin}
       sx={{ bgcolor: bgColor }}
     >

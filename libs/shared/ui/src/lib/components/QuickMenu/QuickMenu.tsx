@@ -16,7 +16,7 @@ export const QuickMenu = () => {
   return (
     <SpeedDial
       ariaLabel="Navegação rápida"
-      sx={{ position: 'absolute', bottom: 16, right: 16 }}
+      sx={{ position: 'fixed', bottom: 42, right: 24 }}
       icon={<SpeedDialIcon />}
     >
       {actions.map((action) => (

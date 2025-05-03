@@ -19,13 +19,11 @@ export const Header = ({
   children,
   testId,
   id,
-  background,
   hasContainer = false,
 }: PageLayoutHeaderStyledPropTypes) => {
   return (
     <PageLayoutHeaderStyled
       id={id}
-      background={background}
       data-testid={testId}
       as="header"
     >

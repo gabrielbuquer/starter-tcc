@@ -21,6 +21,10 @@ export const MENU_LINKS: MenuLinksProps[] = [
     icon: <AccountBalanceWalletOutlined />,
     submenu: [
       {
+        title: 'Transações',
+        link: '/financas/transacoes',
+      },
+      {
         title: 'Receitas',
         link: '/financas/receitas',
       },
@@ -29,8 +33,8 @@ export const MENU_LINKS: MenuLinksProps[] = [
         link: '/financas/despesas',
       },
       {
-        title: 'Orçamento',
-        link: '/financas/orcamento',
+        title: 'Metas',
+        link: '/financas/metas',
       }
     ],
   },

@@ -3,7 +3,7 @@ import { montserrat } from '@monetix/shared/config';
 
 export default function Document() {
   return (
-    <Html lang="en" className={montserrat.className}>
+    <Html lang="pt-br" className={montserrat.variable}>
       <Head />
       <body>
         <Main />

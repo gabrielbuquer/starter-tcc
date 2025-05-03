@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import { ReactNode} from 'react';
 
 import { LayoutContainer } from './MainLayout.styled';
-import { PageLayout } from '../../components';
+import { PageLayout, QuickMenu } from '../../components';
 
 const Header = dynamic(() =>
   import('../../patterns/Header').then(({ Header }) => Header),
@@ -17,6 +17,7 @@ type MainLayoutPropsTypes = {
   bgColor?: string;
   hasMargin?: boolean;
   hasContainer?: boolean;
+  hasQuickMenu?: boolean;
   centeredContent?: boolean;
   simpleHeader?: boolean;
 };
@@ -26,6 +27,7 @@ export const MainLayout = ({
   bgColor,
   hasMargin = true,
   hasContainer = true,
+  hasQuickMenu = false,
   centeredContent = false,
   simpleHeader = false,
 }: MainLayoutPropsTypes) => {
@@ -54,6 +56,7 @@ export const MainLayout = ({
           <Footer />
         </PageLayout.Footer>
       </PageLayout>
+      {hasQuickMenu && <QuickMenu />}
     </LayoutContainer>
   );
 };
