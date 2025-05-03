@@ -1,14 +1,18 @@
-import { Container } from './ListCoursesScreen.styled';
+import { Typography } from '@mui/material';
+import { Card } from '../../components/Card';
+import { Container, MainGrid } from './ListCoursesScreen.styled';
 
 export const ListCoursesScreen = () => {
 
   return (
     <Container>
-      <h1>List Courses</h1>
-      <p>List of courses will be displayed here.</p>
-      <p>Click on a course to view details.</p>
-      <p>Click on the button below to add a new course.</p>
-      <button>Add Course</button>
+      <Typography variant='h1'>Nossos cursos</Typography>
+      <MainGrid>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </MainGrid>
     </Container>
   )
 }

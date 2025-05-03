@@ -4,7 +4,7 @@ export const Container = styled('div')`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    gap: ${theme.spacing(6)};
+    gap: ${theme.spacing(3)};
     width: 100%;
   `};
 `;
@@ -12,8 +12,12 @@ export const Container = styled('div')`
 export const MainGrid = styled('div')`
   ${({ theme }) => css`
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: ${theme.spacing(4)};
+
+    ${theme.breakpoints.down('lg')} {
+      grid-template-columns: repeat(1, 1fr);
+    }
   `};
 `;
 
