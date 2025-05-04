@@ -8,9 +8,11 @@ import {
 
 import { LessonType } from '@monetix/shared/config';
 
+import { MOCK_LESSONS } from '../components/StepList/StepList.mock';
+
 type CourseContextProps = {
   selectedLesson?: LessonType;
-  setSelectedLesson: (lesson: LessonType) => void;
+  setSelectedLesson: (lessonId: LessonType['id']) => void;
 };
 
 export type CourseContextPropsProviderProps = {
@@ -20,10 +22,12 @@ export type CourseContextPropsProviderProps = {
 export const CourseContext = createContext({} as CourseContextProps);
 
 const CourseContextProvider = ({ children }: CourseContextPropsProviderProps) => {
-  const [selectedLesson, setSelectedLesson] = useState<LessonType>();
+  const [selectedLesson, setSelectedLesson] = useState<LessonType>(MOCK_LESSONS[0]);
 
-  const memoizedSetSelectedLesson = useCallback((size: LessonType) => {
-    setSelectedLesson(size);
+  const memoizedSetSelectedLesson = useCallback((lessonId: LessonType['id']) => {
+    const lesson = MOCK_LESSONS.find((lesson) => lesson.id === lessonId);
+    console.log('lesson', lesson, lessonId);
+    setSelectedLesson(lesson);
   }, []);
 
   return (

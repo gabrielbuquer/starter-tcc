@@ -1,4 +1,3 @@
-import { LessonType } from "@monetix/shared/config"
 import { Container, Footer, Header, Main } from "./Content.styled";
 import { Box } from "@monetix/shared/ui";
 import { Typography } from "@mui/material";
@@ -7,6 +6,7 @@ import { useCourseContext } from "../../contexts/CourseContext";
 
 export const Content = () => {
   const { selectedLesson } = useCourseContext();
+  console.log('selectedLesson', selectedLesson);
 
   return (
     <Box>
