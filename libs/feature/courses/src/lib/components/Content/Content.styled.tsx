@@ -12,7 +12,8 @@ export const Container = styled('div')`
 export const Header = styled('div')`
   ${({ theme }) => css`
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     padding: ${theme.spacing(2)};
     border-bottom: 1px solid ${theme.palette.divider};
@@ -31,8 +32,7 @@ export const Main = styled('div')`
 export const Footer = styled('div')`
   ${({ theme }) => css`
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: ${theme.spacing(2)};
+    justify-content: center;
+    align-items: center;
   `};
 `;

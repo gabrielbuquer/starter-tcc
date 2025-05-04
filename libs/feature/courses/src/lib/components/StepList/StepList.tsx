@@ -10,12 +10,16 @@ interface StepListProps {
 }
 
 export const StepList = ({ lessons }: StepListProps) => {
-  const { setSelectedLesson } = useCourseContext();
+  const { selectedLesson, setSelectedLesson } = useCourseContext();
   return (
     <Box>
       <Container>
         {lessons.map((lesson, i) => (
-          <ListItemButton component="button" key={lesson.id} onClick={() => setSelectedLesson(lesson.id)}>
+          <ListItemButton
+            component="button"
+            key={lesson.id}
+            selected={selectedLesson.id === lesson.id}
+            onClick={() => setSelectedLesson(i)}>
             <ListItemText primary={`${i + 1} - ${lesson.name}`} />
           </ListItemButton>
         ))}

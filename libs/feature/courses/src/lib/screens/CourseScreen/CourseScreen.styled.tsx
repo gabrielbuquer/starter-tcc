@@ -16,7 +16,8 @@ export const MainGrid = styled('div')`
     gap: ${theme.spacing(4)};
 
     ${theme.breakpoints.down('lg')} {
-      grid-template-columns: repeat(1, 1fr);
+      display: flex;
+      flex-direction: column;
     }
   `};
 `;
