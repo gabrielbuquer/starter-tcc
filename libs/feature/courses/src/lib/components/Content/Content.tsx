@@ -1,4 +1,4 @@
-import { Container, Footer, Header, Main } from "./Content.styled";
+import { Container, Navigation, Header, Main } from "./Content.styled";
 import { Box, Video } from "@monetix/shared/ui";
 import { IconButton, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -42,20 +42,20 @@ export const Content = () => {
           <Typography variant="h4" component="h1">
             {currentStep + 1} - {selectedLesson.name}
           </Typography>
-          <Footer>
-          <IconButton
-            onClick={(() => setSelectedLesson(currentStep - 1))}
-            disabled={lessons[0].id === selectedLesson.id}
-          >
-            <ArrowBackIosNewIcon />
-          </IconButton>
-          <IconButton
-            onClick={(() => setSelectedLesson(currentStep + 1))}
-            disabled={lessons.at(-1).id === selectedLesson.id}
-          >
-            <ArrowForwardIosIcon />
-          </IconButton>
-        </Footer>
+          <Navigation>
+            <IconButton
+              onClick={(() => setSelectedLesson(currentStep - 1))}
+              disabled={currentStep <= 0}
+            >
+              <ArrowBackIosNewIcon />
+            </IconButton>
+            <IconButton
+              onClick={(() => setSelectedLesson(currentStep + 1))}
+              disabled={currentStep === lessons.length - 1}
+            >
+              <ArrowForwardIosIcon />
+            </IconButton>
+          </Navigation>
         </Header>
         <Main>
           {contentElement(selectedLesson)}

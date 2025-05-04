@@ -29,7 +29,7 @@ export const Main = styled('div')`
   `};
 `;
 
-export const Footer = styled('div')`
+export const Navigation = styled('div')`
   ${({ theme }) => css`
     display: flex;
     justify-content: center;
