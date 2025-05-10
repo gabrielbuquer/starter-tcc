@@ -1,8 +1,8 @@
 import { Meta, StoryFn } from '@storybook/react';
-import { TransactionForm, TransactionFormProps } from './CourseForm';
+import { CourseForm, CourseFormProps } from './CourseForm';
 
 export default {
-  title: 'Components / TransactionForm',
+  title: 'Components / CourseForm',
   args: {
     open: true,
     formType: 'expense',
@@ -13,20 +13,12 @@ export default {
       appDirectory: true,
     }
   },
-} as Meta<typeof TransactionForm>;
+} as Meta<typeof CourseForm>;
 
-export const Expense: StoryFn<TransactionFormProps> = (props) => {
+export const Default: StoryFn<CourseFormProps> = (props) => {
   return (
     <div style={{ width: '100%' }}>
-      <TransactionForm {...props} />
-    </div>
-  );
-};
-
-export const Income: StoryFn<TransactionFormProps> = (props) => {
-  return (
-    <div style={{ width: '100%' }}>
-      <TransactionForm {...props} formType='income' />
+      <CourseForm {...props} />
     </div>
   );
 };

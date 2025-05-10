@@ -1,12 +1,16 @@
 import { Box, DialogTitle, css, styled } from '@mui/material';
 
-export const DialogHeader = styled(DialogTitle)`
-  ${({ theme }) => css`
+interface HeaderProps {
+  isDraggable?: boolean;
+}
+
+export const DialogHeader = styled(DialogTitle)<HeaderProps>`
+  ${({ theme, isDraggable }) => css`
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: ${theme.spacing(2)};
-    cursor: move;
+    cursor: ${isDraggable ? 'move' : 'default'};
   `}
 `;
 

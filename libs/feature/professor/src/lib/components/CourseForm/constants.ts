@@ -32,9 +32,9 @@ export const DESCRIPTION_ATTRIBUTES = {
 };
 
 export const LESSON_ATTRIBUTES = {
-  id: 'lesson',
-  placeholder: 'Lição',
-  label: 'Lição',
+  id: 'lessons',
+  placeholder: 'Lições',
+  label: 'Lições',
   controlHint: 'lesson-hint',
   type: 'text',
   errorMessages: {
@@ -42,6 +42,7 @@ export const LESSON_ATTRIBUTES = {
     INVALID: 'Informe uma descrição válida.',
     TOO_SHORT: 'A descrição deve ter no mínimo 2 caracteres.',
     TOO_LONG: 'A descrição deve ter no máximo 50 caracteres.',
+    MIN_ITEMS: 'Informe pelo menos uma lição.',
   },
 };
 

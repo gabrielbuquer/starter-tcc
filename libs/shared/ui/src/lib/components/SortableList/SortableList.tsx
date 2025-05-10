@@ -13,7 +13,7 @@ import {
   arrayMove,
   sortableKeyboardCoordinates
 } from "@dnd-kit/sortable";
-import { restrictToFirstScrollableAncestor, restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { restrictToParentElement } from '@dnd-kit/modifiers';
 
 import { DragHandle, SortableItem, SortableOverlay } from "./components";
 import { List } from "./SortableList.styled";
@@ -25,7 +25,7 @@ interface BaseItem {
 interface Props<T extends BaseItem> {
   items: T[];
   onChange(items: T[]): void;
-  renderItem(item: T): ReactNode;
+  renderItem(item: T, index?: number): ReactNode;
 }
 
 export function SortableList<T extends BaseItem>({
@@ -69,8 +69,8 @@ export function SortableList<T extends BaseItem>({
     >
       <SortableContext items={items}>
         <List>
-          {items.map((item) => (
-            <React.Fragment key={item.id}>{renderItem(item)}</React.Fragment>
+          {items.map((item, index) => (
+            <React.Fragment key={item.id}>{renderItem(item, index)}</React.Fragment>
           ))}
         </List>
       </SortableContext>
