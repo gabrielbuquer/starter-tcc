@@ -21,7 +21,18 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.id, email: user.email };
+    let payload;
+    if (user instanceof Student) {
+      const student = user as Student;
+      payload = {
+        sub: student.id,
+        email: student.email,
+        classroom: student.classroom.id,
+        type: 'student',
+      };
+    } else {
+      payload = { sub: user.id, email: user.email, type: 'teacher' };
+    }
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
