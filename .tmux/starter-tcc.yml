@@ -1,0 +1,15 @@
+session_name: meu_projeto
+start_directory: ./
+windows:
+  - window_name: dev window
+    panes:
+      - shell_command:
+        - echo "Pane 1"
+      - shell_command:
+        - echo "Pane 2"
+  - window_name: janela 2
+    panes:
+      - shell_command:
+        - echo "Pane 1"
+      - shell_command:
+        - echo "Pane 2"

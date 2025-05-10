@@ -1,0 +1,586 @@
+openapi: 3.0.0
+info:
+  title: Monetix
+  version: 1.0.0
+paths:
+  /auth/sign-in:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sing-in"
+      responses:
+        '200':
+          description: Login realizado com sucesso.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/token-body"
+                
+        '401':
+          description: Credenciais inválidas.
+  /class-room/{classRoom}/students:
+    post:
+      tags:
+        - student-management
+      parameters:
+        - name: classRoomId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/student.create.student'
+      responses:
+        '201':
+          description: Curso criado com sucesso
+  /class-room/{classRoomId}/students:
+    get:
+      tags:
+        - student-management
+      parameters:
+        - name: classRoomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de alunos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student.get.LisOfStudenty'
+  /students/{id}:
+    get:
+      tags:
+        - student-management
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Informações do estudante
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/student.get.detail"
+
+  /class-room:
+    post:
+      tags:
+        - student-management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+      responses:
+        '201':
+          description: Classe criada com sucesso
+
+  /class-room/{classRoom}/courses:
+    get:
+      tags:
+        - class-management
+      parameters:
+        - name: classRoom
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de cursos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courser.get.CoursesResponse'
+
+  /class-room/{classRoom}/courses/{idCourse}/enable:
+    patch:
+      tags:
+        - class-management
+      parameters:
+        - name: classRoom
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: idCourse
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: courser enabled or disabled
+
+  /courses:
+    post:
+      tags:
+        - class-management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courser.create.Courser'
+      responses:
+        '201':
+          description: Curso criado com sucesso
+
+  /courses/{id}:
+    get:
+      tags:
+        - class-management
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courser.get.CoursesResponse'
+          
+    put:
+      tags:
+        - class-management
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courser.create.Courser'
+      responses:
+        '200':
+          description: Curso atualizado com sucesso
+
+  /user/{id}/finances/overview:
+    get:
+      tags:
+        - finances
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dashboard.overview'
+
+  /user/{id}/finances:
+    get:
+      tags:
+        - finances
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: start-date
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
+        - name: end-date
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/date'
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/finances.type'
+      
+      responses:
+        '200':
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/finances.get.List'
+          
+    post:
+      tags:
+        - finances
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/finances'
+      responses:
+        '201':
+          description: Despesa criada com sucesso
+
+  /finances/expense/categories:
+    get:
+      tags:
+        - finances
+      responses:
+        '200':
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/finances.get.expenses'
+  /finances/income/categories:
+    get:
+      tags:
+        - finances
+      responses:
+        '200':
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/finances.get.incomes'     
+# Schemas
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  schemas:
+    JwtPayload:
+      type: object
+      description: Estrutura do payload do token JWT.
+      properties:
+        sub:
+          type: string
+          description: ID do usuário autenticado.
+          example: 1234567890
+        admin:
+          type: boolean
+          description: Indica se o usuário tem privilégios administrativos.
+          example: true
+        exp:
+          type: integer
+          description: Timestamp de expiração do token.
+          example: 1700000000
+      required:
+        - sub
+        - exp
+    uuid:
+      type: string
+      format: uuid
+      description: Id
+      example: '23143fb5-5fa3-4a41-8304-5f8efdd58cb4'
+    pagination:
+      type: object
+      properties:
+        currentPage:
+          type: number
+          example: 1
+        totalPages:
+          type: number
+          example: 5
+        totalItems:
+          type: number
+          example: 50
+    progress:
+      type: number
+      format: double
+      example: 99.12
+    date:
+      type: string
+      format: date
+      example: "2024-12-12"
+    token-body:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiYWRtaW4iOnRydWV9.sflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        expiresIn:
+          type: integer
+          example: 3600
+    sing-in:
+      type: object
+      properties:
+        username:
+          type: string
+          example: user123
+        password:
+          type: string
+          example: secret123
+      required:
+        - username
+        - password
+    Lesson:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Firt lesson'
+        type: 
+          type: string
+          enum:
+            - pdf
+            - video
+            - form
+        url:
+          type: string
+          example: "http://youtube.com/xpsto"
+    Student:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "pedro"
+        email:
+          type: string
+          example: "teste@gmail.com"
+        date-of_birth:
+          $ref: '#/components/schemas/date'
+    finances.type:
+      type: string
+      enum:
+        - expense
+        - income
+    finances.category:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/uuid'
+        description:
+          type: number
+          example: category
+    finances.get.expenses: 
+      type: array
+      items: 
+        $ref: "#/components/schemas/finances.category"
+    finances.get.incomes: 
+      type: array
+      items: 
+        $ref: "#/components/schemas/finances.category"
+    finances.get.List:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            allOf:
+              - properties:
+                    id:
+                      $ref: '#/components/schemas/uuid'
+                    enabled:
+                      type: boolean
+                      example: false
+              - $ref: '#/components/schemas/finances'
+              
+        resume:
+          type: object
+          properties:
+            amount: 
+              type: number
+              example: 201.11
+            amount-expense: 
+              type: number
+              example: 1201.11
+            amount-income:
+              type: number
+              example: 201.11
+        pagination:
+          $ref: '#/components/schemas/pagination'
+    finances:
+      type: object
+      properties:
+        description:
+          type: string
+        value: 
+          type: number
+        date:
+          type: string
+          format: date
+        type: 
+          $ref: '#/components/schemas/finances.type'
+        category:
+          $ref: '#/components/schemas/finances.category'
+    courser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Firt couser'
+        description:
+          type: string
+          example: 'description'
+    courser.create.Courser:
+        type: object
+        allOf:
+          - $ref: "#/components/schemas/courser"
+          - properties:
+              lessons:
+                type: array
+                items: 
+                  type: object
+                  allOf:
+                    - $ref: '#/components/schemas/Lesson'
+    courser.get.Courser:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/courser'
+        - properties:
+            id: 
+              $ref: '#/components/schemas/uuid'
+            enabled:
+              type: boolean
+              example: true
+            start-date:
+              $ref: '#/components/schemas/date'
+            end-date:
+              $ref: '#/components/schemas/date'
+            progress:
+              $ref: '#/components/schemas/progress'  
+    student.create.student:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Student'
+    student.get.LisOfStudenty:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            allOf:
+              - properties:
+                  id:
+                    $ref: '#/components/schemas/uuid'
+                  progress:
+                    $ref: '#/components/schemas/progress' 
+              - $ref: '#/components/schemas/Student'
+               
+        pagination:
+          $ref: '#/components/schemas/pagination'
+    student.get.detail:
+      type: object
+      allOf:
+        - properties:
+            id: 
+              $ref: '#/components/schemas/uuid'
+            coursers:
+              type: array
+              items:
+                $ref: '#/components/schemas/student.get.courser'
+        - $ref: '#/components/schemas/Student'
+
+    student.get.courser:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/courser'
+        - properties:
+            id:
+              $ref: '#/components/schemas/uuid'
+            start-date:
+              $ref: '#/components/schemas/date'
+            end-date:
+              $ref: '#/components/schemas/date'
+            progress:
+              $ref: '#/components/schemas/progress'  
+            lessons:
+              type: array
+              items:
+                $ref: '#/components/schemas/student.Lesson'
+    student.Lesson:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Lesson'
+        - properties:
+            id:
+              $ref: '#/components/schemas/uuid'
+            start-date:
+              $ref: '#/components/schemas/date'
+            end-date:
+              $ref: '#/components/schemas/date'
+            done:
+              type: boolean
+              example: false
+    courser.get.CoursesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/courser.get.Courser'
+        pagination:
+          $ref: '#/components/schemas/pagination'
+    dashboard.overview:
+      type: object 
+      properties:
+        amount:
+          type: number
+          example: 1000.01
+        amount-month:
+          type: number
+          example: 110.02
+        expense-month:
+          type: number
+          example: 11.02
+        incomes:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+                example: salario
+              value:
+                type: number
+                example: 20.01
+        expenses:
+          type: array
+          items:
+            type: object
+            properties:
+              category:
+                type: string
+                example: educação
+              value:
+                type: number
+                example: 20.01
+security:
+  - bearerAuth: []
