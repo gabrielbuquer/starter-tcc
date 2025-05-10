@@ -4,10 +4,11 @@ import Draggable from 'react-draggable';
 import { DialogHeader, DialogContent } from './ActionDialog.styled';
 import { useRef } from 'react';
 
-export type ExpenseFormProps = {
+export type ActionDialogProps = {
   open: boolean;
   title: string;
   children?: React.ReactNode;
+  isDraggable?: boolean;
   onClose?: () => void;
 }
 
@@ -24,11 +25,11 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export const ActionDialog = ({ open = true, title, children, onClose }: ExpenseFormProps) => {
+export const ActionDialog = ({ open = true, title, children, isDraggable = false, onClose }: ActionDialogProps) => {
   return (
     <Dialog
       open={open}
-      PaperComponent={PaperComponent}
+      PaperComponent={isDraggable ? PaperComponent : undefined}
       aria-labelledby="draggable-dialog-title"
     >
       <DialogHeader>

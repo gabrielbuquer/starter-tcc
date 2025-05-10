@@ -4,8 +4,8 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": [
-      "libs/feature/courses/tsconfig.*?.json",
-      "libs/feature/courses/.storybook/tsconfig.json"
+      "libs/feature/professor/tsconfig.*?.json",
+      "libs/feature/professor/.storybook/tsconfig.json"
     ]
   },
   "overrides": [

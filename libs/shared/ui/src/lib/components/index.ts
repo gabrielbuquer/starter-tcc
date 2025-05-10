@@ -12,3 +12,4 @@ export * from './PieChart';
 export * from './BarChart';
 export * from './PaginatedTable';
 export * from './Video';
+export * from './SortableList';
