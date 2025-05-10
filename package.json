@@ -10,6 +10,7 @@
     "storybook:shared-ui": "npx nx run shared-ui:storybook",
     "storybook:feature-login": "npx nx run feature-login:storybook",
     "storybook:feature-finances": "npx nx run feature-finances:storybook",
+    "storybook:feature-courses": "npx nx run feature-courses:storybook",
     "start:storybook:shared-ui": "npx nx storybook shared-ui -p 4404",
     "start:storybook:feature-login": "npx nx storybook feature-login -p 4404"
   },
@@ -39,6 +40,8 @@
     "react-input-mask": "^2.0.4",
     "react-is": "18.3.1",
     "react-number-format": "^5.4.3",
+    "react-pdf": "^9.2.1",
+    "react-player": "^2.16.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
     "styled-components": "5.3.6",
