@@ -24,4 +24,11 @@ export class AuthController {
   create(@Body() createUserDto: CreateUserDto) {
     return this.authService.create(createUserDto);
   }
+
+  @Post('refresh-token')
+  @HttpCode(HttpStatus.OK)
+  refresh(@Body() body: { refreshToken: string }) {
+    const { refreshToken } = body;
+    return this.authService.refreshToken(refreshToken);
+  }
 }
