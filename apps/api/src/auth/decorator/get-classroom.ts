@@ -7,7 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import { jwtConstants } from '../constants';
 
 export const GetClassroom = createParamDecorator(
-  (expectedType: string, ctx: ExecutionContext): string => {
+  (_data: unknown,ctx: ExecutionContext): string => {
     const request = ctx.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
 
@@ -24,11 +24,6 @@ export const GetClassroom = createParamDecorator(
       throw new UnauthorizedException('Invalid or expired token');
     }
 
-    if (decoded.type !== expectedType) {
-      throw new UnauthorizedException(
-        `User type "${decoded.type}" is not authorized for this resource`
-      );
-    }
 
     if (!decoded.classroom) {
       throw new UnauthorizedException('Classroom not found in token');

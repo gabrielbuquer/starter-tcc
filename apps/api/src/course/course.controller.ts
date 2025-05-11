@@ -28,8 +28,16 @@ export class CourseController {
   @Get()
   @RequireUserType('student')
   async listAll(
-    @GetClassroom('student') classroom: string
+    @GetClassroom() classroom: string
   ): Promise<ICourseResponseDTO[]> {
     return await this.courseService.findAll(classroom);
+  }
+
+  @Get('/:id')
+  async getOne(
+    @Param('id') id: string,
+    @GetClassroom() classroom: string
+  ): Promise<ICourseResponseDTO> {
+    return await this.courseService.findOne(id,classroom);
   }
 }

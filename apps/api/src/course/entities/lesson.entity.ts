@@ -20,5 +20,5 @@ export class Lesson {
   @ManyToOne(() => Course, (course) => course.lessons, {
     eager: true,
   })
-  courser: Course;
+  course: Course;
 }

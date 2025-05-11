@@ -10,14 +10,14 @@ export class ClassroomMapper {
     return entitie;
   }
 
-  static toResponse(e: ClassroomCourser): ICourseResponseDTO {
+  static toResponse(e: ClassroomCourser, progress: number): ICourseResponseDTO {
     return {
       id: e.course.id,
       name: e.course.name,
       description: e.course.description,
       enabled: e.enabled,
       startDate: e.startDate,
-      progress: null,
+      progress,
       endDate: null,
     };
   }

@@ -1,4 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { CourseMapper } from './courser.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,6 +32,23 @@ export class CourseService {
     await this.classroomService.includeCourserInAllClassroom(course);
   }
 
+  async findOne(id: string, classroom: string): Promise<ICourseResponseDTO> {
+    const classroomCourse = await this.classroomCourseRepository.findOne({
+      where: {
+        course: { id },
+        classroom: { id: classroom },
+        enabled: true, // opcional, se quiser garantir que esteja ativa
+      },
+      relations: ['course'],
+    });
+
+    if (!classroomCourse) {
+      throw new NotFoundException(`Course not found for this classroom`);
+    }
+
+    return ClassroomMapper.toResponse(classroomCourse, 0); //TODO: ;
+  }
+
   async findAll(classroom: string): Promise<ICourseResponseDTO[]> {
     const queryBuilder = this.classroomCourseRepository
       .createQueryBuilder('classroom_course')
@@ -38,7 +60,7 @@ export class CourseService {
 
     return queryBuilder.getMany().then((classroomCourses) => {
       return classroomCourses.map((classroomCourse) => {
-        return ClassroomMapper.toResponse(classroomCourse);
+        return ClassroomMapper.toResponse(classroomCourse, 0); //TODO:
       });
     });
   }

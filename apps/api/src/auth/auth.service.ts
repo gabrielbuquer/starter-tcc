@@ -28,7 +28,9 @@ export class AuthService {
       { expiresIn: '7d' }
     );
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '1h',
+      }),
       refresh_token,
     };
   }
@@ -53,6 +55,7 @@ export class AuthService {
 
   extractPayload(user: User) {
     let newPayload;
+    console.log(user)
     if (user instanceof Student) {
       const student = user as Student;
       newPayload = {

@@ -7,5 +7,5 @@ export interface ICourseResponseDTO {
   enabled: boolean;
   startDate: Date;
   endDate: Date | null;
-  progress: Double | null; //TODO: PROGRESS
+  progress: number | null; //TODO: PROGRESS
 }
