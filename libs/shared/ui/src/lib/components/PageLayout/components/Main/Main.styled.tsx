@@ -2,7 +2,9 @@ import { css, styled } from '@mui/material';
 
 import { PageLayoutWrapperStyled } from '../Styled';
 
-export const PageLayoutMainStyled = styled(PageLayoutWrapperStyled)<{
+export const PageLayoutMainStyled = styled(PageLayoutWrapperStyled, {
+  shouldForwardProp: (prop) => prop !== 'hasMargin',
+})<{
   hasMargin: boolean;
 }>`
   ${({ theme, hasMargin }) => css`

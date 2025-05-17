@@ -4,7 +4,9 @@ interface HeaderProps {
   isDraggable?: boolean;
 }
 
-export const DialogHeader = styled(DialogTitle)<HeaderProps>`
+export const DialogHeader = styled(DialogTitle, {
+  shouldForwardProp: (prop) => prop !== 'isDraggable',
+})<HeaderProps>`
   ${({ theme, isDraggable }) => css`
     display: flex;
     align-items: center;

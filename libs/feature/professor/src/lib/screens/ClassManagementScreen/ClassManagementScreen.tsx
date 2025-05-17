@@ -1,15 +1,23 @@
 import { Actions, Container } from './ClassManagementScreen.styled';
-import { CourseContextProvider } from '../../contexts/CourseContext';
+import { ClassManagementContextProvider } from '../../contexts/ClassManagementContext';
 import { PaginatedTable } from '@monetix/shared/ui';
 import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import { columns } from './constants';
 import { classRooms, rows } from './ClassManagementScreen.mock';
 import { CourseForm } from '../../components/CourseForm';
+import { CourseType } from '@monetix/shared/config';
+import { useState } from 'react';
 
+type ModalCourseState = {
+  open: boolean;
+  course?: Partial<CourseType>;
+}
 
 export const ClassManagementScreen = () => {
+  const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({ open: false });
+
   return (
-    <CourseContextProvider>
+    <ClassManagementContextProvider>
       <Container>
         <Typography variant="h3" component="h1">
           Gestão de Aula
@@ -39,15 +47,22 @@ export const ClassManagementScreen = () => {
           page={0}
           rowsPerPage={10}
           actions={
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setModalCourseOpen({ open: true })}
+            >
               Adicionar novo curso
             </Button>
           }
         />
         <CourseForm
-          open
+          open={modalCourseOpen.open}
+          isEditing={!!modalCourseOpen.course}
+          defaultValues={modalCourseOpen.course}
+          onClose={() => setModalCourseOpen({ open: false })}
         />
       </Container>
-    </CourseContextProvider>
+    </ClassManagementContextProvider>
   )
 }

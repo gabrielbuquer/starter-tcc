@@ -32,9 +32,9 @@ export const ActionDialog = ({ open = true, title, children, isDraggable = false
       PaperComponent={isDraggable ? PaperComponent : undefined}
       aria-labelledby="draggable-dialog-title"
     >
-      <DialogHeader>
-        <Typography variant="h4">
-        {title}
+      <DialogHeader isDraggable={isDraggable}>
+        <Typography variant="h4" component="p" id="draggable-dialog-title">
+          {title}
         </Typography>
         <IconButton onClick={onClose} aria-label="close">
           <CloseRounded />

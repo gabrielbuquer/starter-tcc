@@ -8,20 +8,20 @@ import {
 
 import { LessonType } from '@monetix/shared/config';
 
-type CourseContextProps = {
+type ClassManagementContextProps = {
   lessons: LessonType[];
   selectedLesson: LessonType;
   currentStep: number;
   setSelectedLesson: (lessonId: number) => void;
 };
 
-export type CourseContextPropsProviderProps = {
+export type ClassManagementContextPropsProviderProps = {
   children: ReactNode;
 };
 
-export const CourseContext = createContext({} as CourseContextProps);
+export const ClassManagementContext = createContext({} as ClassManagementContextProps);
 
-const CourseContextProvider = ({ children }: CourseContextPropsProviderProps) => {
+const ClassManagementContextProvider = ({ children }: ClassManagementContextPropsProviderProps) => {
   const lessons = [];
   const [selectedLesson, setSelectedLesson] = useState<LessonType>(lessons[0]);
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -34,7 +34,7 @@ const CourseContextProvider = ({ children }: CourseContextPropsProviderProps) =>
   }, []);
 
   return (
-    <CourseContext.Provider
+    <ClassManagementContext.Provider
       value={{
         lessons,
         selectedLesson,
@@ -43,12 +43,12 @@ const CourseContextProvider = ({ children }: CourseContextPropsProviderProps) =>
       }}
     >
       {children}
-    </CourseContext.Provider>
+    </ClassManagementContext.Provider>
   );
 };
 
-const useCourseContext = () => {
-  return useContext(CourseContext);
+const useClassManagementContext = () => {
+  return useContext(ClassManagementContext);
 };
 
-export { CourseContextProvider, useCourseContext };
+export { ClassManagementContextProvider, useClassManagementContext };

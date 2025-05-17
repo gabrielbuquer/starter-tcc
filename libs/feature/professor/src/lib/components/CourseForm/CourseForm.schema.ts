@@ -13,7 +13,7 @@ export const schema = yup.object().shape({
   lessons: yup.array()
     .of(
       yup.object().shape({
-        id: yup.string().required(),
+        id: yup.string(),
         name: yup.string()
           .min(2, LESSON_ATTRIBUTES.errorMessages.TOO_SHORT)
           .max(50, LESSON_ATTRIBUTES.errorMessages.TOO_LONG)

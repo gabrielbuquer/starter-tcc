@@ -9,7 +9,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './CourseForm.schema';
 import { SortableLesson } from './components/SortableLesson';
 import { LessonType } from '@monetix/shared/config';
-import { get } from 'http';
+import { LessonForm, LessonFormData } from '../LessonForm';
+import { useState } from 'react';
+
+type ModalLessonState = {
+  open: boolean;
+  lesson?: Partial<LessonType>;
+}
 
 type CourseFormData = {
   name: string;
@@ -22,10 +28,12 @@ export type CourseFormProps = {
   isEditing?: boolean;
   defaultValues?: CourseFormData | object;
   onClose?: () => void;
+  onSubmit?: () => void;
 }
 
-export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: CourseFormProps) => {
+export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onSubmit }: CourseFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA;
+  const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({ open: false });
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
@@ -41,13 +49,24 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: C
     control,
   } = methods;
 
-  const { fields, move, append, remove } = useFieldArray({
+  const { fields, move, append, remove, update } = useFieldArray({
     control,
     name: 'lessons',
   });
 
-  const onSubmit = async (formData: CourseFormData) => {
+  const handleNewLesson = async (formData: LessonFormData) => {
+    if (modalLessonOpen.lesson) {
+      const index = fields.findIndex((item) => item.id === modalLessonOpen.lesson?.id);
+      update(index, formData);
+    } else {
+      append(formData);
+    }
+    setModalLessonOpen({ open: false });
+  }
+
+  const internalSubmit = async (formData: CourseFormData) => {
     console.log(formData, 'formData');
+    onClose?.();
   }
 
   return (
@@ -56,7 +75,7 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: C
       title={isEditing ? titleEdit : titleNew}
       onClose={onClose}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(internalSubmit)}>
         <Grid container spacing={2}>
           <TextField
             fullWidth
@@ -77,12 +96,12 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: C
 
           <LessonsBox>
             <LessonsHeader>
-              <Typography variant="h4" component="h2">
+              <Typography variant="h4" component="h3">
                 {LESSON_ATTRIBUTES.label}
               </Typography>
 
               <Button variant="contained" color="primary" onClick={() =>
-                append({ id: 'novo-id', name: `Nova lição ${fields.length}` }) // id é importante para o dnd-kit
+                setModalLessonOpen({ open: true })
               }>
                 Adicionar
               </Button>
@@ -106,7 +125,10 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: C
               renderItem={(item, index) => (
                 <SortableList.Item id={item.id}>
                   <SortableList.DragHandle />
-                  <SortableLesson lesson={item} onDelete={() => remove(index)} />
+                  <SortableLesson
+                    lesson={item}
+                    onEdit={() => setModalLessonOpen({ open: true, lesson: item })}
+                    onDelete={() => remove(index)} />
                 </SortableList.Item>
               )}
             />
@@ -130,6 +152,11 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose }: C
           </Button>
         </Actions>
       </form>
+      <LessonForm
+        open={modalLessonOpen.open}
+        defaultValues={modalLessonOpen.lesson}
+        onSubmit={handleNewLesson}
+        onClose={() => setModalLessonOpen({ open: false })} />
     </ActionDialog>
   )
 }

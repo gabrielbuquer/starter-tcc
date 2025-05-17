@@ -1,8 +1,7 @@
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Tooltip } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
 import { TableActions, TableFooter } from './PaginatedTable.styled';
 import { useState } from "react";
 import { Props } from "./types";
-import { Edit } from "@mui/icons-material";
 
 export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeRowsPerPage }: Props) => {
   const [page, setPage] = useState(0);
@@ -41,7 +40,7 @@ export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeR
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
