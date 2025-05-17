@@ -1,20 +1,32 @@
-import { Actions, Container } from './ClassManagementScreen.styled';
-import { ClassManagementContextProvider } from '../../contexts/ClassManagementContext';
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
+
 import { PaginatedTable } from '@monetix/shared/ui';
-import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material';
+import { CourseType } from '@monetix/shared/config';
+
+import { ClassManagementContextProvider } from '../../contexts/ClassManagementContext';
+import { CourseForm } from '../../components/CourseForm';
+
+import { Actions, Container } from './ClassManagementScreen.styled';
 import { columns } from './constants';
 import { classRooms, rows } from './ClassManagementScreen.mock';
-import { CourseForm } from '../../components/CourseForm';
-import { CourseType } from '@monetix/shared/config';
-import { useState } from 'react';
 
 type ModalCourseState = {
   open: boolean;
   course?: Partial<CourseType>;
-}
+};
 
 export const ClassManagementScreen = () => {
-  const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({ open: false });
+  const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({
+    open: false,
+  });
 
   return (
     <ClassManagementContextProvider>
@@ -64,5 +76,5 @@ export const ClassManagementScreen = () => {
         />
       </Container>
     </ClassManagementContextProvider>
-  )
-}
+  );
+};
