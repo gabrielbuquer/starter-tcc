@@ -6,7 +6,9 @@ type PageLayoutFooterStyledProps = {
   hasMargin: boolean;
 };
 
-export const PageLayoutFooterStyled = styled(PageLayoutWrapperStyled)<PageLayoutFooterStyledProps>`
+export const PageLayoutFooterStyled = styled(PageLayoutWrapperStyled, {
+  shouldForwardProp: (prop) => prop !== 'hasMargin',
+})<PageLayoutFooterStyledProps>`
   margin-top: auto;
   ${({ hasMargin }) =>
     hasMargin &&

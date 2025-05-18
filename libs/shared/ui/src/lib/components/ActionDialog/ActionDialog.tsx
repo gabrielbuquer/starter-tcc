@@ -1,15 +1,24 @@
-import { IconButton, Dialog, Typography, PaperProps, Paper } from '@mui/material';
+import {
+  Dialog,
+  IconButton,
+  Paper,
+  PaperProps,
+  Typography,
+} from '@mui/material';
 import { CloseRounded } from '@mui/icons-material';
 import Draggable from 'react-draggable';
-import { DialogHeader, DialogContent } from './ActionDialog.styled';
 import { useRef } from 'react';
 
-export type ExpenseFormProps = {
+import { DialogContent, DialogHeader } from './ActionDialog.styled';
+
+export type ActionDialogProps = {
   open: boolean;
   title: string;
   children?: React.ReactNode;
+  isDraggable?: boolean;
+  fullWidth?: boolean;
   onClose?: () => void;
-}
+};
 
 function PaperComponent(props: PaperProps) {
   const nodeRef = useRef<HTMLDivElement>(null);
@@ -24,24 +33,31 @@ function PaperComponent(props: PaperProps) {
   );
 }
 
-export const ActionDialog = ({ open = true, title, children, onClose }: ExpenseFormProps) => {
+export const ActionDialog = ({
+  open = true,
+  title,
+  children,
+  isDraggable = false,
+  fullWidth = false,
+  onClose,
+}: ActionDialogProps) => {
   return (
     <Dialog
       open={open}
-      PaperComponent={PaperComponent}
+      PaperComponent={isDraggable ? PaperComponent : undefined}
       aria-labelledby="draggable-dialog-title"
+      maxWidth="md"
+      fullWidth={fullWidth}
     >
-      <DialogHeader>
-        <Typography variant="h4">
-        {title}
+      <DialogHeader isDraggable={isDraggable}>
+        <Typography variant="h4" component="p" id="draggable-dialog-title">
+          {title}
         </Typography>
         <IconButton onClick={onClose} aria-label="close">
           <CloseRounded />
         </IconButton>
       </DialogHeader>
-      <DialogContent>
-        {children}
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
-  )
-}
+  );
+};

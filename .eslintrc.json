@@ -1,7 +1,121 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest-dom/recommended",
+    "plugin:testing-library/react",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
+  "plugins": [
+    "@nx",
+    "@typescript-eslint",
+    "jest",
+    "unicorn",
+    "import",
+    "prettier"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {
+        "project": ["apps/*/tsconfig.*?.json", "libs/*/tsconfig.*?.json"]
+      }
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "curly": "error",
+    "import/no-useless-path-segments": [
+      "error",
+      {
+        "noUselessIndex": true
+      }
+    ],
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ],
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": [
+          ["external", "builtin"],
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "@monetix/**",
+            "group": "internal",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["internal"],
+        "distinctGroup": false
+      }
+    ],
+    "@next/next/no-img-element": "off",
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "pascalCase": true,
+          "kebabCase": true,
+          "camelCase": true
+        }
+      }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "variable",
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+      },
+      {
+        "selector": "function",
+        "format": ["camelCase", "PascalCase"]
+      },
+      {
+        "selector": "typeLike",
+        "format": ["PascalCase", "UPPER_CASE"]
+      },
+      {
+        "selector": "variable",
+        "types": ["boolean"],
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"],
+        "custom": {
+          "match": true,
+          "regex": "^[is|should|enable|require|force|IS|ENABLE]"
+        }
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "parserOptions": {
+    "project": ["tsconfig.*?.json"]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],

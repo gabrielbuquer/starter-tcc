@@ -21,7 +21,8 @@
       "@monetix/shared/config": ["libs/shared/config/src/index.ts"],
       "@monetix/feature/login": ["libs/feature/login/src/index.ts"],
       "@monetix/feature/finances": ["libs/feature/finances/src/index.ts"],
-      "@monetix/feature/courses": ["libs/feature/courses/src/index.ts"]
+      "@monetix/feature/courses": ["libs/feature/courses/src/index.ts"],
+      "@monetix/feature/professor": ["libs/feature/professor/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp", "dist"]

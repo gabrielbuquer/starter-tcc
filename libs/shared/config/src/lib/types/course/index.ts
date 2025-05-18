@@ -1,20 +1,6 @@
-export type CourseType = {
+export type StudentType = {
   id: string;
   name: string;
-  description: string;
-  enabled: boolean;
-  "start-date": string;
-  "end-date": string;
-  progress: number;
-  lessons: LessonType[];
-};
-
-export type LessonType = {
-  name: string;
-  type: string;
-  url: string;
-  id: string;
-  "start-date": string;
-  "end-date": string;
-  done: boolean;
+  email: string;
+  'date-of_birth': boolean;
 };
