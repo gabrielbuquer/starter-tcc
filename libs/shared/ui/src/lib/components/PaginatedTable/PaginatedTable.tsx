@@ -1,9 +1,25 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
-import { TableActions, TableFooter } from './PaginatedTable.styled';
-import { useState } from "react";
-import { Props } from "./types";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from '@mui/material';
+import { useState } from 'react';
 
-export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeRowsPerPage }: Props) => {
+import { TableActions, TableFooter } from './PaginatedTable.styled';
+import { Props } from './types';
+
+export const PaginatedTable = ({
+  columns,
+  rows,
+  actions,
+  onChangePage,
+  onChangeRowsPerPage,
+}: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -12,7 +28,9 @@ export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeR
     onChangePage?.(event, newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
     onChangeRowsPerPage?.(event);
@@ -57,11 +75,7 @@ export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeR
           </TableBody>
         </Table>
         <TableFooter>
-          {actions && (
-            <TableActions>
-              {actions}
-            </TableActions>
-          )}
+          {actions && <TableActions>{actions}</TableActions>}
 
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}
@@ -70,16 +84,14 @@ export const PaginatedTable = ({ columns, rows, actions, onChangePage, onChangeR
             rowsPerPage={rowsPerPage}
             page={page}
             labelRowsPerPage={'Linhas por página'}
-            labelDisplayedRows={
-              ({ from, to, count }) => {
-                return '' + from + '-' + to + ' de ' + count
-              }
-            }
+            labelDisplayedRows={({ from, to, count }) => {
+              return '' + from + '-' + to + ' de ' + count;
+            }}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </TableFooter>
       </TableContainer>
     </Paper>
-  )
+  );
 };

@@ -1,27 +1,33 @@
-import { Resolver, useForm, useFieldArray } from 'react-hook-form';
+import { Resolver, useFieldArray, useForm } from 'react-hook-form';
 import { Button, Grid2 as Grid, TextField, Typography } from '@mui/material';
-import { ActionDialog, SortableList } from '@monetix/shared/ui';
-import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
-
-import { FORM_DATA, DESCRIPTION_ATTRIBUTES, NAME_ATTRIBUTES, LESSON_ATTRIBUTES } from './constants';
-
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+
+import { ActionDialog, SortableList } from '@monetix/shared/ui';
+import { LessonType } from '@monetix/shared/config';
+
+import { LessonForm, LessonFormData } from '../LessonForm';
+
+import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
+import {
+  DESCRIPTION_ATTRIBUTES,
+  FORM_DATA,
+  LESSON_ATTRIBUTES,
+  NAME_ATTRIBUTES,
+} from './constants';
 import { schema } from './CourseForm.schema';
 import { SortableLesson } from './components/SortableLesson';
-import { LessonType } from '@monetix/shared/config';
-import { LessonForm, LessonFormData } from '../LessonForm';
-import { useState } from 'react';
 
 type ModalLessonState = {
   open: boolean;
   lesson?: Partial<LessonType>;
-}
+};
 
 type CourseFormData = {
   name: string;
   description: string;
   lessons: Partial<LessonType>[];
-}
+};
 
 export type CourseFormProps = {
   open: boolean;
@@ -29,11 +35,19 @@ export type CourseFormProps = {
   defaultValues?: CourseFormData | object;
   onClose?: () => void;
   onSubmit?: () => void;
-}
+};
 
-export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onSubmit }: CourseFormProps) => {
+export const CourseForm = ({
+  open = true,
+  defaultValues,
+  isEditing,
+  onClose,
+  onSubmit,
+}: CourseFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA;
-  const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({ open: false });
+  const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
+    open: false,
+  });
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
@@ -56,18 +70,20 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onS
 
   const handleNewLesson = async (formData: LessonFormData) => {
     if (modalLessonOpen.lesson) {
-      const index = fields.findIndex((item) => item.id === modalLessonOpen.lesson?.id);
+      const index = fields.findIndex(
+        (item) => item.id === modalLessonOpen.lesson?.id,
+      );
       update(index, formData);
     } else {
       append(formData);
     }
     setModalLessonOpen({ open: false });
-  }
+  };
 
   const internalSubmit = async (formData: CourseFormData) => {
     console.log(formData, 'formData');
     onClose?.();
-  }
+  };
 
   return (
     <ActionDialog
@@ -100,9 +116,11 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onS
                 {LESSON_ATTRIBUTES.label}
               </Typography>
 
-              <Button variant="contained" color="primary" onClick={() =>
-                setModalLessonOpen({ open: true })
-              }>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => setModalLessonOpen({ open: true })}
+              >
                 Adicionar
               </Button>
             </LessonsHeader>
@@ -127,8 +145,11 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onS
                   <SortableList.DragHandle />
                   <SortableLesson
                     lesson={item}
-                    onEdit={() => setModalLessonOpen({ open: true, lesson: item })}
-                    onDelete={() => remove(index)} />
+                    onEdit={() =>
+                      setModalLessonOpen({ open: true, lesson: item })
+                    }
+                    onDelete={() => remove(index)}
+                  />
                 </SortableList.Item>
               )}
             />
@@ -143,11 +164,7 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onS
           >
             Salvar
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            type="submit"
-          >
+          <Button fullWidth variant="outlined" type="submit">
             Cancelar
           </Button>
         </Actions>
@@ -156,7 +173,8 @@ export const CourseForm = ({ open = true, defaultValues, isEditing, onClose, onS
         open={modalLessonOpen.open}
         defaultValues={modalLessonOpen.lesson}
         onSubmit={handleNewLesson}
-        onClose={() => setModalLessonOpen({ open: false })} />
+        onClose={() => setModalLessonOpen({ open: false })}
+      />
     </ActionDialog>
-  )
-}
+  );
+};

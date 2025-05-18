@@ -19,15 +19,24 @@ export type ClassManagementContextPropsProviderProps = {
   children: ReactNode;
 };
 
-export const ClassManagementContext = createContext({} as ClassManagementContextProps);
+export const ClassManagementContext = createContext(
+  {} as ClassManagementContextProps,
+);
 
-const ClassManagementContextProvider = ({ children }: ClassManagementContextPropsProviderProps) => {
+const ClassManagementContextProvider = ({
+  children,
+}: ClassManagementContextPropsProviderProps) => {
   const lessons = [];
   const [selectedLesson, setSelectedLesson] = useState<LessonType>(lessons[0]);
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const memoizedSetSelectedLesson = useCallback((lessonStep: number) => {
-    const stepToUpdate = lessonStep < 0 ? 0 : lessonStep >= lessons.length ? lessons.length - 1 : lessonStep;
+    const stepToUpdate =
+      lessonStep < 0
+        ? 0
+        : lessonStep >= lessons.length
+          ? lessons.length - 1
+          : lessonStep;
     const lesson = lessons[stepToUpdate];
     setSelectedLesson(lesson);
     setCurrentStep(stepToUpdate);
