@@ -11,4 +11,3 @@ export const Container = styled('footer')`
     padding: ${theme.spacing(1)} ${theme.spacing(2)};
   `};
 `;
-

@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
-import { ReactNode} from 'react';
+import { ReactNode } from 'react';
+
+import { PageLayout, QuickMenu } from '../../components';
 
 import { LayoutContainer } from './MainLayout.styled';
-import { PageLayout, QuickMenu } from '../../components';
 
 const Header = dynamic(() =>
   import('../../patterns/Header').then(({ Header }) => Header),
@@ -31,7 +32,6 @@ export const MainLayout = ({
   centeredContent = false,
   simpleHeader = false,
 }: MainLayoutPropsTypes) => {
-
   return (
     <LayoutContainer>
       <PageLayout id="main-layout" testId="main-layout">
@@ -48,11 +48,7 @@ export const MainLayout = ({
         >
           {children}
         </PageLayout.Main>
-        <PageLayout.Footer
-          id="footer"
-          testId="footer"
-          hasMargin={hasMargin}
-        >
+        <PageLayout.Footer id="footer" testId="footer" hasMargin={hasMargin}>
           <Footer />
         </PageLayout.Footer>
       </PageLayout>

@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import { Logout, Person } from '@mui/icons-material';
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import { get } from 'http';
 
-import { generateAcronym } from '@monetix/shared/config';
+import { generateAcronym, getBaseUrls } from '@monetix/shared/config';
 
 import { Avatar } from '../../../components';
 
@@ -21,6 +22,7 @@ export const AccountMenu = () => {
   const { data } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { LOGIN } = getBaseUrls();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -76,7 +78,7 @@ export const AccountMenu = () => {
           Perfil
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => signOut({ callbackUrl: LOGIN })}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

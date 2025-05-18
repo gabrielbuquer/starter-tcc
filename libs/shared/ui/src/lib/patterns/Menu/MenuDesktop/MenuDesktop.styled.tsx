@@ -1,5 +1,5 @@
-import { css, keyframes, styled, MenuItem } from '@mui/material';
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { MenuItem, css, keyframes, styled } from '@mui/material';
+import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import Link from 'next/link';
 
@@ -22,7 +22,6 @@ const FadeOut = keyframes`
 		opacity: 0;
 	}
 `;
-
 
 const ScaleIn = keyframes`
   from {
@@ -82,10 +81,10 @@ export const NavigationIndicator = styled(NavigationMenu.Indicator)`
     transition:
       width,
       transform 250ms ease;
-    &[data-state="visible"] {
+    &[data-state='visible'] {
       animation: ${FadeIn} 200ms ease;
     }
-    &[data-state="hidden"] {
+    &[data-state='hidden'] {
       animation: ${FadeOut} 200ms ease;
     }
   `};
@@ -125,12 +124,12 @@ export const NavigationTrigger = styled(NavigationMenu.Trigger)`
 export const NavigationLink = styled(Link)`
   ${({ theme }) => css`
     text-decoration: none;
-    font-family:  ${theme.typography.fontFamily};
+    font-family: ${theme.typography.fontFamily};
     font-size: ${theme.typography.h3.fontSize};
     font-weight: ${theme.typography.fontWeightRegular};
     line-height: ${theme.typography.h3.lineHeight};
     color: ${theme.palette.text.primary};
-    [data-state="open"] > & {
+    [data-state='open'] > & {
       color: ${theme.palette.primary.main};
     }
   `};
@@ -142,7 +141,7 @@ export const NavigationCaret = styled(KeyboardArrowDownOutlinedIcon)`
     color: ${theme.palette.primary.main};
     top: 1px;
     transition: transform 250ms ease;
-    [data-state="open"] > & {
+    [data-state='open'] > & {
       transform: rotate(-180deg);
     }
   `};
@@ -176,7 +175,7 @@ export const MenuContent = styled('ul')`
 `;
 
 export const MenuContentItem = styled(MenuItem)`
-${({ theme }) => css`
+  ${({ theme }) => css`
     position: relative;
   `};
 `;
@@ -208,10 +207,10 @@ export const NavigationViewport = styled(NavigationMenu.Viewport)`
       width,
       height,
       300ms ease;
-    &[data-state="open"] {
+    &[data-state='open'] {
       animation: scaleIn 200ms ease;
     }
-    &[data-state="closed"] {
+    &[data-state='closed'] {
       animation: scaleOut 200ms ease;
     }
     @media only screen and (min-width: 600px) {

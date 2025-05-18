@@ -1,13 +1,27 @@
 import { Controller, Resolver, useForm } from 'react-hook-form';
 import InputMask from 'react-input-mask';
 import { NumericFormat } from 'react-number-format';
-import { Button, FormControl, Grid2 as Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { ActionDialog } from '@monetix/shared/ui';
-import { Actions } from './TransactionForm.styled';
-
-import { FORM_DATA, CATEGORY_ATTRIBUTES, DATE_ATTRIBUTES, DESCRIPTION_ATTRIBUTES, VALUE_ATTRIBUTES } from './constants';
-
+import {
+  Button,
+  FormControl,
+  Grid2 as Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { ActionDialog } from '@monetix/shared/ui';
+
+import { Actions } from './TransactionForm.styled';
+import {
+  CATEGORY_ATTRIBUTES,
+  DATE_ATTRIBUTES,
+  DESCRIPTION_ATTRIBUTES,
+  FORM_DATA,
+  VALUE_ATTRIBUTES,
+} from './constants';
 import { schema } from './TransactionForm.schema';
 
 type TransactionFormData = {
@@ -15,7 +29,7 @@ type TransactionFormData = {
   value: number;
   date: Date;
   category: string;
-}
+};
 
 export type TransactionFormProps = {
   open: boolean;
@@ -23,9 +37,15 @@ export type TransactionFormProps = {
   isEditing?: boolean;
   defaultValues?: TransactionFormData | object;
   onClose?: () => void;
-}
+};
 
-export const TransactionForm = ({ open = true, isEditing = false, defaultValues, formType, onClose }: TransactionFormProps) => {
+export const TransactionForm = ({
+  open = true,
+  isEditing = false,
+  defaultValues,
+  formType,
+  onClose,
+}: TransactionFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA[formType];
 
   const methods = useForm<TransactionFormData>({
@@ -44,7 +64,7 @@ export const TransactionForm = ({ open = true, isEditing = false, defaultValues,
 
   const onSubmit = async (formData: TransactionFormData) => {
     console.log(formData);
-  }
+  };
 
   return (
     <ActionDialog
@@ -88,24 +108,20 @@ export const TransactionForm = ({ open = true, isEditing = false, defaultValues,
             />
           </Grid>
           <Grid size={6}>
-          <InputMask
-            mask="99/99/9999"
-            maskChar=" "
-            {...register('date')}
-          >
-            {
-              (props) => {
-                return <TextField
-                  {...props}
-                  fullWidth
-                  label={DATE_ATTRIBUTES.label}
-                  variant="outlined"
-                  error={!!errors.date}
-                  helperText={errors.date?.message}
-                />
-              }
-            }
-          </InputMask>
+            <InputMask mask="99/99/9999" maskChar=" " {...register('date')}>
+              {(props) => {
+                return (
+                  <TextField
+                    {...props}
+                    fullWidth
+                    label={DATE_ATTRIBUTES.label}
+                    variant="outlined"
+                    error={!!errors.date}
+                    helperText={errors.date?.message}
+                  />
+                );
+              }}
+            </InputMask>
           </Grid>
           <FormControl fullWidth>
             <InputLabel id="category-select-label">Categoria</InputLabel>
@@ -130,15 +146,11 @@ export const TransactionForm = ({ open = true, isEditing = false, defaultValues,
           >
             Salvar
           </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            type="submit"
-          >
+          <Button fullWidth variant="outlined" type="submit">
             Cancelar
           </Button>
         </Actions>
       </form>
     </ActionDialog>
-  )
-}
+  );
+};

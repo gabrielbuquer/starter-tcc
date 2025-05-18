@@ -1,16 +1,36 @@
-import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@mui/material';
-
-import { ArrowUpwardOutlined, ArrowDownwardOutlined, AutoGraphOutlined, AdsClickOutlined } from '@mui/icons-material';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import {
+  AdsClickOutlined,
+  ArrowDownwardOutlined,
+  ArrowUpwardOutlined,
+  AutoGraphOutlined,
+} from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
 export const QuickMenu = () => {
   const { push } = useRouter();
 
   const actions = [
-    { icon: <AdsClickOutlined />, name: 'Metas', onClick: () => push('/financas/metas') },
-    { icon: <AutoGraphOutlined />, name: 'Gráficos', onClick: () => push('/financas')},
-    { icon: <ArrowDownwardOutlined color='error' />, name: 'Adicionar despesa', onClick: () => push('/financas/despesas') },
-    { icon: <ArrowUpwardOutlined color='success' />, name: 'Adicionar receita', onClick: () => push('/financas/receitas') },
+    {
+      icon: <AdsClickOutlined />,
+      name: 'Metas',
+      onClick: () => push('/financas/metas'),
+    },
+    {
+      icon: <AutoGraphOutlined />,
+      name: 'Gráficos',
+      onClick: () => push('/financas'),
+    },
+    {
+      icon: <ArrowDownwardOutlined color="error" />,
+      name: 'Adicionar despesa',
+      onClick: () => push('/financas/despesas'),
+    },
+    {
+      icon: <ArrowUpwardOutlined color="success" />,
+      name: 'Adicionar receita',
+      onClick: () => push('/financas/receitas'),
+    },
   ];
 
   return (
@@ -28,5 +48,5 @@ export const QuickMenu = () => {
         />
       ))}
     </SpeedDial>
-  )
+  );
 };
