@@ -1,5 +1,3 @@
-import { Double } from 'typeorm';
-
 export interface ICourseResponseDTO {
   id: string;
   name: string;
@@ -7,5 +5,4 @@ export interface ICourseResponseDTO {
   enabled: boolean;
   startDate: Date;
   endDate: Date | null;
-  progress: number | null; //TODO: PROGRESS
 }

@@ -12,6 +12,7 @@ import { CreateStudentDto } from '../student/dto/student.create';
 import { StudentService } from '../student/student.service';
 import { ClassroomService } from './classroom.service';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
 
 @Controller('/api/class-room')
 export class ClassroomController {
@@ -21,6 +22,7 @@ export class ClassroomController {
   ) {}
 
   @Post()
+  @RequireUserType('teacher')
   @ApiBody({ type: CreateClassroomDto })
   async create(@Body() createClassroomDto: CreateClassroomDto) {
     return await this.classroomService.create(createClassroomDto);
@@ -37,6 +39,7 @@ export class ClassroomController {
   }
 
   @Get('/:id/students')
+  @RequireUserType('teacher')
   async listAllStudents(
     @Param('id') id: string,
     @Query('page') page = 1,
@@ -47,6 +50,7 @@ export class ClassroomController {
   }
 
   @Get('/:id/courses')
+  @RequireUserType('teacher')
   async listAllCourses(
     @Param('id') id: string,
     @Query('page') page = 1,
@@ -56,6 +60,7 @@ export class ClassroomController {
     return await this.classroomService.listAllCourses(page, limit, id);
   }
 
+  @RequireUserType('teacher')
   @Patch('/:id/courses/:idCourse/enable')
   async enabledCourse(
     @Param('id') id: string,

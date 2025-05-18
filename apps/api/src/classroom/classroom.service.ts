@@ -15,6 +15,7 @@ import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { Classroom } from './entities/classroom.entity';
 import { ClassroomCourser } from './entities/classroom-course';
 import { ICourseResponseDTO } from './dto/course-classroom.dto';
+import { StudentLesson } from '../student/entities/student-lesson';
 
 const DEFAULT_ENABLED_COURSER = false;
 
@@ -86,6 +87,8 @@ export class ClassroomService {
     const queryBuilder = this.classroomCourseRepository
       .createQueryBuilder('classroom_course')
       .leftJoinAndSelect('classroom_course.course', 'course')
+      .leftJoinAndSelect('classroom_course.classroom', 'classroom')
+      .leftJoinAndSelect('course.lessons', 'lessons')
       .where('classroom_course.classroom = :classroomId', { classroomId: id });
 
     const pagination = await paginate<ClassroomCourser>(queryBuilder, {
@@ -93,11 +96,45 @@ export class ClassroomService {
       limit,
     });
 
+    const dtos: ICourseResponseDTO[] = await Promise.all(
+      pagination.items.map(async (c) => {
+        const progress = await this.calculateProgress(c.classroom, c.course);
+        return ClassroomMapper.toResponse(c, progress);
+      })
+    );
     return new Pagination<ICourseResponseDTO>(
-      pagination.items.map(ClassroomMapper.toResponse),
+      dtos,
       pagination.meta,
       pagination.links
     );
+  }
+
+  async calculateProgress(
+    classroom: Classroom,
+    course: Course
+  ): Promise<number> {
+    console.log('classromm', classroom);
+    console.log('course', course);
+
+    const calculateProgress = await this.dataSource
+      .getRepository(StudentLesson)
+      .createQueryBuilder('student_lesson')
+      .leftJoinAndSelect('student_lesson.student', 'student')
+      .leftJoinAndSelect('student_lesson.lesson', 'lesson')
+      .where('student.classroom = :classroomId', {
+        classroomId: classroom.id,
+      })
+      .andWhere('lesson.course = :courseId', { courseId: course.id })
+      .andWhere(
+        'student_lesson.startDate IS NOT NULL AND student_lesson.endDate IS NOT NULL'
+      )
+      .getCount();
+    const totalLessons = course.lessons.length;
+
+    if (totalLessons === 0) {
+      return 0;
+    }
+    return (calculateProgress / totalLessons) * 100;
   }
 
   async includeAllCurserInAllClassroom(classroom: Classroom) {
