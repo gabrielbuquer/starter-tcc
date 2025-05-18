@@ -1,9 +1,12 @@
-import { Box } from '@monetix/shared/ui';
-import { Container, Wrapper } from './LoginScreen.styled';
-import { Register, SignIn } from '../../components';
 import { Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
+
+import { Box } from '@monetix/shared/ui';
 import { a11yProps } from '@monetix/shared/config';
+
+import { Register, SignIn } from '../../components';
+
+import { Container, Wrapper } from './LoginScreen.styled';
 
 const COMPONENT = 'login';
 
@@ -41,7 +44,12 @@ export const LoginScreen = () => {
     <Container>
       <Box>
         <Wrapper>
-          <Tabs value={value} onChange={handleChange} aria-label="Selecione para Entrar ou Registrar" centered>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Selecione para Entrar ou Registrar"
+            centered
+          >
             <Tab label="ENTRAR" {...a11yProps(COMPONENT, 'signin')} />
             <Tab label="REGISTRE-SE" {...a11yProps(COMPONENT, 'register')} />
           </Tabs>
@@ -54,5 +62,5 @@ export const LoginScreen = () => {
         </Wrapper>
       </Box>
     </Container>
-  )
-}
+  );
+};
