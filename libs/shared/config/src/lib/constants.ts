@@ -1,4 +1,7 @@
+export const LOCAL_STORAGE_USER = 'current-user';
+export const LOCAL_STORAGE_ACCESS_TOKEN = 'access-token';
+export const LOCAL_STORAGE_USER_NOTIFICATIONS = 'user-notifications';
+export const LOCAL_STORAGE_USER_INDICATORS = 'user-indicators';
+export const LOCAL_STORAGE_ID_TOKEN = 'id_token';
+
 export const UNAUTHORIZED_EXCEPTION_CODE = 401;
-export const FORBIDDEN_EXCEPTION_CODE = 403;
-export const NOT_FOUND_EXCEPTION_CODE = 404;
-export const INTERNAL_SERVER_ERROR_EXCEPTION_CODE = 500;

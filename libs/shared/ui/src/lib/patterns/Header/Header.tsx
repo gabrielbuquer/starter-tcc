@@ -1,13 +1,15 @@
+import { getBaseUrls } from '@monetix/shared/config';
+
 import { AccountMenu } from '../Menu/AccountMenu';
-import { MenuDesktop, DrawerMobile } from '../Menu';
+import { DrawerMobile, MenuDesktop } from '../Menu';
+import { DesktopView, MobileView } from '../../utils';
+
 import { Actions, HeaderWrapper } from './Header.styled';
 import { Logo } from './Logo';
-import { getBaseUrls } from '@monetix/shared/config';
-import { DesktopView, MobileView } from "../../utils";
 
 export type HeaderPropsType = {
   simpleHeader?: boolean;
-}
+};
 
 export const Header = ({ simpleHeader = false }: HeaderPropsType) => {
   const { HOME } = getBaseUrls();
@@ -32,7 +34,6 @@ export const Header = ({ simpleHeader = false }: HeaderPropsType) => {
           </Actions>
         </>
       )}
-
     </HeaderWrapper>
-  )
+  );
 };

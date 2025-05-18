@@ -1,13 +1,16 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { EMAIL_ATTRIBUTES, PASSWORD_ATTRIBUTES } from "./constants";
-import { Form } from "./SignIn.styled";
-import { PasswordInput } from "@monetix/shared/ui";
+import { signIn } from 'next-auth/react';
+
+import { PasswordInput } from '@monetix/shared/ui';
+
+import { EMAIL_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
+import { Form } from './SignIn.styled';
 
 type SignInFormData = {
   email: string;
   password: string;
-}
+};
 
 export const SignIn = () => {
   const methods = useForm<SignInFormData>({
@@ -23,7 +26,19 @@ export const SignIn = () => {
 
   const onSubmit = async (formData: SignInFormData) => {
     console.log(formData);
-  }
+    const res = await signIn('credentials', {
+      username: formData.email,
+      password: formData.password,
+      redirect: true,
+      callbackUrl: '/',
+    });
+
+    if (res?.ok) {
+      // redireciona para dashboard ou home
+    } else {
+      // mostra erro
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -57,5 +72,5 @@ export const SignIn = () => {
         Entrar
       </Button>
     </Form>
-  )
+  );
 };

@@ -1,11 +1,24 @@
-import { Box, Divider, IconButton, ListItemIcon, MenuItem, Tooltip, Typography } from "@mui/material";
-import { Person, Logout } from '@mui/icons-material';
-import { useState } from "react";
-import { Avatar } from "../../../components";
+import {
+  Box,
+  Divider,
+  IconButton,
+  ListItemIcon,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { Logout, Person } from '@mui/icons-material';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+
+import { generateAcronym } from '@monetix/shared/config';
+
+import { Avatar } from '../../../components';
 
 import { UserMenu, UserWrapper } from './AccountMenu.styled';
 
 export const AccountMenu = () => {
+  const { data } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -14,9 +27,17 @@ export const AccountMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', textAlign: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          textAlign: 'center',
+        }}
+      >
         <Tooltip title="Minha conta">
           <IconButton
             onClick={handleClick}
@@ -25,7 +46,7 @@ export const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar acronym="GB" />
+            <Avatar acronym={generateAcronym(data?.user?.name ?? '')} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -44,10 +65,10 @@ export const AccountMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <UserWrapper>
-          <Typography variant="h4">Olá, Gabriel!</Typography>
-          <Typography variant="body1">email@email.com</Typography>
+          <Typography variant="h4">Olá, {data?.user?.name}!</Typography>
+          <Typography variant="body1">{data?.user?.email}</Typography>
         </UserWrapper>
-        <Divider sx={{ mb: 1}}/>
+        <Divider sx={{ mb: 1 }} />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <Person fontSize="small" />
@@ -63,5 +84,5 @@ export const AccountMenu = () => {
         </MenuItem>
       </UserMenu>
     </>
-  )
+  );
 };

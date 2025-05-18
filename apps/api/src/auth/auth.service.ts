@@ -1,44 +1,48 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/create-user.dto';
+
 import { Student } from '../student/entities/student.entity';
+
+import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { IAuthResponseDTO } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
-  async signIn(
-    username: string,
-    pass: string
-  ): Promise<{ access_token: string; refresh_token: string }> {
+  async signIn(username: string, pass: string): Promise<IAuthResponseDTO> {
     const user = await this.findOneByEmail(username);
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }
     const payload = this.extractPayload(user);
 
-    const refresh_token = await this.jwtService.signAsync(
+    const refreshToken = await this.jwtService.signAsync(
       { sub: user.id, type: payload.type },
-      { expiresIn: '7d' }
+      { expiresIn: '7d' },
     );
     return {
-      access_token: await this.jwtService.signAsync(payload, {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      birthDate: user.birthDate,
+      classroom: user instanceof Student ? user.classroom.id : null,
+      type: payload.type,
+      accessToken: await this.jwtService.signAsync(payload, {
         expiresIn: '1h',
       }),
-      refresh_token,
+      refreshToken,
     };
   }
 
-  async refreshToken(
-    refresh_token: string
-  ): Promise<{ access_token: string; refresh_token: string }> {
-    const payload = await this.jwtService.verifyAsync(refresh_token);
+  async refreshToken(refreshToken: string): Promise<IAuthResponseDTO> {
+    const payload = await this.jwtService.verifyAsync(refreshToken);
     if (!payload) {
       throw new UnauthorizedException();
     }
@@ -48,14 +52,19 @@ export class AuthService {
     }
     const newPayload = this.extractPayload(user);
     return {
-      access_token: await this.jwtService.signAsync(newPayload),
-      refresh_token,
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      birthDate: user.birthDate,
+      classroom: user instanceof Student ? user.classroom.id : null,
+      type: payload.type,
+      accessToken: await this.jwtService.signAsync(newPayload),
+      refreshToken,
     };
   }
 
   extractPayload(user: User) {
     let newPayload;
-    console.log(user)
     if (user instanceof Student) {
       const student = user as Student;
       newPayload = {

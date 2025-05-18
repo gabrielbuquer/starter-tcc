@@ -8,9 +8,10 @@ import { NestFactory } from '@nestjs/core';
 import { NextFunction, Request, Response } from 'express';
 import Next from 'next';
 import { workspaceRoot } from '@nx/devkit';
-import { AppModule } from './app.module';
 import { join } from 'path';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
