@@ -35,7 +35,7 @@ export type TransactionFormProps = {
   open: boolean;
   formType: 'expense' | 'income';
   isEditing?: boolean;
-  defaultValues?: TransactionFormData | object;
+  defaultValues?: TransactionFormData;
   onClose?: () => void;
 };
 

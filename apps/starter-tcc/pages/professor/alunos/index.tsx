@@ -10,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
-        hasQuickMenu: true,
       },
     };
   } catch (err) {

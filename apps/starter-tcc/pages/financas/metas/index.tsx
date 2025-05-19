@@ -1,5 +1,6 @@
-import { GoalsScreen } from '@monetix/feature/finances';
 import { GetServerSideProps } from 'next';
+
+import { FinanceLayout, GoalsScreen } from '@monetix/feature/finances';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -9,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
-        hasQuickMenu: true,
       },
     };
   } catch (err) {
@@ -20,9 +20,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const GoalsSummaryPage = () => {
-  return (
-    <GoalsScreen />
-  )
-}
+  return <GoalsScreen />;
+};
+
+GoalsSummaryPage.getLayout = (page: React.ReactNode) => {
+  return <FinanceLayout>{page}</FinanceLayout>;
+};
 
 export default GoalsSummaryPage;

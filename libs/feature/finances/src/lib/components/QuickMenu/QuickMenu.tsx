@@ -7,8 +7,11 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
+import { useTransactionForm } from '../../contexts/FinanceContext';
+
 export const QuickMenu = () => {
   const { push } = useRouter();
+  const { openForm } = useTransactionForm();
 
   const actions = [
     {
@@ -24,12 +27,12 @@ export const QuickMenu = () => {
     {
       icon: <ArrowDownwardOutlined color="error" />,
       name: 'Adicionar despesa',
-      onClick: () => push('/financas/despesas'),
+      onClick: () => openForm('expense'),
     },
     {
       icon: <ArrowUpwardOutlined color="success" />,
       name: 'Adicionar receita',
-      onClick: () => push('/financas/receitas'),
+      onClick: () => openForm('income'),
     },
   ];
 

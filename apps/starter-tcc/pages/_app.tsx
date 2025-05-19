@@ -1,18 +1,19 @@
+import './global.css';
+import dynamic from 'next/dynamic';
 
-import "./global.css";
-import type { AppProps } from "next/app";
-import dynamic from "next/dynamic";
 import type { NextPageWithLayout } from '@monetix/shared/config';
-import type { MonetixProviderPropsType } from "@monetix/shared/ui";
+import type { MonetixProviderPropsType } from '@monetix/shared/ui';
+
+import type { AppProps } from 'next/app';
 
 const MonetixProvider = dynamic(
-  () => import('@monetix/shared/ui').then(({ MonetixProvider }) => MonetixProvider),
+  () =>
+    import('@monetix/shared/ui').then(({ MonetixProvider }) => MonetixProvider),
   { ssr: true },
 );
 
 const MainLayout = dynamic(
-  () =>
-    import('@monetix/shared/ui').then(({ MainLayout }) => MainLayout),
+  () => import('@monetix/shared/ui').then(({ MainLayout }) => MainLayout),
   { ssr: true },
 );
 
@@ -24,7 +25,10 @@ type MyAppPropsWithLayout = AppProps & {
   menu: string[];
 };
 
-export default function CustomApp({ Component, pageProps }: MyAppPropsWithLayout) {
+export default function CustomApp({
+  Component,
+  pageProps,
+}: MyAppPropsWithLayout) {
   const mainLayoutProps = Component.mainLayoutProps;
 
   const getLayout =
@@ -36,7 +40,6 @@ export default function CustomApp({ Component, pageProps }: MyAppPropsWithLayout
         centeredContent={pageProps.centeredContent}
         hasMargin={pageProps.hasMargin}
         hasContainer={pageProps.hasContainer}
-        hasQuickMenu={pageProps.hasQuickMenu}
         simpleHeader={pageProps.simpleHeader}
       >
         {page}

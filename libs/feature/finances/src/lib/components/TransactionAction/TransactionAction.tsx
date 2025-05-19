@@ -1,26 +1,34 @@
-import { useState } from "react";
-import IconButton from "@mui/material/IconButton";
-import Edit from "@mui/icons-material/Edit";
-import Delete from "@mui/icons-material/Delete";
-import { Container } from "./TransactionAction.styled";
-import { ConfirmationDialog } from "@monetix/shared/ui";
-import { TransactionForm } from "../TransactionForm";
+import { useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import Edit from '@mui/icons-material/Edit';
+import Delete from '@mui/icons-material/Delete';
+
+import { ConfirmationDialog } from '@monetix/shared/ui';
+
+import { useTransactionForm } from '../../contexts/FinanceContext';
+
+import { Container } from './TransactionAction.styled';
 
 export const TransactionAction = () => {
-  const [editTransaction, setEditTransaction] = useState(false);
+  const { openForm } = useTransactionForm();
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = () => {
-    setEditTransaction(true);
+    openForm('expense', {
+      description: 'teste',
+      value: 20,
+      date: '10/10/2023',
+      category: '',
+    });
   };
   const handleDelete = async () => {
-    console.log("Delete action triggered");
+    console.log('Delete action triggered');
     setIsLoading(true);
 
     // Simulate an API call
     setTimeout(() => {
-      console.log("Transaction deleted");
+      console.log('Transaction deleted');
       setDeleteConfirmation(false);
       setIsLoading(false);
     }, 2000);
@@ -36,18 +44,6 @@ export const TransactionAction = () => {
           <Delete />
         </IconButton>
       </Container>
-      <TransactionForm
-        open={editTransaction}
-        isEditing
-        formType="expense"
-        defaultValues={{
-          description: "teste",
-          value: 20,
-          date: '10/10/2023',
-          category: "",
-        }}
-        onClose={() => setEditTransaction(false)}
-      />
       <ConfirmationDialog
         title="Excluir transação"
         text="Tem certeza que deseja remover a sua transação?"
@@ -58,4 +54,4 @@ export const TransactionAction = () => {
       />
     </>
   );
-}
+};

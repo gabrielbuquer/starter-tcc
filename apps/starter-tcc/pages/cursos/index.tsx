@@ -1,5 +1,6 @@
-import { ListCoursesScreen } from '@monetix/feature/courses';
 import { GetServerSideProps } from 'next';
+
+import { ListCoursesScreen } from '@monetix/feature/courses';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -9,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
-        hasQuickMenu: true,
       },
     };
   } catch (err) {
@@ -20,9 +20,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const ListCoursesPage = () => {
-  return (
-    <ListCoursesScreen />
-  )
-}
+  return <ListCoursesScreen />;
+};
 
 export default ListCoursesPage;
