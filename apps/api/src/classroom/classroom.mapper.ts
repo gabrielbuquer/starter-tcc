@@ -17,7 +17,7 @@ export class ClassroomMapper {
       description: e.course.description,
       enabled: e.enabled,
       startDate: e.startDate,
-      progress,
+      progress: progress,
       endDate: null,
     };
   }

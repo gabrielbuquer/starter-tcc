@@ -14,6 +14,7 @@ import { Course } from './course/entities/course.entity';
 import { Lesson } from './course/entities/lesson.entity';
 import { ClassroomCourser } from './classroom/entities/classroom-course';
 import { StudentLesson } from './student/entities/student-lesson';
+import { Registration } from './student/entities/registration.entity';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { StudentLesson } from './student/entities/student-lesson';
         Lesson,
         ClassroomCourser,
         StudentLesson,
+        Registration,
       ],
       database: 'monetix',
       synchronize: true,

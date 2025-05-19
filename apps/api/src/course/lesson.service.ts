@@ -13,6 +13,7 @@ export class LessonService {
   async findOne(id: string): Promise<Lesson | null> {
     const lesson = await this.repository.findOne({
       where: { id },
+      relations: ['course'],
     });
     if (!lesson) throw new NotFoundException('Lesson not found');
     return lesson;

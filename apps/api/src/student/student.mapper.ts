@@ -3,6 +3,11 @@ import { Classroom } from '../classroom/entities/classroom.entity';
 import { CreateStudentDto } from './dto/student.create';
 import { Student } from './entities/student.entity';
 import { IStudentResponseDTO } from './dto/student.response';
+import { Course } from '../course/entities/course.entity';
+import { StudentLesson } from './entities/student-lesson';
+import { describe } from 'node:test';
+import { Registration } from './entities/registration.entity';
+import { ICourseResponseDTO } from './dto/student.courser.dto';
 
 export class StudentMapper {
   static toEntity(dto: CreateStudentDto, classRoom: Classroom): Student {
@@ -15,12 +20,36 @@ export class StudentMapper {
     return student;
   }
 
-  static createRestaurantResponse(student: Student): IStudentResponseDTO {
+  static createStudentResponse(student: Student): IStudentResponseDTO {
     return {
       id: student.id,
       name: student.name,
       email: student.email,
       birthDate: student.birthDate,
+    };
+  }
+
+  static createRegistrationResponse(
+    registration: Registration
+  ): ICourseResponseDTO {
+    console.log('registration', registration);
+    return {
+      id: registration.course.id,
+      name: registration.course.name,
+      description: registration.course.description,
+      startDate: registration.startDate,
+      endDate: registration.endDate,
+      progress: registration.progress,
+      lessons: registration.course.lessons.map((lesson) => ({
+        id: lesson.id,
+        name: lesson.name,
+        startDate: registration.lessons.find((l) => l.lesson.id === lesson.id)
+          ?.startDate,
+        endDate: registration.lessons.find((l) => l.lesson.id === lesson.id)
+          ?.endDate,
+        url: lesson.url,
+        type: lesson.type.toString(),
+      })),
     };
   }
 }

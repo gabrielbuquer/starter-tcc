@@ -11,7 +11,6 @@ import { Course } from './entities/course.entity';
 import { Repository } from 'typeorm';
 import { ClassroomService } from '../classroom/classroom.service';
 import { ICourseResponseDTO } from './dto/courser.dto';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { ClassroomCourser } from '../classroom/entities/classroom-course';
 import { ClassroomMapper } from '../classroom/classroom.mapper';
 
@@ -32,21 +31,22 @@ export class CourseService {
     await this.classroomService.includeCourserInAllClassroom(course);
   }
 
-  async findOne(id: string, classroom: string): Promise<ICourseResponseDTO> {
+  async findOne(id: string, classroom: string): Promise<ClassroomCourser> {
+    console.log('findOne', id, classroom);
     const classroomCourse = await this.classroomCourseRepository.findOne({
       where: {
         course: { id },
         classroom: { id: classroom },
-        enabled: true, // opcional, se quiser garantir que esteja ativa
+        enabled: true,
       },
       relations: ['course'],
     });
-
+    console.log('classroomCourse', classroomCourse);
     if (!classroomCourse) {
       throw new NotFoundException(`Course not found for this classroom`);
     }
 
-    return ClassroomMapper.toResponse(classroomCourse, 0); //TODO: ;
+    return classroomCourse;
   }
 
   async findAll(classroom: string): Promise<ICourseResponseDTO[]> {

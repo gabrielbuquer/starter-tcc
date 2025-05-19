@@ -13,6 +13,8 @@ import { StudentService } from '../student/student.service';
 import { ClassroomService } from './classroom.service';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
+import { Classroom } from './entities/classroom.entity';
+import { ICourseClassroomDTO } from './dto/classroom.dto';
 
 @Controller('/api/class-room')
 export class ClassroomController {
@@ -26,6 +28,12 @@ export class ClassroomController {
   @ApiBody({ type: CreateClassroomDto })
   async create(@Body() createClassroomDto: CreateClassroomDto) {
     return await this.classroomService.create(createClassroomDto);
+  }
+
+  @Get()
+  @RequireUserType('teacher')
+  async listAll(): Promise<ICourseClassroomDTO[]> {
+    return await this.classroomService.listAll();
   }
 
   @Post('/:id/students')
