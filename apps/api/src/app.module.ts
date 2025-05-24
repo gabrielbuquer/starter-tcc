@@ -15,6 +15,9 @@ import { Lesson } from './course/entities/lesson.entity';
 import { ClassroomCourser } from './classroom/entities/classroom-course';
 import { StudentLesson } from './student/entities/student-lesson';
 import { Registration } from './student/entities/registration.entity';
+import { FinancesModule } from './finances/finances.module';
+import { CategoryExpense } from './finances/entities/category-expense.entity';
+import { CategoryIncome } from './finances/entities/category-income.entity copy';
 
 @Module({
   imports: [
@@ -33,6 +36,8 @@ import { Registration } from './student/entities/registration.entity';
         ClassroomCourser,
         StudentLesson,
         Registration,
+        CategoryExpense,
+        CategoryIncome,
       ],
       database: 'monetix',
       synchronize: true,
@@ -42,6 +47,7 @@ import { Registration } from './student/entities/registration.entity';
     StudentModule,
     ClassroomModule,
     CourseModule,
+    FinancesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
