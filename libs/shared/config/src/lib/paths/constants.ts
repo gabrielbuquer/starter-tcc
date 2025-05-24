@@ -1,6 +1,7 @@
 export const FINANCES_API_PATH = '/finances';
 export const USER_API_PATH = '/user';
-export const COURSE_API_PATH = '/course';
+export const COURSE_API_PATH = '/courses';
+export const CLASS_ROOM_API_PATH = '/class-room';
 
 export const PUBLIC_PATH = '/';
 export const PUBLIC_ASSETS_PATH = `${PUBLIC_PATH}assets`;

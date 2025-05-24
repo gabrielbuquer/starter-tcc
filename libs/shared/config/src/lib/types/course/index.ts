@@ -1,6 +1,26 @@
-export type StudentType = {
+export type CourseType = {
   id: string;
   name: string;
-  email: string;
-  'date-of_birth': boolean;
+  description: string;
+  enabled: boolean;
+  startDate: string;
+  endDate: string;
+  progress: number;
+  lessons: LessonType[];
 };
+
+export type BaseCourseType = Pick<CourseType, 'name' | 'description'> & {
+  lessons: BaseLessonType[];
+};
+
+export type LessonType = {
+  name: string;
+  type: 'pdf' | 'video' | 'form';
+  url: string;
+  id: string;
+  startDate: string;
+  endDate: string;
+  done: boolean;
+};
+
+export type BaseLessonType = Omit<LessonType, 'done' | 'startDate' | 'endDate'>;

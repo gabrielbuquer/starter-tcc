@@ -66,6 +66,7 @@ export class ClassroomController {
     @Query('page') page = 1,
     @Query('limit') limit = 10,
   ) {
+    console.log('listAllCourses');
     limit = limit > 100 ? 100 : limit;
     return await this.classroomService.listAllCourses(page, limit, id);
   }

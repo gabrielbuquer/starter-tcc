@@ -5,10 +5,10 @@ import { SessionProvider } from 'next-auth/react';
 
 import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
+import { SwrProvider, SwrProviderPropsType } from '../SwrProvider';
 
-export type MonetixProviderPropsType = {
+export type MonetixProviderPropsType = SwrProviderPropsType & {
   children: ReactNode;
-  disableGTM?: boolean;
 };
 
 const preconnectUrls = ['google.com'];
@@ -75,14 +75,19 @@ const theme = createTheme({
   },
 });
 
-export const MonetixProvider = ({ children }: MonetixProviderPropsType) => {
+export const MonetixProvider = ({
+  children,
+  swrFallback,
+}: MonetixProviderPropsType) => {
   return (
     <SessionProvider>
-      <Head>
-        <MetaTags />
-        <Preconnect urlsList={preconnectUrls} />
-      </Head>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <SwrProvider swrFallback={swrFallback}>
+        <Head>
+          <MetaTags />
+          <Preconnect urlsList={preconnectUrls} />
+        </Head>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </SwrProvider>
     </SessionProvider>
   );
 };

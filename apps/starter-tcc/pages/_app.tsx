@@ -49,7 +49,7 @@ export default function CustomApp({
   const componentLayout = getLayout(<Component {...pageProps} />);
 
   return (
-    <MonetixProvider>
+    <MonetixProvider swrFallback={pageProps.fallback}>
       {/* <Head>
         <title>CEFET-IN</title>
         <meta name="description" content="Sistema de gestão de presença para alunos do CEFET-RJ" />

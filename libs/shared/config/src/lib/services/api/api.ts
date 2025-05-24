@@ -6,9 +6,8 @@ import {
   corsRequestConfig,
   getClientHeaders,
   httpClient,
+  isClientSide,
 } from '@monetix/core-utils';
-
-export const baseURL = process.env.API_URL;
 
 export const api = httpClient(
   {
@@ -45,9 +44,11 @@ export const getHeaders = async (config: HttpClientRequestConfig) => {
 
 api.client.interceptors.request.use(
   async (config: HttpClientRequestConfig) => {
-    const headers = await getHeaders(config);
+    if (isClientSide()) {
+      const headers = await getHeaders(config);
 
-    config.headers = headers;
+      config.headers = headers;
+    }
 
     const newConfig = corsRequestConfig(config);
 

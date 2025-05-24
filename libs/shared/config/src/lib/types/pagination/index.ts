@@ -1,5 +1,7 @@
 export type PaginationType = {
-  currentPage: number;
-  totalPages: number;
   totalItems: number;
+  itemCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
 };
