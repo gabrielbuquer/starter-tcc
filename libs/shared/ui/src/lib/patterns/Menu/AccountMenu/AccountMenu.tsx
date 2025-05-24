@@ -10,7 +10,6 @@ import {
 import { Logout, Person } from '@mui/icons-material';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-import { get } from 'http';
 
 import { generateAcronym, getBaseUrls } from '@monetix/shared/config';
 
@@ -19,7 +18,7 @@ import { Avatar } from '../../../components';
 import { UserMenu, UserWrapper } from './AccountMenu.styled';
 
 export const AccountMenu = () => {
-  const { data } = useSession();
+  const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { LOGIN } = getBaseUrls();
@@ -48,7 +47,7 @@ export const AccountMenu = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar acronym={generateAcronym(data?.user?.name ?? '')} />
+            <Avatar acronym={generateAcronym(session?.user?.name ?? '')} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -67,8 +66,8 @@ export const AccountMenu = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <UserWrapper>
-          <Typography variant="h4">Olá, {data?.user?.name}!</Typography>
-          <Typography variant="body1">{data?.user?.email}</Typography>
+          <Typography variant="h4">Olá, {session?.user?.name}!</Typography>
+          <Typography variant="body1">{session?.user?.email}</Typography>
         </UserWrapper>
         <Divider sx={{ mb: 1 }} />
         <MenuItem onClick={handleClose}>

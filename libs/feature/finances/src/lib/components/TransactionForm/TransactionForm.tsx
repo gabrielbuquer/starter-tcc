@@ -11,8 +11,11 @@ import {
   TextField,
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSession } from 'next-auth/react';
 
 import { ActionDialog } from '@monetix/shared/ui';
+
+import { usePostTransaction } from '../../services/transactions';
 
 import { Actions } from './TransactionForm.styled';
 import {
@@ -46,7 +49,9 @@ export const TransactionForm = ({
   formType,
   onClose,
 }: TransactionFormProps) => {
+  const { data: session } = useSession();
   const { titleNew, titleEdit } = FORM_DATA[formType];
+  const { trigger: postTransaction } = usePostTransaction(session?.user?.id);
 
   const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
@@ -63,7 +68,19 @@ export const TransactionForm = ({
   } = methods;
 
   const onSubmit = async (formData: TransactionFormData) => {
-    console.log(formData);
+    if (isEditing) {
+      // Call the mutation to update the transaction
+    } else {
+      await postTransaction({
+        ...formData,
+        category: {
+          id: formData.category,
+          description: formData.category,
+        },
+        date: new Date(formData.date).toISOString(),
+        type: formType,
+      });
+    }
   };
 
   return (

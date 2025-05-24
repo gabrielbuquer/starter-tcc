@@ -1,0 +1,16 @@
+import * as PATHS from './constants';
+import { SharedCorePathsType } from './types';
+
+const PATHS_CONFIG = {
+  FINANCES_API: PATHS.FINANCES_API_PATH,
+  USER_API: PATHS.USER_API_PATH,
+  PUBLIC: {
+    ROOT: PATHS.PUBLIC_PATH,
+    ASSETS: {
+      ROOT: PATHS.PUBLIC_ASSETS_PATH,
+      IMAGES: PATHS.PUBLIC_IMAGES_PATH,
+    },
+  },
+};
+
+export const getPaths = (): SharedCorePathsType => PATHS_CONFIG;
