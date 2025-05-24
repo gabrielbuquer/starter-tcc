@@ -16,8 +16,7 @@ import { ClassroomCourser } from './classroom/entities/classroom-course';
 import { StudentLesson } from './student/entities/student-lesson';
 import { Registration } from './student/entities/registration.entity';
 import { FinancesModule } from './finances/finances.module';
-import { CategoryExpense } from './finances/entities/category-expense.entity';
-import { CategoryIncome } from './finances/entities/category-income.entity copy';
+import { Category } from './finances/entities/category.entity';
 
 @Module({
   imports: [
@@ -36,8 +35,7 @@ import { CategoryIncome } from './finances/entities/category-income.entity copy'
         ClassroomCourser,
         StudentLesson,
         Registration,
-        CategoryExpense,
-        CategoryIncome,
+        Category,
       ],
       database: 'monetix',
       synchronize: true,

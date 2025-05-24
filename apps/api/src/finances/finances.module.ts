@@ -2,15 +2,11 @@ import { Module } from '@nestjs/common';
 import { FinancesService } from './finances.service';
 import { FinancesController } from './finances.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoryExpense } from './entities/category-expense.entity';
-import { CategoryIncome } from './entities/category-income.entity copy';
 import { FinancesSeed } from './finances.seed';
+import { Category } from './entities/category.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([CategoryExpense]),
-    TypeOrmModule.forFeature([CategoryIncome]),
-  ],
+  imports: [TypeOrmModule.forFeature([Category])],
   controllers: [FinancesController],
   providers: [FinancesService, FinancesSeed],
 })

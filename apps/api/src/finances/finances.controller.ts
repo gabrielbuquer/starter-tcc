@@ -1,32 +1,36 @@
-import { Controller, Get } from '@nestjs/common';
-import { FinancesService } from './finances.service';
+import { Controller, Get, Param } from '@nestjs/common';
 import { FinancesMapper } from './finances.mapper';
+import { FinancesService } from './finances.service';
+import { ApiParam } from '@nestjs/swagger';
 
 @Controller('/api/finances')
 export class FinancesController {
   constructor(private readonly financesService: FinancesService) {}
 
-  @Get('/expenses/categories')
-  async getExpenseCategories() {
-    const categories = await this.financesService.getExpenseCategories();
+  @Get(':type/categories')
+  @ApiParam({
+    name: 'type',
+    enum: ['expense', 'income'],
+    description:
+      'Tipo de categoria: "expense" para despesas, "income" para receitas',
+  })
+  async getCategories(@Param('type') type: 'expense' | 'income') {
+    const categories = await this.financesService.getCategories(type);
     return FinancesMapper.mapCategories(categories);
   }
 
-  @Get('/expenses/categories/:id')
-  async getExpenseCategoryById(id: string) {
-    const category = await this.financesService.getExpenseCategoryById(id);
-    return FinancesMapper.mapCategory(category);
-  }
-
-  @Get('/income/categories')
-  async getIncomeCategories() {
-    const categories = await this.financesService.getIncomeCategories();
-    return FinancesMapper.mapCategories(categories);
-  }
-
-  @Get('/income/categories/:id')
-  async getIncomeCategoryById(id: string) {
-    const category = await this.financesService.getIncomeCategoryById(id);
+  @Get(':type/:id')
+  @ApiParam({
+    name: 'type',
+    enum: ['expense', 'income'],
+    description:
+      'Tipo de categoria: "expense" para despesas, "income" para receitas',
+  })
+  async getCategoryById(
+    @Param('type') type: 'expense' | 'income',
+    @Param('id') id: string
+  ) {
+    const category = await this.financesService.getCategoryById(id);
     return FinancesMapper.mapCategory(category);
   }
 }
