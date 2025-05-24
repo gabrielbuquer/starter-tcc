@@ -36,6 +36,17 @@ export class StudentService {
     );
   }
 
+  async findById(id: string): Promise<Student> {
+    const student = await this.studentyRepository
+      .createQueryBuilder('student')
+      .leftJoinAndSelect('student.classroom', 'classroom')
+      .where('student.id = :id', { id })
+      .andWhere('student.type = :type', { type: 'Student' })
+      .getOne();
+    if (!student) throw new NotFoundException('Student not found');
+    return student;
+  }
+
   async findByClassId(
     page: number,
     limit: number,
