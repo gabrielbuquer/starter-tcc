@@ -1,4 +1,4 @@
-export type SharedPathsKeyType = 'FINANCES_API' | 'USER_API';
+export type SharedPathsKeyType = 'FINANCES_API' | 'USER_API' | 'COURSE_API';
 
 type PublicPathsType = {
   PUBLIC: {

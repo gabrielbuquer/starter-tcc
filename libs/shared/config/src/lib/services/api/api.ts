@@ -1,4 +1,5 @@
 import { InternalAxiosRequestConfig } from 'axios';
+import { getSession } from 'next-auth/react';
 
 import {
   HttpClientRequestConfig,
@@ -7,13 +8,11 @@ import {
   httpClient,
 } from '@monetix/core-utils';
 
-// import { getSession } from '../auth';
-
 export const baseURL = process.env.API_URL;
 
 export const api = httpClient(
   {
-    baseUrl: baseURL,
+    baseUrl: 'http://localhost:3000/api',
   },
   {
     headers: {
@@ -29,25 +28,16 @@ export const api = httpClient(
 );
 
 export const getHeaders = async (config: HttpClientRequestConfig) => {
-  const headers = {
+  let headers = {
     ...config.headers,
   };
+  const session = await getSession();
 
-  // if (config.useAuthorization as boolean) {
-  //   const session = await getSession();
-  //   headers = {
-  //     ...headers,
-  //     Authorization: session?.access_token
-  //       ? `Bearer ${session.access_token}`
-  //       : '',
-  //     clientToken: session?.x_client_token || '',
-  //   };
-  // } else {
-  //   headers = {
-  //     ...headers,
-  //     Authorization: '',
-  //   };
-  // }
+  const token = session?.user?.accessToken;
+  headers = {
+    ...headers,
+    Authorization: token ? `Bearer ${token}` : '',
+  };
 
   return headers;
 };
@@ -55,6 +45,8 @@ export const getHeaders = async (config: HttpClientRequestConfig) => {
 api.client.interceptors.request.use(
   async (config: HttpClientRequestConfig) => {
     const headers = await getHeaders(config);
+
+    console.log(headers, 'headers');
 
     config.headers = headers;
 

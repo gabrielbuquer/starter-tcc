@@ -1,7 +1,7 @@
 export const FORM_DATA = {
   titleNew: 'Novo curso',
   titleEdit: 'Editar curso',
-}
+};
 
 export const NAME_ATTRIBUTES = {
   id: 'name',
@@ -42,6 +42,7 @@ export const LESSON_ATTRIBUTES = {
     INVALID: 'Informe uma descrição válida.',
     TOO_SHORT: 'A descrição deve ter no mínimo 2 caracteres.',
     TOO_LONG: 'A descrição deve ter no máximo 50 caracteres.',
+    INVALID_URL: 'Informe uma URL válida.',
     MIN_ITEMS: 'Informe pelo menos uma lição.',
   },
 };

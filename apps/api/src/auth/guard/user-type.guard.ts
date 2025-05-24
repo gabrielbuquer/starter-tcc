@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as jwt from 'jsonwebtoken';
+
 import { jwtConstants } from '../constants';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class UserTypeGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const requiredType = this.reflector.get<string>(
       'user_type',
-      context.getHandler()
+      context.getHandler(),
     );
 
     if (!requiredType) {
@@ -38,9 +39,11 @@ export class UserTypeGuard implements CanActivate {
       throw new UnauthorizedException('Invalid or expired token');
     }
 
+    console.log('Decoded token:', decoded);
+
     if (decoded.type !== requiredType) {
       throw new UnauthorizedException(
-        `Only users of type "${requiredType}" are allowed`
+        `Only users of type "${requiredType}" are allowed`,
       );
     }
 

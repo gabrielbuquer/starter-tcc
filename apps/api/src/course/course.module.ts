@@ -1,7 +1,9 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ClassroomModule } from '../classroom/classroom.module';
 import { ClassroomCourser } from '../classroom/entities/classroom-course';
+
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
 import { Course } from './entities/course.entity';

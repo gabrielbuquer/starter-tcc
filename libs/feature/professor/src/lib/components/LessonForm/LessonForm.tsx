@@ -13,10 +13,10 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 
-import { ActionDialog, SortableList } from '@monetix/shared/ui';
-import { LessonType } from '@monetix/shared/config';
+import { ActionDialog } from '@monetix/shared/ui';
+import { BaseLessonType } from '@monetix/shared/config';
 
-import { Actions, LessonsBox, LessonsHeader } from './LessonForm.styled';
+import { Actions } from './LessonForm.styled';
 import {
   DEFAULT_VALUES,
   NAME_ATTRIBUTES,
@@ -26,7 +26,7 @@ import {
 } from './constants';
 import { schema } from './LessonForm.schema';
 
-export type LessonFormData = Partial<LessonType>;
+export type LessonFormData = BaseLessonType;
 
 export type LessonFormProps = {
   open: boolean;
@@ -57,7 +57,6 @@ export const LessonForm = ({
   } = methods;
 
   useEffect(() => {
-    console.log(defaultValues, 'effect');
     reset(defaultValues ?? DEFAULT_VALUES);
   }, [defaultValues, reset]);
 

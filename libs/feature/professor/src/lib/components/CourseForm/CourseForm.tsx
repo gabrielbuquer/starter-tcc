@@ -4,9 +4,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 
 import { ActionDialog, SortableList } from '@monetix/shared/ui';
-import { LessonType } from '@monetix/shared/config';
+import {
+  BaseCourseType,
+  BaseLessonType,
+  LessonType,
+} from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
+import { usePostCourse } from '../../services/courses';
 
 import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
 import {
@@ -20,13 +25,13 @@ import { SortableLesson } from './components/SortableLesson';
 
 type ModalLessonState = {
   open: boolean;
-  lesson?: Partial<LessonType>;
+  lesson?: BaseLessonType;
 };
 
 type CourseFormData = {
   name: string;
   description: string;
-  lessons: Partial<LessonType>[];
+  lessons: BaseLessonType[];
 };
 
 export type CourseFormProps = {
@@ -48,6 +53,8 @@ export const CourseForm = ({
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
   });
+
+  const { trigger: postCourse } = usePostCourse();
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
@@ -82,6 +89,7 @@ export const CourseForm = ({
 
   const internalSubmit = async (formData: CourseFormData) => {
     console.log(formData, 'formData');
+    postCourse(formData);
     onClose?.();
   };
 
