@@ -7,7 +7,7 @@ import * as jwt from 'jsonwebtoken';
 
 import { jwtConstants } from '../constants';
 
-export const GetClassroom = createParamDecorator(
+export const GetSub = createParamDecorator(
   (_data: unknown, ctx: ExecutionContext): string => {
     const request = ctx.switchToHttp().getRequest();
     const authHeader = request.headers['authorization'];
@@ -25,6 +25,10 @@ export const GetClassroom = createParamDecorator(
       throw new UnauthorizedException('Invalid or expired token');
     }
 
-    return decoded.classroom;
+    if (!decoded.sub) {
+      throw new UnauthorizedException('Classroom not found in token');
+    }
+
+    return decoded.sub;
   },
 );

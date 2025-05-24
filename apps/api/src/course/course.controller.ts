@@ -1,19 +1,12 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Headers,
-  Param,
-  Post,
-} from '@nestjs/common';
-import { CourseService } from './course.service';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { Pagination } from 'nestjs-typeorm-paginate';
-import { ICourseResponseDTO } from './dto/courser.dto';
-import * as jwt from 'jsonwebtoken';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+
 import { GetClassroom } from '../auth/decorator/get-classroom';
+import { GetSub } from '../auth/decorator/get-sub';
 import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
+
+import { CourseService } from './course.service';
+import { ICourseResponseDTO } from './dto/courser.dto';
+import { CreateCourseDto } from './dto/create-course.dto';
 
 @Controller('/api/course')
 export class CourseController {
@@ -28,16 +21,8 @@ export class CourseController {
   @Get()
   @RequireUserType('student')
   async listAll(
-    @GetClassroom() classroom: string
+    @GetClassroom() classroom: string,
   ): Promise<ICourseResponseDTO[]> {
     return await this.courseService.findAll(classroom);
-  }
-
-  @Get('/:id')
-  async getOne(
-    @Param('id') id: string,
-    @GetClassroom() classroom: string
-  ): Promise<ICourseResponseDTO> {
-    return await this.courseService.findOne(id,classroom);
   }
 }

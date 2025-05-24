@@ -1,4 +1,4 @@
-import { Classroom } from '../classroom/entities/classroom.entity';
+import { Classroom } from './entities/classroom.entity';
 import { ICourseResponseDTO } from './dto/course-classroom.dto';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
 import { ClassroomCourser } from './entities/classroom-course';
@@ -17,7 +17,7 @@ export class ClassroomMapper {
       description: e.course.description,
       enabled: e.enabled,
       startDate: e.startDate,
-      progress,
+      progress: progress,
       endDate: null,
     };
   }

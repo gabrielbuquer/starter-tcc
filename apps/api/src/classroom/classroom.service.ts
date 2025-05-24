@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
@@ -10,14 +12,15 @@ import { DataSource, Repository } from 'typeorm';
 import { Course } from '../course/entities/course.entity';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { IStudentResponseDTO } from '../student/dto/student.response';
+import { RegistrationService } from '../student/registration.service';
 import { StudentService } from '../student/student.service';
 import { StudentLesson } from '../student/entities/student-lesson';
 
 import { ClassroomMapper } from './classroom.mapper';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
-import { Classroom } from './entities/classroom.entity';
-import { ClassroomCourser } from './entities/classroom-course';
 import { ICourseResponseDTO } from './dto/course-classroom.dto';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { ClassroomCourser } from './entities/classroom-course';
+import { Classroom } from './entities/classroom.entity';
 
 const IS_DEFAULT_ENABLED_COURSER = false;
 
@@ -28,8 +31,11 @@ export class ClassroomService {
     private readonly repository: Repository<Classroom>,
     @InjectRepository(ClassroomCourser)
     private readonly classroomCourseRepository: Repository<ClassroomCourser>,
-    private readonly dataSource: DataSource,
+    @Inject(forwardRef(() => StudentService))
     private readonly studentService: StudentService,
+    @Inject(forwardRef(() => RegistrationService))
+    private readonly registrationService: RegistrationService,
+    private readonly dataSource: DataSource,
   ) {}
 
   async create(createClassroomDto: CreateClassroomDto): Promise<Classroom> {
@@ -38,6 +44,10 @@ export class ClassroomService {
     );
     await this.includeAllCurserInAllClassroom(classroom);
     return classroom;
+  }
+
+  async listAll(): Promise<Classroom[]> {
+    return await this.repository.find({});
   }
 
   async createStudenty(id: string, createStudent: CreateStudentDto) {
@@ -90,6 +100,7 @@ export class ClassroomService {
       .createQueryBuilder('classroom_course')
       .leftJoinAndSelect('classroom_course.course', 'course')
       .leftJoinAndSelect('classroom_course.classroom', 'classroom')
+      .leftJoinAndSelect('classroom.students', 'students')
       .leftJoinAndSelect('course.lessons', 'lessons')
       .where('classroom_course.classroom = :classroomId', { classroomId: id });
 
@@ -100,7 +111,11 @@ export class ClassroomService {
 
     const dtos: ICourseResponseDTO[] = await Promise.all(
       pagination.items.map(async (c) => {
-        const progress = await this.calculateProgress(c.classroom, c.course);
+        const progress =
+          await this.registrationService.getStudentProgressOfClass(
+            c.classroom,
+            c.course,
+          );
         return ClassroomMapper.toResponse(c, progress);
       }),
     );
@@ -109,34 +124,6 @@ export class ClassroomService {
       pagination.meta,
       pagination.links,
     );
-  }
-
-  async calculateProgress(
-    classroom: Classroom,
-    course: Course,
-  ): Promise<number> {
-    console.log('classromm', classroom);
-    console.log('course', course);
-
-    const calculateProgress = await this.dataSource
-      .getRepository(StudentLesson)
-      .createQueryBuilder('student_lesson')
-      .leftJoinAndSelect('student_lesson.student', 'student')
-      .leftJoinAndSelect('student_lesson.lesson', 'lesson')
-      .where('student.classroom = :classroomId', {
-        classroomId: classroom.id,
-      })
-      .andWhere('lesson.course = :courseId', { courseId: course.id })
-      .andWhere(
-        'student_lesson.startDate IS NOT NULL AND student_lesson.endDate IS NOT NULL',
-      )
-      .getCount();
-    const totalLessons = course.lessons.length;
-
-    if (totalLessons === 0) {
-      return 0;
-    }
-    return (calculateProgress / totalLessons) * 100;
   }
 
   async includeAllCurserInAllClassroom(classroom: Classroom) {

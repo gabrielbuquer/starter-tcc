@@ -8,17 +8,21 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
+
 import { CreateStudentDto } from '../student/dto/student.create';
 import { StudentService } from '../student/student.service';
+import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
+
 import { ClassroomService } from './classroom.service';
 import { CreateClassroomDto } from './dto/create-classroom.dto';
-import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
+import { Classroom } from './entities/classroom.entity';
+import { ICourseClassroomDTO } from './dto/classroom.dto';
 
 @Controller('/api/class-room')
 export class ClassroomController {
   constructor(
     private readonly classroomService: ClassroomService,
-    private readonly studentService: StudentService
+    private readonly studentService: StudentService,
   ) {}
 
   @Post()
@@ -28,11 +32,17 @@ export class ClassroomController {
     return await this.classroomService.create(createClassroomDto);
   }
 
+  @Get()
+  @RequireUserType('teacher')
+  async listAll(): Promise<ICourseClassroomDTO[]> {
+    return await this.classroomService.listAll();
+  }
+
   @Post('/:id/students')
   @ApiBody({ type: CreateStudentDto })
   async createAStudenty(
     @Param('id') id: string,
-    @Body() createStudentDto: CreateStudentDto
+    @Body() createStudentDto: CreateStudentDto,
   ) {
     await this.classroomService.createStudenty(id, createStudentDto);
     return new Response('Ok');
@@ -43,7 +53,7 @@ export class ClassroomController {
   async listAllStudents(
     @Param('id') id: string,
     @Query('page') page = 1,
-    @Query('limit') limit = 10
+    @Query('limit') limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
     return await this.classroomService.listAllStudent(page, limit, id);
@@ -54,7 +64,7 @@ export class ClassroomController {
   async listAllCourses(
     @Param('id') id: string,
     @Query('page') page = 1,
-    @Query('limit') limit = 10
+    @Query('limit') limit = 10,
   ) {
     limit = limit > 100 ? 100 : limit;
     return await this.classroomService.listAllCourses(page, limit, id);
@@ -64,7 +74,7 @@ export class ClassroomController {
   @Patch('/:id/courses/:idCourse/enable')
   async enabledCourse(
     @Param('id') id: string,
-    @Param('idCourse') idCourse: string
+    @Param('idCourse') idCourse: string,
   ) {
     await this.classroomService.enabledCourser(id, idCourse);
   }
