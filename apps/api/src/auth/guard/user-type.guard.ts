@@ -39,8 +39,6 @@ export class UserTypeGuard implements CanActivate {
       throw new UnauthorizedException('Invalid or expired token');
     }
 
-    console.log('Decoded token:', decoded);
-
     if (decoded.type !== requiredType) {
       throw new UnauthorizedException(
         `Only users of type "${requiredType}" are allowed`,

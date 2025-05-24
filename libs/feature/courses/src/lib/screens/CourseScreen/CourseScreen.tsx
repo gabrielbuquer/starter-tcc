@@ -1,9 +1,9 @@
-import { Container, MainGrid } from './CourseScreen.styled';
 import { StepList } from '../../components/StepList';
 import { MOCK_LESSONS } from '../../components/StepList/StepList.mock';
 import { Content } from '../../components/Content';
 import { CourseContextProvider } from '../../contexts/CourseContext';
 
+import { Container, MainGrid } from './CourseScreen.styled';
 
 export const CourseScreen = () => {
   return (
@@ -15,6 +15,5 @@ export const CourseScreen = () => {
         </MainGrid>
       </Container>
     </CourseContextProvider>
-
-  )
-}
+  );
+};

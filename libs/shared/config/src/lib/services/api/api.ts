@@ -34,6 +34,7 @@ export const getHeaders = async (config: HttpClientRequestConfig) => {
   const session = await getSession();
 
   const token = session?.user?.accessToken;
+
   headers = {
     ...headers,
     Authorization: token ? `Bearer ${token}` : '',
@@ -45,8 +46,6 @@ export const getHeaders = async (config: HttpClientRequestConfig) => {
 api.client.interceptors.request.use(
   async (config: HttpClientRequestConfig) => {
     const headers = await getHeaders(config);
-
-    console.log(headers, 'headers');
 
     config.headers = headers;
 
