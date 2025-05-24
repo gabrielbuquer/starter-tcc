@@ -1,4 +1,4 @@
-import { css, styled } from '@mui/material';
+import { Box, css, styled } from '@mui/material';
 
 export const HeaderWrapper = styled('header')`
   ${({ theme }) => css`
@@ -25,7 +25,15 @@ export const Actions = styled('div')`
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: ${theme.spacing(.5)}
+    gap: ${theme.spacing(0.5)};
   `};
 `;
 
+export const MobileNav = styled('div')`
+  ${({ theme }) => css`
+    position: fixed;
+    bottom: ${theme.spacing(0)};
+    left: ${theme.spacing(0)};
+    width: 100%;
+  `};
+`;

@@ -9,6 +9,6 @@ export class Course {
   name: string;
   @Column({ type: 'varchar', length: 255 })
   description: string;
-  @OneToMany(() => Lesson, (l) => l.courser, { cascade: true })
+  @OneToMany(() => Lesson, (l) => l.course, { cascade: true })
   lessons: Lesson[];
 }

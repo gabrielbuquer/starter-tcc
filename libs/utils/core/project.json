@@ -1,0 +1,33 @@
+{
+  "name": "utils-core",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/utils/core/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/utils/core/",
+        "main": "utils/core/src/index.ts",
+        "tsConfig": "utils/core/tsconfig.lib.json",
+        "assets": ["utils/core/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/utils/core/tsconfig.json"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:util"]
+}

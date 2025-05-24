@@ -5,11 +5,13 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+
 import { Lesson } from '../../course/entities/lesson.entity';
-import { Student } from './student.entity';
+
+import { Registration } from './registration.entity';
 
 @Entity()
-@Unique(['lesson', 'student'])
+@Unique(['lesson', 'registration'])
 export class StudentLesson {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -17,8 +19,8 @@ export class StudentLesson {
   @ManyToOne(() => Lesson)
   lesson: Lesson;
 
-  @ManyToOne(() => Student)
-  student: Student;
+  @ManyToOne(() => Registration)
+  registration: Registration;
 
   @Column({ type: 'date', name: 'startDate', nullable: true })
   startDate: Date;

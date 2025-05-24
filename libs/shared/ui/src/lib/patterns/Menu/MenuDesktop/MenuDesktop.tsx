@@ -1,14 +1,20 @@
-import { MenuItem } from "./MenuItem";
-import { NavigationList, NavigationRoot } from "./MenuDesktop.styled";
+import { useSession } from 'next-auth/react';
 
-import { MENU_LINKS } from "../constants";
+import { getMenuLinks } from '../constants';
+
+import { MenuItem } from './MenuItem';
+import { NavigationList, NavigationRoot } from './MenuDesktop.styled';
 
 export const MenuDesktop = () => {
+  const { data } = useSession();
+  const menu = getMenuLinks(data?.user?.type);
   return (
     <NavigationRoot>
       <NavigationList>
-        {MENU_LINKS.map((item) => <MenuItem key={item.title} {...item} />)}
+        {menu.map((item) => (
+          <MenuItem key={item.title} {...item} />
+        ))}
       </NavigationList>
     </NavigationRoot>
   );
-}
+};

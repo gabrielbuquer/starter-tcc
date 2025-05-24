@@ -1,5 +1,6 @@
-import { LoginScreen } from '@monetix/feature/login';
 import { GetServerSideProps } from 'next';
+
+import { LoginScreen } from '@monetix/feature/login';
 
 export const getServerSideProps: GetServerSideProps = async ({
   res,
@@ -25,9 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const LoginPage = () => {
-  return (
-    <LoginScreen />
-  )
-}
+  return <LoginScreen />;
+};
 
 export default LoginPage;

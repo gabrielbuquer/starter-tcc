@@ -1,5 +1,6 @@
 import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
+
 import { QuickMenu } from './QuickMenu';
 
 export default {
@@ -9,7 +10,7 @@ export default {
     layout: 'fullscreen',
     nextjs: {
       appDirectory: true,
-    }
+    },
   },
 } as Meta<typeof QuickMenu>;
 

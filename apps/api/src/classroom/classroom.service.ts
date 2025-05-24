@@ -1,22 +1,28 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   NotFoundException,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { DataSource, Repository } from 'typeorm';
+
 import { Course } from '../course/entities/course.entity';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { IStudentResponseDTO } from '../student/dto/student.response';
+import { RegistrationService } from '../student/registration.service';
 import { StudentService } from '../student/student.service';
-import { ClassroomMapper } from './classroom.mapper';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
-import { Classroom } from './entities/classroom.entity';
-import { ClassroomCourser } from './entities/classroom-course';
-import { ICourseResponseDTO } from './dto/course-classroom.dto';
+import { StudentLesson } from '../student/entities/student-lesson';
 
-const DEFAULT_ENABLED_COURSER = false;
+import { ClassroomMapper } from './classroom.mapper';
+import { ICourseResponseDTO } from './dto/course-classroom.dto';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
+import { ClassroomCourser } from './entities/classroom-course';
+import { Classroom } from './entities/classroom.entity';
+
+const IS_DEFAULT_ENABLED_COURSER = false;
 
 @Injectable()
 export class ClassroomService {
@@ -25,16 +31,23 @@ export class ClassroomService {
     private readonly repository: Repository<Classroom>,
     @InjectRepository(ClassroomCourser)
     private readonly classroomCourseRepository: Repository<ClassroomCourser>,
+    @Inject(forwardRef(() => StudentService))
+    private readonly studentService: StudentService,
+    @Inject(forwardRef(() => RegistrationService))
+    private readonly registrationService: RegistrationService,
     private readonly dataSource: DataSource,
-    private readonly studentService: StudentService
   ) {}
 
   async create(createClassroomDto: CreateClassroomDto): Promise<Classroom> {
     const classroom = await this.repository.save(
-      ClassroomMapper.toEntity(createClassroomDto)
+      ClassroomMapper.toEntity(createClassroomDto),
     );
     await this.includeAllCurserInAllClassroom(classroom);
     return classroom;
+  }
+
+  async listAll(): Promise<Classroom[]> {
+    return await this.repository.find({});
   }
 
   async createStudenty(id: string, createStudent: CreateStudentDto) {
@@ -52,7 +65,7 @@ export class ClassroomService {
   async listAllStudent(
     page: number,
     limit: number,
-    id: string
+    id: string,
   ): Promise<Pagination<IStudentResponseDTO>> {
     return await this.studentService.findByClassId(page, limit, id);
   }
@@ -68,7 +81,7 @@ export class ClassroomService {
 
     if (!record) {
       throw new NotFoundException(
-        `ClassroomCourser not found for classroom ${classroomId} and course ${courseId}`
+        `ClassroomCourser not found for classroom ${classroomId} and course ${courseId}`,
       );
     }
 
@@ -81,11 +94,14 @@ export class ClassroomService {
   async listAllCourses(
     page: number,
     limit: number,
-    id: string
+    id: string,
   ): Promise<Pagination<ICourseResponseDTO>> {
     const queryBuilder = this.classroomCourseRepository
       .createQueryBuilder('classroom_course')
       .leftJoinAndSelect('classroom_course.course', 'course')
+      .leftJoinAndSelect('classroom_course.classroom', 'classroom')
+      .leftJoinAndSelect('classroom.students', 'students')
+      .leftJoinAndSelect('course.lessons', 'lessons')
       .where('classroom_course.classroom = :classroomId', { classroomId: id });
 
     const pagination = await paginate<ClassroomCourser>(queryBuilder, {
@@ -93,10 +109,20 @@ export class ClassroomService {
       limit,
     });
 
+    const dtos: ICourseResponseDTO[] = await Promise.all(
+      pagination.items.map(async (c) => {
+        const progress =
+          await this.registrationService.getStudentProgressOfClass(
+            c.classroom,
+            c.course,
+          );
+        return ClassroomMapper.toResponse(c, progress);
+      }),
+    );
     return new Pagination<ICourseResponseDTO>(
-      pagination.items.map(ClassroomMapper.toResponse),
+      dtos,
       pagination.meta,
-      pagination.links
+      pagination.links,
     );
   }
 
@@ -108,7 +134,7 @@ export class ClassroomService {
       .select([
         'course.id AS "courseId"',
         `'${classroom.id}' AS "classRoomId"`,
-        `${DEFAULT_ENABLED_COURSER} AS "enabled"`,
+        `${IS_DEFAULT_ENABLED_COURSER} AS "enabled"`,
       ])
       .from(Course, 'course')
       .getQueryAndParameters();
@@ -118,7 +144,7 @@ export class ClassroomService {
       INSERT INTO classroom_courser("courseId", "classroomId", "enabled")
       ${selectQuery}
       `,
-      params
+      params,
     );
   }
 
@@ -130,7 +156,7 @@ export class ClassroomService {
       .select([
         `'${course.id}' AS "courseId"`,
         'classroom.id AS "classRoomId"',
-        `${DEFAULT_ENABLED_COURSER} AS "enabled"`,
+        `${IS_DEFAULT_ENABLED_COURSER} AS "enabled"`,
       ])
       .from(Classroom, 'classroom')
       .getQueryAndParameters();
@@ -140,7 +166,7 @@ export class ClassroomService {
       INSERT INTO classroom_courser("courseId", "classroomId", "enabled")
       ${selectQuery}
       `,
-      params
+      params,
     );
   }
 }

@@ -23,13 +23,22 @@ export type CourseContextPropsProviderProps = {
 
 export const CourseContext = createContext({} as CourseContextProps);
 
-const CourseContextProvider = ({ children }: CourseContextPropsProviderProps) => {
+const CourseContextProvider = ({
+  children,
+}: CourseContextPropsProviderProps) => {
   const lessons = MOCK_LESSONS;
-  const [selectedLesson, setSelectedLesson] = useState<LessonType>(MOCK_LESSONS[0]);
+  const [selectedLesson, setSelectedLesson] = useState<LessonType>(
+    MOCK_LESSONS[0],
+  );
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const memoizedSetSelectedLesson = useCallback((lessonStep: number) => {
-    const stepToUpdate = lessonStep < 0 ? 0 : lessonStep >= lessons.length ? lessons.length - 1 : lessonStep;
+    const stepToUpdate =
+      lessonStep < 0
+        ? 0
+        : lessonStep >= lessons.length
+          ? lessons.length - 1
+          : lessonStep;
     const lesson = MOCK_LESSONS[stepToUpdate];
     setSelectedLesson(lesson);
     setCurrentStep(stepToUpdate);

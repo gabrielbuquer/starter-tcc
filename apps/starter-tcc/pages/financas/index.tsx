@@ -1,5 +1,6 @@
-import { SummaryScreen } from '@monetix/feature/finances';
 import { GetServerSideProps } from 'next';
+
+import { FinanceLayout, SummaryScreen } from '@monetix/feature/finances';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -9,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
-        hasQuickMenu: true,
       },
     };
   } catch (err) {
@@ -20,9 +20,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const FinanceSummaryPage = () => {
-  return (
-    <SummaryScreen />
-  )
-}
+  return <SummaryScreen />;
+};
+
+FinanceSummaryPage.getLayout = (page: React.ReactNode) => {
+  return <FinanceLayout>{page}</FinanceLayout>;
+};
 
 export default FinanceSummaryPage;

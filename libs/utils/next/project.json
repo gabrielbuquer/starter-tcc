@@ -1,0 +1,23 @@
+{
+  "name": "utils-next",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/utils/next/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "tsc": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --noEmit -p libs/utils/next/tsconfig.json"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:util"]
+}

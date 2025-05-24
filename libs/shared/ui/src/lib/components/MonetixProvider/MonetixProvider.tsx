@@ -1,18 +1,17 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { SessionProvider } from 'next-auth/react';
+
 import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
 
-
 export type MonetixProviderPropsType = {
-    children: ReactNode;
-    disableGTM?: boolean;
-  };
+  children: ReactNode;
+  disableGTM?: boolean;
+};
 
-const preconnectUrls = [
-  'google.com'
-];
+const preconnectUrls = ['google.com'];
 
 const theme = createTheme({
   typography: {
@@ -59,7 +58,7 @@ const theme = createTheme({
     caption: {
       fontSize: '14px',
       lineHeight: '16px',
-    }
+    },
   },
   palette: {
     text: {
@@ -72,22 +71,18 @@ const theme = createTheme({
     },
     background: {
       default: '#f2f4f8',
-    }
-  }
+    },
+  },
 });
 
-export const MonetixProvider = ({
-  children,
-}: MonetixProviderPropsType) => {
+export const MonetixProvider = ({ children }: MonetixProviderPropsType) => {
   return (
-    <>
+    <SessionProvider>
       <Head>
         <MetaTags />
         <Preconnect urlsList={preconnectUrls} />
       </Head>
-      <ThemeProvider theme={theme}>
-        {children}
-      </ThemeProvider>
-    </>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </SessionProvider>
   );
 };

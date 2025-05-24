@@ -1,5 +1,6 @@
-import { ClassManagementScreen } from '@monetix/feature/professor';
 import { GetServerSideProps } from 'next';
+
+import { ClassManagementScreen } from '@monetix/feature/professor';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -9,7 +10,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
-        hasQuickMenu: true,
       },
     };
   } catch (err) {
@@ -20,9 +20,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const ClassManagementPage = () => {
-  return (
-    <ClassManagementScreen />
-  )
-}
+  return <ClassManagementScreen />;
+};
 
 export default ClassManagementPage;

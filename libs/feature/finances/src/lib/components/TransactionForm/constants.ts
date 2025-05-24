@@ -6,8 +6,8 @@ export const FORM_DATA = {
   expense: {
     titleNew: 'Nova despesa',
     titleEdit: 'Editar despesa',
-  }
-}
+  },
+};
 
 export const DIALOG_TITLE = 'Nova despesa';
 

@@ -5,7 +5,6 @@ export * from './Avatar';
 export * from './PageLayout';
 export * from './Box';
 export * from './PasswordInput';
-export * from './QuickMenu';
 export * from './ActionDialog';
 export * from './ConfirmationDialog';
 export * from './PieChart';
