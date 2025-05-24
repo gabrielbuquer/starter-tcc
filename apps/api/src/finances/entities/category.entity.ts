@@ -7,7 +7,7 @@ export class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @PrimaryColumn({ type: 'varchar', length: 30 })
+  @Column({ type: 'varchar', length: 30 })
   description: string;
 
   @Column({ type: 'enum', enum: ['income', 'expense'] })

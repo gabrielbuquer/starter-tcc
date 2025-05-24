@@ -1,7 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { FinancesMapper } from './finances.mapper';
 import { FinancesService } from './finances.service';
-import { ApiParam } from '@nestjs/swagger';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { GetSub } from '../auth/decorator/get-sub';
+import { Response } from 'express';
 
 @Controller('/api/finances')
 export class FinancesController {
@@ -17,6 +28,18 @@ export class FinancesController {
   async getCategories(@Param('type') type: 'expense' | 'income') {
     const categories = await this.financesService.getCategories(type);
     return FinancesMapper.mapCategories(categories);
+  }
+
+  @Post()
+  @ApiParam({ name: 'id', description: 'ID do usuário' })
+  @ApiBody({ type: CreateTransactionDto })
+  async createTransaction(
+    @Res() res: Response,
+    @GetSub() userId: string,
+    @Body() body: CreateTransactionDto
+  ) {
+    await this.financesService.createTransaction(userId, body);
+    res.status(HttpStatus.CREATED).send();
   }
 
   @Get(':type/:id')

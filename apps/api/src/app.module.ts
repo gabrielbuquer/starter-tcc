@@ -17,6 +17,7 @@ import { StudentLesson } from './student/entities/student-lesson';
 import { Registration } from './student/entities/registration.entity';
 import { FinancesModule } from './finances/finances.module';
 import { Category } from './finances/entities/category.entity';
+import { Transaction } from './finances/entities/transaction.entity';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { Category } from './finances/entities/category.entity';
         StudentLesson,
         Registration,
         Category,
+        Transaction,
       ],
       database: 'monetix',
       synchronize: true,

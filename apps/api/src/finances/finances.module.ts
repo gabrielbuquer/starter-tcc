@@ -4,9 +4,13 @@ import { FinancesController } from './finances.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FinancesSeed } from './finances.seed';
 import { Category } from './entities/category.entity';
+import { Transaction } from './entities/transaction.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [
+    TypeOrmModule.forFeature([Category]),
+    TypeOrmModule.forFeature([Transaction]),
+  ],
   controllers: [FinancesController],
   providers: [FinancesService, FinancesSeed],
 })
