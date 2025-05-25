@@ -3,7 +3,7 @@ import { Button, Grid2 as Grid, TextField, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { ActionDialog, SortableList } from '@monetix/shared/ui';
+import { ActionDialog, SortableList, showSnackBar } from '@monetix/shared/ui';
 import {
   BaseCourseType,
   BaseLessonType,
@@ -90,7 +90,20 @@ export const CourseForm = ({
 
   const internalSubmit = async (formData: CourseFormData) => {
     console.log(formData, 'formData');
-    postCourse(formData);
+    try {
+      await postCourse(formData);
+      showSnackBar({
+        message: `Curso ${formData.name} criado com sucesso!`,
+        type: 'success',
+      });
+    } catch (error) {
+      console.error(error);
+      showSnackBar({
+        message: `Erro ao criar curso ${formData.name}. Verifique os dados e tente novamente.`,
+        type: 'error',
+      });
+    }
+
     onClose?.();
   };
 

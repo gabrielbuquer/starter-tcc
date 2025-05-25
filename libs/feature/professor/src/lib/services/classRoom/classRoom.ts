@@ -29,7 +29,7 @@ export const classRoomCoursesFetcher = (
 
   return api
     .get<ClassRoomCoursesDataResponse>(
-      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSE_API}`,
+      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSES_API}`,
       {
         headers,
       },
@@ -59,7 +59,7 @@ export const classRoomCoursesPatch = (
 
   return api
     .patch<ClassRoomCoursesDataResponse>(
-      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSE_API}/${courseId}/enable`,
+      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSES_API}/${courseId}/enable`,
       null,
       {
         headers,
