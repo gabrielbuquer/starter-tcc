@@ -6,6 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
 import { SwrProvider, SwrProviderPropsType } from '../SwrProvider';
+import { SnackBar } from '../SnackBar';
 
 export type MonetixProviderPropsType = SwrProviderPropsType & {
   children: ReactNode;
@@ -86,7 +87,10 @@ export const MonetixProvider = ({
           <MetaTags />
           <Preconnect urlsList={preconnectUrls} />
         </Head>
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme}>
+          {children}
+          <SnackBar />
+        </ThemeProvider>
       </SwrProvider>
     </SessionProvider>
   );

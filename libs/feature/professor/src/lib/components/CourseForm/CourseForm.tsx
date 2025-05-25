@@ -1,7 +1,7 @@
 import { Resolver, useFieldArray, useForm } from 'react-hook-form';
 import { Button, Grid2 as Grid, TextField, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ActionDialog, SortableList } from '@monetix/shared/ui';
 import {
@@ -68,6 +68,7 @@ export const CourseForm = ({
     formState: { errors, isValid },
     handleSubmit,
     control,
+    reset,
   } = methods;
 
   const { fields, move, append, remove, update } = useFieldArray({
@@ -92,6 +93,10 @@ export const CourseForm = ({
     postCourse(formData);
     onClose?.();
   };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   return (
     <ActionDialog
