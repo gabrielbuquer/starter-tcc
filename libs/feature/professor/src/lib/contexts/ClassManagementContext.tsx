@@ -15,6 +15,7 @@ import { ClassRoomCoursesDataResponse } from '../services/classRoom/types';
 type ClassManagementContextProps = {
   classRooms: ClassRoomType[];
   classRoomCourses: ClassRoomCoursesDataResponse;
+  selectedClassRoom: string | null;
   isLoading: boolean;
   setModalCourseOpen: (state: ModalCourseState) => void;
   setSelectedClassRoom: (classRoomId: string | null) => void;
@@ -71,6 +72,7 @@ const ClassManagementContextProvider = ({
       value={{
         classRooms,
         classRoomCourses,
+        selectedClassRoom,
         isLoading: !classRoomCourses || loadingClassRoomCourses,
         setModalCourseOpen,
         setSelectedClassRoom,

@@ -49,3 +49,38 @@ export const useClassRoomCourses = () => {
       classRoomCoursesFetcher(arg.classRoomId, arg.token),
   );
 };
+
+export const classRoomCoursesPatch = (
+  classRoomId: string,
+  courseId: string,
+  token?: string,
+) => {
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  return api
+    .patch<ClassRoomCoursesDataResponse>(
+      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSE_API}/${courseId}/enable`,
+      null,
+      {
+        headers,
+      },
+    )
+    .then((res) => res.data);
+};
+
+export const useClassRoomCourseEnable = () => {
+  return useSWRMutation<
+    ClassRoomCoursesDataResponse,
+    unknown,
+    [string, string],
+    { classRoomId: string; courseId: string; token?: string }
+  >(
+    [API_PATHS.CLASS_ROOM_API, 'courses-enable'],
+    (
+      _key,
+      {
+        arg,
+      }: { arg: { classRoomId: string; courseId: string; token?: string } },
+    ) => classRoomCoursesPatch(arg.classRoomId, arg.courseId, arg.token),
+  );
+};
