@@ -84,6 +84,11 @@ const ClassManagementContextProvider = ({
         isEditing={!!modalCourseOpen.course}
         defaultValues={modalCourseOpen.course}
         onClose={() => setModalCourseOpen({ open: false })}
+        onSubmit={() =>
+          classRoomCoursesTrigger({
+            classRoomId: selectedClassRoom,
+          })
+        }
       />
     </ClassManagementContext.Provider>
   );

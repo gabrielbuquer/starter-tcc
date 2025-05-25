@@ -28,7 +28,7 @@ export const URL_ATTRIBUTES = {
   type: 'text',
   errorMessages: {
     REQUIRED: 'A URL é obrigatório.',
-    INVALID: 'Informe um nome válido.',
+    INVALID: 'Informe uma URL válida.',
     TOO_SHORT: 'A URL deve ter no mínimo 2 caracteres.',
     TOO_LONG: 'A URL deve ter no máximo 50 caracteres.',
   },

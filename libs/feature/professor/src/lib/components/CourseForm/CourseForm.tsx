@@ -4,11 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
 import { ActionDialog, SortableList, showSnackBar } from '@monetix/shared/ui';
-import {
-  BaseCourseType,
-  BaseLessonType,
-  LessonType,
-} from '@monetix/shared/config';
+import { BaseLessonType } from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
 import { usePostCourse } from '../../services/courses';
@@ -96,8 +92,8 @@ export const CourseForm = ({
         message: `Curso ${formData.name} criado com sucesso!`,
         type: 'success',
       });
+      onSubmit?.();
     } catch (error) {
-      console.error(error);
       showSnackBar({
         message: `Erro ao criar curso ${formData.name}. Verifique os dados e tente novamente.`,
         type: 'error',
@@ -190,7 +186,7 @@ export const CourseForm = ({
           >
             Salvar
           </Button>
-          <Button fullWidth variant="outlined" type="submit">
+          <Button fullWidth variant="outlined" onClick={onClose}>
             Cancelar
           </Button>
         </Actions>

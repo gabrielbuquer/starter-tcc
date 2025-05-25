@@ -14,7 +14,8 @@ export const schema = yup
     url: yup
       .string()
       .min(2, URL_ATTRIBUTES.errorMessages.TOO_SHORT)
-      .max(50, URL_ATTRIBUTES.errorMessages.TOO_LONG)
+      .max(100, URL_ATTRIBUTES.errorMessages.TOO_LONG)
+      .url(URL_ATTRIBUTES.errorMessages.INVALID)
       .required(URL_ATTRIBUTES.errorMessages.REQUIRED),
     type: yup
       .string()
