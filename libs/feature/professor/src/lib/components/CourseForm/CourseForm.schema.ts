@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { TYPE_ATTRIBUTES, URL_ATTRIBUTES } from '../LessonForm/constants';
+import { schema as lessonSchema } from '../LessonForm/LessonForm.schema';
 
 import {
   DESCRIPTION_ATTRIBUTES,
@@ -23,28 +23,8 @@ export const schema = yup
       .required(DESCRIPTION_ATTRIBUTES.errorMessages.REQUIRED),
     lessons: yup
       .array()
-      .of(
-        yup.object().shape({
-          id: yup.string(),
-          name: yup
-            .string()
-            .min(2, NAME_ATTRIBUTES.errorMessages.TOO_SHORT)
-            .max(50, NAME_ATTRIBUTES.errorMessages.TOO_LONG)
-            .required(NAME_ATTRIBUTES.errorMessages.REQUIRED),
-          url: yup
-            .string()
-            .min(2, URL_ATTRIBUTES.errorMessages.TOO_SHORT)
-            .max(100, URL_ATTRIBUTES.errorMessages.TOO_LONG)
-            .required(URL_ATTRIBUTES.errorMessages.REQUIRED),
-          type: yup
-            .string()
-            .oneOf(
-              TYPE_ATTRIBUTES.options.map((type) => type.value),
-              TYPE_ATTRIBUTES.errorMessages.INVALID,
-            )
-            .required(TYPE_ATTRIBUTES.errorMessages.REQUIRED),
-        }),
-      )
-      .min(1, LESSON_ATTRIBUTES.errorMessages.MIN_ITEMS),
+      .min(1, LESSON_ATTRIBUTES.errorMessages.MIN_ITEMS)
+      .of(lessonSchema)
+      .required(LESSON_ATTRIBUTES.errorMessages.REQUIRED),
   })
   .required();
