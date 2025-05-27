@@ -1,15 +1,30 @@
 import { GetServerSideProps } from 'next';
+import { getServerSession } from 'next-auth';
 
-import { StudentManagementScreen } from '@monetix/feature/professor';
+import {
+  StudentManagementContextProvider,
+  StudentManagementScreen,
+  classRoomsFetcher,
+} from '@monetix/feature/professor';
+import { getPaths } from '@monetix/shared/config';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+import { authOptions } from '../../api/auth/[...nextauth]';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const API_PATHS = getPaths();
+  const session = await getServerSession(context.req, context.res, authOptions);
+
   try {
+    const classRooms = await classRoomsFetcher(session?.user?.accessToken);
     return {
       props: {
         centeredContent: false,
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
+        fallback: {
+          [API_PATHS.CLASS_ROOM_API]: classRooms,
+        },
       },
     };
   } catch (err) {
@@ -20,7 +35,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const StudentManagementPage = () => {
-  return <StudentManagementScreen />;
+  return (
+    <StudentManagementContextProvider>
+      <StudentManagementScreen />
+    </StudentManagementContextProvider>
+  );
 };
 
 export default StudentManagementPage;

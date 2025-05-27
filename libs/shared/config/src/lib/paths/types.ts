@@ -3,6 +3,7 @@ export type SharedPathsKeyType =
   | 'USER_API'
   | 'COURSE_API'
   | 'COURSES_API'
+  | 'STUDENTS_API'
   | 'CLASS_ROOM_API';
 
 type PublicPathsType = {

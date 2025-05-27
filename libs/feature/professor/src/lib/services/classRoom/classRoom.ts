@@ -3,7 +3,10 @@ import useSWRMutation from 'swr/mutation';
 
 import { ClassRoomType, api, getPaths } from '@monetix/shared/config';
 
-import { ClassRoomCoursesDataResponse } from './types';
+import {
+  ClassRoomCoursesDataResponse,
+  ClassRoomStudentsDataResponse,
+} from './types';
 
 const API_PATHS = getPaths();
 
@@ -82,5 +85,34 @@ export const useClassRoomCourseEnable = () => {
         arg,
       }: { arg: { classRoomId: string; courseId: string; token?: string } },
     ) => classRoomCoursesPatch(arg.classRoomId, arg.courseId, arg.token),
+  );
+};
+
+export const classRoomStudentsFetcher = (
+  classRoomId: string,
+  token?: string,
+) => {
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  return api
+    .get<ClassRoomStudentsDataResponse>(
+      `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.STUDENTS_API}`,
+      {
+        headers,
+      },
+    )
+    .then((res) => res.data);
+};
+
+export const useClassRoomStudents = () => {
+  return useSWRMutation<
+    ClassRoomStudentsDataResponse,
+    unknown,
+    [string, string],
+    { classRoomId: string; token?: string }
+  >(
+    [API_PATHS.CLASS_ROOM_API, 'students'],
+    (_key, { arg }: { arg: { classRoomId: string; token?: string } }) =>
+      classRoomStudentsFetcher(arg.classRoomId, arg.token),
   );
 };
