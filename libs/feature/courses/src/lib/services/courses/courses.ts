@@ -20,3 +20,19 @@ export const useCourseList = () => {
     courseListFetcher,
   );
 };
+
+export const courseFetcher = (id: string, token?: string) => {
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  return api
+    .get<CourseType>(`${API_PATHS.COURSE_API}/${id}`, {
+      headers,
+    })
+    .then((res) => res.data);
+};
+
+export const useCourse = (id: string) => {
+  return useSWR<CourseType>([API_PATHS.COURSE_API, id], ([, courseId]) =>
+    courseFetcher(courseId as string),
+  );
+};

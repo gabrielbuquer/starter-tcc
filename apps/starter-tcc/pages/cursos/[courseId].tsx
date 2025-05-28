@@ -1,26 +1,48 @@
 import { GetServerSideProps } from 'next';
+import { getServerSession } from 'next-auth/next';
+import { ParsedUrlQuery } from 'querystring';
 
-import { CourseScreen } from '@monetix/feature/courses';
+import { CourseScreen, courseFetcher } from '@monetix/feature/courses';
+import { getPaths } from '@monetix/shared/config';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+import { authOptions } from '../api/auth/[...nextauth]';
+
+interface IQuery extends ParsedUrlQuery {
+  courseId: string;
+}
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  query,
+}) => {
+  const API_PATHS = getPaths();
+  const session = await getServerSession(req, res, authOptions);
   try {
+    const { courseId } = query as IQuery;
+    const course = await courseFetcher(courseId, session?.user?.accessToken);
+
     return {
       props: {
         centeredContent: false,
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
+        fallback: {
+          [(API_PATHS.COURSE_API, courseId)]: course,
+        },
       },
     };
   } catch (err) {
+    console.log(err);
     return {
       notFound: true,
     };
   }
 };
 
-const ListCoursesPage = () => {
+const CoursePage = () => {
   return <CourseScreen />;
 };
 
-export default ListCoursesPage;
+export default CoursePage;

@@ -22,6 +22,7 @@ import {
 
 export const Card = ({ id, name, enabled }: CourseType) => {
   const { push } = useRouter();
+
   return (
     <Box>
       <TeacherBox>
