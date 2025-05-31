@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
-import { api, getPaths } from '@monetix/shared/config';
+import { TransactionCategoryType, api, getPaths } from '@monetix/shared/config';
 
 import {
   TransactionPostData,
@@ -25,28 +25,43 @@ export const transactionsDataFetcher = (
     });
 };
 
-export const transactionDataPost = (
-  userId: string,
-  data: TransactionPostData,
-) => {
-  return api.post(USER_TRANSACTIONS_API(userId), data).then((res) => {
+export const transactionDataPost = (data: TransactionPostData) => {
+  return api.post(API_PATHS.FINANCES_API, data).then((res) => {
     return res.data;
   });
 };
 
-export const usePostTransaction = (userId: string) =>
+export const usePostTransaction = () =>
   useSWRMutation(
-    [USER_TRANSACTIONS_API(userId)],
-    (_key, { arg }: { arg: TransactionPostData }) =>
-      transactionDataPost(userId, arg),
+    [API_PATHS.FINANCES_API],
+    (_key, { arg }: { arg: TransactionPostData }) => transactionDataPost(arg),
   );
 
-export const useGetTransactionsData = (
+export const useTransactionsData = (
   userId: string,
   params: TransactionQueryParams,
 ) => {
   return useSWR(
     [USER_TRANSACTIONS_API(userId), params],
     transactionsDataFetcher,
+  );
+};
+
+export const transactionCategoriesFetcher = (
+  type: 'expense' | 'income',
+): Promise<TransactionCategoryType[]> => {
+  console.log('Fetching transaction categories for type:', type);
+  return api
+    .get<
+      TransactionCategoryType[]
+    >(`${API_PATHS.FINANCES_API}/${type}/categories`)
+    .then((res) => {
+      return res.data;
+    });
+};
+
+export const useTransactionCategories = (type: 'expense' | 'income') => {
+  return useSWR([`${API_PATHS.FINANCES_API}/${type}/categories`], () =>
+    transactionCategoriesFetcher(type),
   );
 };

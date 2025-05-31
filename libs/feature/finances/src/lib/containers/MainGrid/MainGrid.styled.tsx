@@ -14,6 +14,7 @@ export const Grid = styled('div')`
 
     ${theme.breakpoints.down('lg')} {
       grid-template-columns: repeat(2, 1fr);
+      gap: ${theme.spacing(1)};
     }
   `};
 `;

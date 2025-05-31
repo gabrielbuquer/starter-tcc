@@ -11,7 +11,12 @@ export type TransactionQueryParams = {
   type: 'expense' | 'income';
 };
 
-export type TransactionPostData = Omit<TransactionType, 'id' | 'enabled'>;
+export type TransactionPostData = Omit<
+  TransactionType,
+  'id' | 'category' | 'enabled'
+> & {
+  categoryId: string;
+};
 
 export type TransactionsDataResponse = {
   data: TransactionType[];

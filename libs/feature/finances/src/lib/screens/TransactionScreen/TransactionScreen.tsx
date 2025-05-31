@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-import { PaginatedTable } from '@monetix/shared/ui';
+import { MonthSelector, PaginatedTable } from '@monetix/shared/ui';
 
 import { MainGrid } from '../../containers/MainGrid';
 import { FinanceContextProvider } from '../../contexts/FinanceContext/FinanceContext';
@@ -19,6 +19,7 @@ export const TransactionScreen = () => {
         <MainGrid />
         <Content>
           <Filters>
+            <MonthSelector />
             <FormControl sx={{ minWidth: 140 }} size="small">
               <InputLabel id="transaction-select-label">Transações</InputLabel>
               <Select

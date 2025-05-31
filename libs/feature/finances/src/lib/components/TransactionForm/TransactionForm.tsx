@@ -11,11 +11,15 @@ import {
   TextField,
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 import { ActionDialog } from '@monetix/shared/ui';
 
-import { usePostTransaction } from '../../services/transactions';
+import {
+  usePostTransaction,
+  useTransactionCategories,
+} from '../../services/transactions';
 
 import { Actions } from './TransactionForm.styled';
 import {
@@ -49,9 +53,10 @@ export const TransactionForm = ({
   formType,
   onClose,
 }: TransactionFormProps) => {
-  const { data: session } = useSession();
   const { titleNew, titleEdit } = FORM_DATA[formType];
-  const { trigger: postTransaction } = usePostTransaction(session?.user?.id);
+  const { trigger: postTransaction } = usePostTransaction();
+  const { data: categories } = useTransactionCategories(formType);
+  const [loading, setLoading] = useState(false);
 
   const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
@@ -68,18 +73,19 @@ export const TransactionForm = ({
   } = methods;
 
   const onSubmit = async (formData: TransactionFormData) => {
+    console.log(formData);
+    setLoading(true);
     if (isEditing) {
       // Call the mutation to update the transaction
     } else {
       await postTransaction({
         ...formData,
-        category: {
-          id: formData.category,
-          description: formData.category,
-        },
+        categoryId: formData.category,
         date: new Date(formData.date).toISOString(),
         type: formType,
       });
+      setLoading(false);
+      onClose?.();
     }
   };
 
@@ -148,22 +154,25 @@ export const TransactionForm = ({
               label={CATEGORY_ATTRIBUTES.label}
               {...register('category')}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {categories?.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.description}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
         <Actions>
-          <Button
+          <LoadingButton
             fullWidth
             variant="contained"
             type="submit"
             disabled={!isValid}
+            loading={loading}
           >
             Salvar
-          </Button>
-          <Button fullWidth variant="outlined" type="submit">
+          </LoadingButton>
+          <Button fullWidth variant="outlined" type="submit" onClick={onClose}>
             Cancelar
           </Button>
         </Actions>

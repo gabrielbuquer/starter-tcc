@@ -10,8 +10,8 @@ export const transactionsFilter = [
   {
     label: 'Despesas',
     value: 'expense',
-  }
-]
+  },
+];
 
 export const columns: any[] = [
   { id: 'status', label: 'Status', minWidth: 50 },

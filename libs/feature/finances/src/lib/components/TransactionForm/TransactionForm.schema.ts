@@ -22,6 +22,14 @@ export const schema = yup
       .typeError(VALUE_ATTRIBUTES.errorMessages.INVALID),
     date: yup
       .date()
+      .transform((_, originalValue) => {
+        if (typeof originalValue === 'string') {
+          const [day, month, year] = originalValue.split('/');
+          const date = new Date(Number(year), Number(month) - 1, Number(day));
+          return date;
+        }
+        return originalValue;
+      })
       .required(DATE_ATTRIBUTES.errorMessages.REQUIRED)
       .max(new Date(), DATE_ATTRIBUTES.errorMessages.INVALID)
       .typeError(DATE_ATTRIBUTES.errorMessages.INVALID),

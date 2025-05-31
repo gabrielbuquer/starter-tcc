@@ -15,8 +15,7 @@ export const Container = styled('div')`
       font-size: 40px;
       color: ${theme.palette.primary.light};
       fill: ${theme.palette.primary.light};
-      transition: all .15s ease-in-out;
-
+      transition: all 0.15s ease-in-out;
     }
 
     &:hover {
@@ -35,4 +34,3 @@ export const TextWrapper = styled('div')`
     flex: 1;
   `};
 `;
-

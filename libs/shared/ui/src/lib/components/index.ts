@@ -15,3 +15,4 @@ export * from './SortableList';
 export * from './CollapsibleTable';
 export * from './SimpleTable';
 export * from './SnackBar';
+export * from './MonthSelector';
