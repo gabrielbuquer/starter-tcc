@@ -30,8 +30,6 @@ export const StudentManagementScreen = () => {
     classRoomStudentsPage,
   } = useStudentManagement();
 
-  console.log('screen', classRoomStudents, isLoadingStudents);
-
   if (isLoadingClasses) {
     return <Loader />;
   }

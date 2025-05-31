@@ -25,8 +25,6 @@ const FinanceContextProvider = ({
     defaultValues: null,
   });
 
-  console.log('transactionForm', transactionForm);
-
   return (
     <FinanceContext.Provider value={{ transactionForm, setTransactionForm }}>
       {children}

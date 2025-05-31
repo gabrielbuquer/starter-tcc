@@ -85,7 +85,6 @@ export const CourseForm = ({
   };
 
   const internalSubmit = async (formData: CourseFormData) => {
-    console.log(formData, 'formData');
     try {
       await postCourse(formData);
       showSnackBar({

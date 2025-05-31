@@ -21,7 +21,6 @@ export function useTransactionForm() {
     formType: 'expense' | 'income',
     defaultValues: TransactionFormProps['defaultValues'] = null,
   ) => {
-    console.log('openForm', formType, defaultValues);
     const isEditing = defaultValues !== null;
     setTransactionForm({
       open: true,

@@ -7,16 +7,12 @@ const RouteLoader = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
-  console.log('RouteLoader mounted');
-
   useEffect(() => {
     const handleStart = () => {
-      console.log('Route change started');
       setLoading(true);
     };
 
     const handleComplete = () => {
-      console.log('Route change started');
       setLoading(false);
     };
 

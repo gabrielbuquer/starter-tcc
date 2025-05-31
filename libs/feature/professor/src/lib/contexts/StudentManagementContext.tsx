@@ -52,11 +52,6 @@ const StudentManagementContextProvider = ({
       limit: 10,
     });
 
-  console.log(classRoomStudents, loadingClassRoomStudents, {
-    classRoomId: selectedClassRoom,
-    page: classRoomStudentsPage + 1,
-    limit: 10,
-  });
   const [studentView, setStudentView] = useState<StudentViewerState>({
     open: false,
   });
