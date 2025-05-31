@@ -49,7 +49,6 @@ export class StudentController {
     await this.studentService.finishLesson(id, idLesson);
   }
 
-  @RequireUserType('student')
   @Get('/:id/courser/:idCourser')
   async getCourser(
     @Param('id') id: string,

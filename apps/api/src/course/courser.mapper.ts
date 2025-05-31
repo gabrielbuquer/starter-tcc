@@ -6,6 +6,23 @@ export class CourseMapper {
   static toEntity(dto: CreateCourseDto): Course {
     const course = new Course();
     assign(course, dto);
+    course.lessons = course.lessons.map((lesson, index) => ({
+      ...lesson,
+      order: index + 1,
+    }));
     return course;
+  }
+
+  static updateEntity(dto: CreateCourseDto, course: Course): Course {
+    const updateCourse = new Course();
+    assign(updateCourse, dto);
+    return {
+      ...course,
+      ...updateCourse,
+      lessons: course.lessons.map((lesson, index) => ({
+        ...lesson,
+        order: index + 1,
+      })),
+    };
   }
 }

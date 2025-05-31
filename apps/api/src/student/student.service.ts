@@ -7,17 +7,16 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
-import { ClassroomCourser } from '../classroom/entities/classroom-course';
 import { Classroom } from '../classroom/entities/classroom.entity';
 import { CourseService } from '../course/course.service';
 import { LessonService } from '../course/lesson.service';
 import { CreateStudentDto } from './dto/student.create';
 import { IStudentResponseDTO } from './dto/student.response';
 import { UpdateStudentDto } from './dto/student.update';
+import { Registration } from './entities/registration.entity';
 import { Student } from './entities/student.entity';
 import { RegistrationService } from './registration.service';
 import { StudentMapper } from './student.mapper';
-import { Registration } from './entities/registration.entity';
 
 @Injectable()
 export class StudentService {

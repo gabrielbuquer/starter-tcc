@@ -59,6 +59,19 @@ export class RegistrationService {
     await this.repository.save(registration);
   }
 
+  async removeAllProgressFromCourse(courseId: string): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({
+        progress: 0,
+        startDate: () => 'CURRENT_TIMESTAMP',
+        endDate: null,
+      })
+      .where('courseId = :courseId', { courseId })
+      .execute();
+  }
+
   async upset(student: Student, course: Course): Promise<Registration> {
     const registration: Registration | null = await this.repository.findOne({
       where: {

@@ -17,6 +17,8 @@ export class Lesson {
   type: LessonType;
   @Column({ type: 'varchar', length: 255 })
   url: string;
+  @Column({ type: 'int', default: 0 })
+  order: number;
   @ManyToOne(() => Course, (course) => course.lessons, {
     eager: true,
   })

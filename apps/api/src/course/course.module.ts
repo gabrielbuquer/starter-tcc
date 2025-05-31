@@ -7,6 +7,7 @@ import { CourseService } from './course.service';
 import { Course } from './entities/course.entity';
 import { LessonService } from './lesson.service';
 import { Lesson } from './entities/lesson.entity';
+import { StudentModule } from '../student/student.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Lesson } from './entities/lesson.entity';
     TypeOrmModule.forFeature([ClassroomCourser]),
     TypeOrmModule.forFeature([Lesson]),
     forwardRef(() => ClassroomModule),
+    forwardRef(() => StudentModule),
   ],
   controllers: [CourseController],
   providers: [CourseService, LessonService],

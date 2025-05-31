@@ -13,6 +13,7 @@ import { ClassroomService } from '../classroom/classroom.service';
 import { ICourseResponseDTO } from './dto/courser.dto';
 import { ClassroomCourser } from '../classroom/entities/classroom-course';
 import { ClassroomMapper } from '../classroom/classroom.mapper';
+import { RegistrationService } from '../student/registration.service';
 
 @Injectable()
 export class CourseService {
@@ -22,13 +23,25 @@ export class CourseService {
     @Inject(forwardRef(() => ClassroomService))
     private readonly classroomService: ClassroomService,
     @InjectRepository(ClassroomCourser)
-    private readonly classroomCourseRepository: Repository<ClassroomCourser>
+    private readonly classroomCourseRepository: Repository<ClassroomCourser>,
+    @Inject(forwardRef(() => RegistrationService))
+    private readonly registrationService: RegistrationService
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
     const course = CourseMapper.toEntity(createCourseDto);
     await this.repository.save(course);
     await this.classroomService.includeCourserInAllClassroom(course);
+  }
+
+  async update(id: string, updateCourse: CreateCourseDto): Promise<Course> {
+    const course = await this.repository.findOneBy({ id });
+    if (!course) {
+      throw new NotFoundException(`Course with id ${id} not found`);
+    }
+    this.registrationService.removeAllProgressFromCourse(id);
+    const updatedCourse = CourseMapper.updateEntity(updateCourse, course);
+    return this.repository.save(updatedCourse);
   }
 
   async findOne(id: string, classroom: string): Promise<ClassroomCourser> {
