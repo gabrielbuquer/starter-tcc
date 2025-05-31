@@ -18,7 +18,10 @@ export class StudentController {
   @Get('/:id')
   async getStudent(@Param('id') id: string) {
     const student = await this.studentService.findById(id);
-    return StudentMapper.createStudentResponse(student);
+    const courses = await this.studentService.getAllCourser(student);
+    const response = StudentMapper.createStudentResponse(student);
+    response.courses = courses;
+    return response;
   }
 
   @RequireUserType('student')

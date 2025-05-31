@@ -17,6 +17,7 @@ import { Registration } from './entities/registration.entity';
 import { Student } from './entities/student.entity';
 import { RegistrationService } from './registration.service';
 import { StudentMapper } from './student.mapper';
+import { ICourseResponseDTO } from './dto/student.courser.dto';
 
 @Injectable()
 export class StudentService {
@@ -32,6 +33,15 @@ export class StudentService {
   async create(classromm: Classroom, createStudentDto: CreateStudentDto) {
     await this.studentyRepository.save(
       StudentMapper.toEntity(createStudentDto, classromm)
+    );
+  }
+
+  async getAllCourser(student: Student): Promise<ICourseResponseDTO[]> {
+    const registrations = await this.registrationService.findAllByStudent(
+      student
+    );
+    return registrations.map((registration) =>
+      StudentMapper.createRegistrationResponse(registration)
     );
   }
 

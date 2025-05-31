@@ -58,6 +58,14 @@ export class RegistrationService {
     registration.lessons.push(newLesson);
     await this.repository.save(registration);
   }
+  async findAllByStudent(student: Student): Promise<Registration[]> {
+    return await this.repository.find({
+      where: {
+        student: student,
+      },
+      relations: ['lessons', 'lessons.lesson', 'course', 'course.lessons'],
+    });
+  }
 
   async removeAllProgressFromCourse(courseId: string): Promise<void> {
     await this.repository
