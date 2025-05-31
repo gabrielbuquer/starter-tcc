@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { FinancesMapper } from './finances.mapper';
@@ -13,6 +14,8 @@ import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { GetSub } from '../auth/decorator/get-sub';
 import { Response } from 'express';
+import { filter } from 'rxjs';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
 
 @Controller('/api/finances')
 export class FinancesController {
@@ -40,6 +43,23 @@ export class FinancesController {
   ) {
     await this.financesService.createTransaction(userId, body);
     res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get()
+  @ApiParam({ name: 'id', description: 'ID do usuário' })
+  @ApiBody({ type: CreateTransactionDto })
+  async getTransactions(
+    @GetSub() userId: string,
+    page: 1,
+    limit: 10,
+    @Query() filter: FilterTransactionDto
+  ) {
+    return await this.financesService.getTransactions(
+      userId,
+      filter,
+      page,
+      limit
+    );
   }
 
   @Get(':type/:id')
