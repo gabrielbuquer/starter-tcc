@@ -66,7 +66,7 @@ export const StudentManagementScreen = () => {
           columns={columns}
           rows={rows(classRoomStudents?.items ?? [])}
           page={classRoomStudentsPage}
-          rowsPerPage={2}
+          rowsPerPage={10}
           totalRows={classRoomStudents?.meta?.totalItems ?? 0}
           onChangePage={(newPage) => setClassRoomStudentsPage(newPage)}
           loading={isLoadingStudents}

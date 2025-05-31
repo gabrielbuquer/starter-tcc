@@ -44,25 +44,16 @@ const StudentManagementContextProvider = ({
   const [selectedClassRoom, setSelectedClassRoom] = useState<string | null>(
     classRooms?.[0].id,
   );
-  const [classRoomStudentsPage, setClassRoomStudentsPage] = useState(1);
-  const {
-    data: classRoomStudents,
-    trigger: classRoomStudentsTrigger,
-    isMutating: loadingClassRoomStudents,
-  } = useClassRoomStudents();
+  const [classRoomStudentsPage, setClassRoomStudentsPage] = useState(0);
+  const { data: classRoomStudents, isLoading: loadingClassRoomStudents } =
+    useClassRoomStudents({
+      classRoomId: selectedClassRoom,
+      page: classRoomStudentsPage + 1,
+      limit: 10,
+    });
   const [studentView, setStudentView] = useState<StudentViewerState>({
     open: false,
   });
-
-  useEffect(() => {
-    if (selectedClassRoom) {
-      classRoomStudentsTrigger({
-        classRoomId: selectedClassRoom,
-        page: classRoomStudentsPage,
-        limit: 10,
-      });
-    }
-  }, [selectedClassRoom, classRoomStudentsTrigger]);
 
   return (
     <StudentManagementContext.Provider

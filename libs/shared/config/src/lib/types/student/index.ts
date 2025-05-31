@@ -1,6 +1,9 @@
+import { CourseType } from '../course';
+
 export type StudentType = {
   id: string;
   name: string;
   email: string;
-  'date-of_birth': boolean;
+  birthDate: boolean;
+  courses: CourseType[];
 };

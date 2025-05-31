@@ -45,13 +45,12 @@ const ClassManagementContextProvider = ({
     classRooms?.[0].id,
   );
   const [classRoomCoursesPage, setClassRoomCoursesPage] = useState(0);
-  const {
-    data: classRoomCourses,
-    trigger: classRoomCoursesTrigger,
-    isMutating: loadingClassRoomCourses,
-  } = useClassRoomCourses();
-
-  console.log('classRoomCourses', classRoomCourses);
+  const { data: classRoomCourses, isLoading: loadingClassRoomCourses } =
+    useClassRoomCourses({
+      classRoomId: selectedClassRoom,
+      page: classRoomCoursesPage + 1,
+      limit: 2,
+    });
 
   const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({
     open: false,
@@ -62,16 +61,6 @@ const ClassManagementContextProvider = ({
       setSelectedClassRoom(classRooms[0].id);
     }
   }, [classRooms]);
-
-  useEffect(() => {
-    if (selectedClassRoom) {
-      classRoomCoursesTrigger({
-        classRoomId: selectedClassRoom,
-        page: classRoomCoursesPage + 1,
-        limit: 2,
-      });
-    }
-  }, [selectedClassRoom, classRoomCoursesPage, classRoomCoursesTrigger]);
 
   return (
     <ClassManagementContext.Provider
@@ -93,11 +82,6 @@ const ClassManagementContextProvider = ({
         isEditing={!!modalCourseOpen.course}
         defaultValues={modalCourseOpen.course}
         onClose={() => setModalCourseOpen({ open: false })}
-        onSubmit={() =>
-          classRoomCoursesTrigger({
-            classRoomId: selectedClassRoom,
-          })
-        }
       />
     </ClassManagementContext.Provider>
   );

@@ -48,23 +48,15 @@ export const classRoomCoursesFetcher = (
     .then((res) => res.data);
 };
 
-export const useClassRoomCourses = () => {
-  return useSWRMutation<
-    ClassRoomCoursesDataResponse,
-    unknown,
-    [string, string],
-    CoursesQueryParams
-  >(
-    [API_PATHS.CLASS_ROOM_API, 'courses'],
-    (
-      _key,
-      {
-        arg,
-      }: {
-        arg: CoursesQueryParams;
-      },
-    ) =>
-      classRoomCoursesFetcher(arg.classRoomId, arg.page, arg.limit, arg.token),
+export const useClassRoomCourses = ({
+  classRoomId,
+  page,
+  limit,
+  token,
+}: CoursesQueryParams) => {
+  return useSWR<ClassRoomCoursesDataResponse>(
+    [API_PATHS.CLASS_ROOM_API, API_PATHS.COURSES_API, classRoomId, page, limit],
+    () => classRoomCoursesFetcher(classRoomId, page, limit, token),
   );
 };
 
@@ -125,15 +117,20 @@ export const classRoomStudentsFetcher = (
     .then((res) => res.data);
 };
 
-export const useClassRoomStudents = () => {
-  return useSWRMutation<
-    ClassRoomStudentsDataResponse,
-    unknown,
-    [string, string],
-    StudentsQueryParams
-  >(
-    [API_PATHS.CLASS_ROOM_API, 'students'],
-    (_key, { arg }: { arg: StudentsQueryParams }) =>
-      classRoomStudentsFetcher(arg.classRoomId, arg.page, arg.limit, arg.token),
+export const useClassRoomStudents = ({
+  classRoomId,
+  page,
+  limit,
+  token,
+}: StudentsQueryParams) => {
+  return useSWR<ClassRoomStudentsDataResponse>(
+    [
+      API_PATHS.CLASS_ROOM_API,
+      API_PATHS.STUDENTS_API,
+      classRoomId,
+      page,
+      limit,
+    ],
+    () => classRoomStudentsFetcher(classRoomId, page, limit, token),
   );
 };
