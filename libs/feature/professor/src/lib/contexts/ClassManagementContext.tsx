@@ -15,10 +15,13 @@ import { ClassRoomCoursesDataResponse } from '../services/classRoom/types';
 type ClassManagementContextProps = {
   classRooms: ClassRoomType[];
   classRoomCourses: ClassRoomCoursesDataResponse;
+  classRoomCoursesPage: number;
   selectedClassRoom: string | null;
-  isLoading: boolean;
+  isLoadingClasses: boolean;
+  isLoadingCourses: boolean;
   setModalCourseOpen: (state: ModalCourseState) => void;
   setSelectedClassRoom: (classRoomId: string | null) => void;
+  setClassRoomCoursesPage: (page: number) => void;
 };
 
 type ModalCourseState = {
@@ -37,10 +40,11 @@ export const ClassManagementContext = createContext(
 const ClassManagementContextProvider = ({
   children,
 }: ClassManagementContextPropsProviderProps) => {
-  const { data: classRooms } = useClassRoom();
+  const { data: classRooms, isLoading: loadingClassRooms } = useClassRoom();
   const [selectedClassRoom, setSelectedClassRoom] = useState<string | null>(
     classRooms?.[0].id,
   );
+  const [classRoomCoursesPage, setClassRoomCoursesPage] = useState(0);
   const {
     data: classRoomCourses,
     trigger: classRoomCoursesTrigger,
@@ -63,9 +67,11 @@ const ClassManagementContextProvider = ({
     if (selectedClassRoom) {
       classRoomCoursesTrigger({
         classRoomId: selectedClassRoom,
+        page: classRoomCoursesPage + 1,
+        limit: 2,
       });
     }
-  }, [selectedClassRoom, classRoomCoursesTrigger]);
+  }, [selectedClassRoom, classRoomCoursesPage, classRoomCoursesTrigger]);
 
   return (
     <ClassManagementContext.Provider
@@ -73,9 +79,12 @@ const ClassManagementContextProvider = ({
         classRooms,
         classRoomCourses,
         selectedClassRoom,
-        isLoading: !classRoomCourses || loadingClassRoomCourses,
+        isLoadingClasses: !classRooms || loadingClassRooms,
+        isLoadingCourses: !classRoomCourses || loadingClassRoomCourses,
         setModalCourseOpen,
         setSelectedClassRoom,
+        setClassRoomCoursesPage,
+        classRoomCoursesPage,
       }}
     >
       {children}

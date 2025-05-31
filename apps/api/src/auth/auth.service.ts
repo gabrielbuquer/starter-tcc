@@ -36,7 +36,7 @@ export class AuthService {
       classroom: user instanceof Student ? user.classroom.id : null,
       type: payload.type,
       accessToken: await this.jwtService.signAsync(payload, {
-        expiresIn: '1h',
+        expiresIn: '5h',
       }),
       refreshToken,
     };

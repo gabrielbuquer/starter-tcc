@@ -7,6 +7,7 @@ import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
 import { SwrProvider, SwrProviderPropsType } from '../SwrProvider';
 import { SnackBar } from '../SnackBar';
+import { RouteLoader } from '../Loader';
 
 export type MonetixProviderPropsType = SwrProviderPropsType & {
   children: ReactNode;
@@ -90,6 +91,7 @@ export const MonetixProvider = ({
         <ThemeProvider theme={theme}>
           {children}
           <SnackBar />
+          <RouteLoader />
         </ThemeProvider>
       </SwrProvider>
     </SessionProvider>

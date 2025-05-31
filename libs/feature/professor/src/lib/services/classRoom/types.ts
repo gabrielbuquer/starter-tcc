@@ -6,11 +6,10 @@ import {
 } from '@monetix/shared/config';
 
 export type CoursesQueryParams = {
+  classRoomId: string;
   page?: number;
   limit?: number;
-  search?: string;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  token?: string;
 };
 
 export type CoursePostData = BaseCourseType;
@@ -23,4 +22,11 @@ export type ClassRoomCoursesDataResponse = {
 export type ClassRoomStudentsDataResponse = {
   items: StudentType[];
   meta: PaginationType;
+};
+
+export type StudentsQueryParams = {
+  classRoomId: string;
+  page?: number;
+  limit?: number;
+  token?: string;
 };

@@ -6,6 +6,7 @@ import { ClassRoomType, api, getPaths } from '@monetix/shared/config';
 import {
   ClassRoomCoursesDataResponse,
   ClassRoomStudentsDataResponse,
+  CoursesQueryParams,
 } from './types';
 
 const API_PATHS = getPaths();
@@ -26,6 +27,8 @@ export const useClassRoom = () => {
 
 export const classRoomCoursesFetcher = (
   classRoomId: string,
+  page = 1,
+  limit = 2,
   token?: string,
 ) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -35,6 +38,10 @@ export const classRoomCoursesFetcher = (
       `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.COURSES_API}`,
       {
         headers,
+        params: {
+          page,
+          limit,
+        },
       },
     )
     .then((res) => res.data);
@@ -45,11 +52,18 @@ export const useClassRoomCourses = () => {
     ClassRoomCoursesDataResponse,
     unknown,
     [string, string],
-    { classRoomId: string; token?: string }
+    CoursesQueryParams
   >(
     [API_PATHS.CLASS_ROOM_API, 'courses'],
-    (_key, { arg }: { arg: { classRoomId: string; token?: string } }) =>
-      classRoomCoursesFetcher(arg.classRoomId, arg.token),
+    (
+      _key,
+      {
+        arg,
+      }: {
+        arg: CoursesQueryParams;
+      },
+    ) =>
+      classRoomCoursesFetcher(arg.classRoomId, arg.page, arg.limit, arg.token),
   );
 };
 
@@ -99,6 +113,10 @@ export const classRoomStudentsFetcher = (
       `${API_PATHS.CLASS_ROOM_API}/${classRoomId}${API_PATHS.STUDENTS_API}`,
       {
         headers,
+        params: {
+          page: 1,
+          limit: 2,
+        },
       },
     )
     .then((res) => res.data);

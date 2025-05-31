@@ -6,14 +6,14 @@ import {
   useState,
 } from 'react';
 
-import { ClassRoomType } from '@monetix/shared/config';
+import { ClassRoomType, StudentType } from '@monetix/shared/config';
 
 import { useClassRoom, useClassRoomStudents } from '../services';
 import { ClassRoomStudentsDataResponse } from '../services/classRoom/types';
 
 type StudentViewerState = {
   open: boolean;
-  studentId?: string;
+  student?: StudentType;
 };
 
 type StudentManagementContextProps = {
@@ -38,7 +38,6 @@ const StudentManagementContextProvider = ({
   children,
 }: StudentManagementContextPropsProviderProps) => {
   const { data: classRooms } = useClassRoom();
-  console.log(classRooms);
   const [selectedClassRoom, setSelectedClassRoom] = useState<string | null>(
     classRooms?.[0].id,
   );

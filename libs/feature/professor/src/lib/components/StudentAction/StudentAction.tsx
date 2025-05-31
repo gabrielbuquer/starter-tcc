@@ -16,11 +16,7 @@ export const StudentAction = ({ student }: StudentActionProps) => {
   const { setStudentView } = useStudentManagement();
 
   const handleVisibility = () => {
-    setStudentView({ open: true, studentId: student.id });
-  };
-
-  const handleDelete = async () => {
-    console.log('Delete action triggered');
+    setStudentView({ open: true, student: student });
   };
 
   return (
@@ -28,9 +24,6 @@ export const StudentAction = ({ student }: StudentActionProps) => {
       <Container>
         <IconButton onClick={handleVisibility}>
           <VisibilityIcon />
-        </IconButton>
-        <IconButton onClick={handleDelete}>
-          <Delete />
         </IconButton>
       </Container>
     </>

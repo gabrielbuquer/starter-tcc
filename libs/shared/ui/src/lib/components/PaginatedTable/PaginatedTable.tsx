@@ -8,7 +8,8 @@ import {
   TablePagination,
   TableRow,
 } from '@mui/material';
-import { useState } from 'react';
+
+import { Loader } from '../Loader';
 
 import { TableActions, TableFooter } from './PaginatedTable.styled';
 import { Props } from './types';
@@ -17,27 +18,26 @@ export const PaginatedTable = ({
   columns,
   rows,
   actions,
+  page,
+  rowsPerPage = 10,
+  totalRows = 0,
+  loading = false,
   onChangePage,
   onChangeRowsPerPage,
 }: Props) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-    onChangePage?.(event, newPage);
+  const handleChangePage = (_: unknown, newPage: number) => {
+    onChangePage?.(newPage);
   };
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
     onChangeRowsPerPage?.(event);
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', position: 'relative' }}>
+      {loading && <Loader isFullScreen={false} />}
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -54,33 +54,31 @@ export const PaginatedTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+            {rows.map((row) => {
+              return (
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        {column.format && typeof value === 'number'
+                          ? column.format(value)
+                          : value}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
         <TableFooter>
           {actions && <TableActions>{actions}</TableActions>}
 
           <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
+            rowsPerPageOptions={[]}
             component="div"
-            count={rows.length}
+            count={totalRows}
             rowsPerPage={rowsPerPage}
             page={page}
             labelRowsPerPage={'Linhas por página'}

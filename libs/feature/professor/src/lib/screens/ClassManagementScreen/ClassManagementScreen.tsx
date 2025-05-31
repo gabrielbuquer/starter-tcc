@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { PaginatedTable } from '@monetix/shared/ui';
+import { Loader, PaginatedTable } from '@monetix/shared/ui';
 
 import { useClassManagement } from '../../contexts';
 
@@ -19,13 +19,16 @@ export const ClassManagementScreen = () => {
   const {
     classRooms,
     classRoomCourses,
-    isLoading,
+    isLoadingClasses,
+    isLoadingCourses,
     setModalCourseOpen,
     setSelectedClassRoom,
+    classRoomCoursesPage,
+    setClassRoomCoursesPage,
   } = useClassManagement();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isLoadingClasses) {
+    return <Typography variant="h6">Carregando...</Typography>;
   }
 
   return (
@@ -59,8 +62,11 @@ export const ClassManagementScreen = () => {
         <PaginatedTable
           columns={columns}
           rows={rows(classRoomCourses?.items)}
-          page={0}
-          rowsPerPage={10}
+          page={classRoomCoursesPage}
+          totalRows={classRoomCourses?.meta?.totalItems ?? 0}
+          onChangePage={(newPage) => setClassRoomCoursesPage(newPage)}
+          loading={isLoadingCourses}
+          rowsPerPage={2}
           actions={
             <Button
               variant="contained"

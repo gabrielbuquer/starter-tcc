@@ -33,7 +33,7 @@ export const StudentViewer = () => {
             fullWidth
             label={NAME_ATTRIBUTES.label}
             variant="outlined"
-            value={'Estudante'}
+            value={studentView?.student?.name || 'Nome do Estudante'}
             disabled
           />
         </Grid>
@@ -42,7 +42,7 @@ export const StudentViewer = () => {
             fullWidth
             label={EMAIL_ATTRIBUTES.label}
             variant="outlined"
-            value={'estudante@email.com'}
+            value={studentView?.student?.email || 'estudante@email.com'}
             disabled
           />
         </Grid>

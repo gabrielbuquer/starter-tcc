@@ -58,8 +58,8 @@ export const StudentManagementScreen = () => {
         <PaginatedTable
           columns={columns}
           rows={rows(classRoomStudents?.items ?? [])}
-          page={0}
-          rowsPerPage={10}
+          page={1}
+          rowsPerPage={2}
         />
 
         <StudentViewer />

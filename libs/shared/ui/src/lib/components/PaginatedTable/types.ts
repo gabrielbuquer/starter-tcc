@@ -4,7 +4,9 @@ export interface Props {
   page: number;
   rowsPerPage: number;
   actions?: React.ReactNode;
-  onChangePage?: (event: unknown, newPage: number) => void;
+  totalRows?: number;
+  loading?: boolean;
+  onChangePage?: (newPage: number) => void;
   onChangeRowsPerPage?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
