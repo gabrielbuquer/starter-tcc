@@ -51,9 +51,21 @@ const StudentManagementContextProvider = ({
       page: classRoomStudentsPage + 1,
       limit: 10,
     });
+
+  console.log(classRoomStudents, loadingClassRoomStudents, {
+    classRoomId: selectedClassRoom,
+    page: classRoomStudentsPage + 1,
+    limit: 10,
+  });
   const [studentView, setStudentView] = useState<StudentViewerState>({
     open: false,
   });
+
+  useEffect(() => {
+    if (classRooms?.[0]?.id) {
+      setSelectedClassRoom(classRooms[0].id);
+    }
+  }, [classRooms]);
 
   return (
     <StudentManagementContext.Provider

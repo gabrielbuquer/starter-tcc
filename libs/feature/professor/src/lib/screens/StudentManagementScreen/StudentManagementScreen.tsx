@@ -30,50 +30,50 @@ export const StudentManagementScreen = () => {
     classRoomStudentsPage,
   } = useStudentManagement();
 
+  console.log('screen', classRoomStudents, isLoadingStudents);
+
   if (isLoadingClasses) {
     return <Loader />;
   }
 
   return (
-    <StudentManagementContextProvider>
-      <Container>
-        <Typography variant="h3" component="h1">
-          Gestão de Alunos
-        </Typography>
-        <Actions>
-          <FormControl sx={{ minWidth: 140 }} size="small">
-            <InputLabel id="transaction-select-label">Classe</InputLabel>
-            <Select
-              label={'Tipo de transação'}
-              labelId="transaction-select-label"
-              defaultValue={classRooms?.[0].id}
-              onChange={(e) => {
-                setSelectedClassRoom(e.target.value);
-              }}
-            >
-              {classRooms?.map((item) => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button variant="contained" color="primary">
-            Adicionar nova classe
-          </Button>
-        </Actions>
-        <PaginatedTable
-          columns={columns}
-          rows={rows(classRoomStudents?.items ?? [])}
-          page={classRoomStudentsPage}
-          rowsPerPage={10}
-          totalRows={classRoomStudents?.meta?.totalItems ?? 0}
-          onChangePage={(newPage) => setClassRoomStudentsPage(newPage)}
-          loading={isLoadingStudents}
-        />
+    <Container>
+      <Typography variant="h3" component="h1">
+        Gestão de Alunos
+      </Typography>
+      <Actions>
+        <FormControl sx={{ minWidth: 140 }} size="small">
+          <InputLabel id="transaction-select-label">Classe</InputLabel>
+          <Select
+            label={'Tipo de transação'}
+            labelId="transaction-select-label"
+            defaultValue={classRooms?.[0].id}
+            onChange={(e) => {
+              setSelectedClassRoom(e.target.value);
+            }}
+          >
+            {classRooms?.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button variant="contained" color="primary">
+          Adicionar nova classe
+        </Button>
+      </Actions>
+      <PaginatedTable
+        columns={columns}
+        rows={rows(classRoomStudents?.items ?? [])}
+        page={classRoomStudentsPage}
+        rowsPerPage={10}
+        totalRows={classRoomStudents?.meta?.totalItems ?? 0}
+        onChangePage={(newPage) => setClassRoomStudentsPage(newPage)}
+        loading={isLoadingStudents}
+      />
 
-        <StudentViewer />
-      </Container>
-    </StudentManagementContextProvider>
+      <StudentViewer />
+    </Container>
   );
 };

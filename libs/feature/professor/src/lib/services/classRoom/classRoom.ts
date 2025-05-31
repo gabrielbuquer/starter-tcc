@@ -54,9 +54,20 @@ export const useClassRoomCourses = ({
   limit,
   token,
 }: CoursesQueryParams) => {
-  return useSWR<ClassRoomCoursesDataResponse>(
-    [API_PATHS.CLASS_ROOM_API, API_PATHS.COURSES_API, classRoomId, page, limit],
-    () => classRoomCoursesFetcher(classRoomId, page, limit, token),
+  const shouldFetch = !!classRoomId;
+
+  const swrKey = shouldFetch
+    ? [
+        API_PATHS.CLASS_ROOM_API,
+        API_PATHS.COURSES_API,
+        classRoomId,
+        page,
+        limit,
+      ]
+    : null;
+
+  return useSWR<ClassRoomCoursesDataResponse>(swrKey, () =>
+    classRoomCoursesFetcher(classRoomId, page, limit, token),
   );
 };
 
@@ -123,14 +134,19 @@ export const useClassRoomStudents = ({
   limit,
   token,
 }: StudentsQueryParams) => {
-  return useSWR<ClassRoomStudentsDataResponse>(
-    [
-      API_PATHS.CLASS_ROOM_API,
-      API_PATHS.STUDENTS_API,
-      classRoomId,
-      page,
-      limit,
-    ],
-    () => classRoomStudentsFetcher(classRoomId, page, limit, token),
+  const shouldFetch = !!classRoomId;
+
+  const swrKey = shouldFetch
+    ? [
+        API_PATHS.CLASS_ROOM_API,
+        API_PATHS.STUDENTS_API,
+        classRoomId,
+        page,
+        limit,
+      ]
+    : null;
+
+  return useSWR<ClassRoomStudentsDataResponse>(swrKey, () =>
+    classRoomStudentsFetcher(classRoomId, page, limit, token),
   );
 };
