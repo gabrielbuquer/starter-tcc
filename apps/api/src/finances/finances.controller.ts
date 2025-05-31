@@ -46,7 +46,6 @@ export class FinancesController {
   }
 
   @Get()
-  @ApiParam({ name: 'id', description: 'ID do usuário' })
   @ApiBody({ type: CreateTransactionDto })
   async getTransactions(
     @GetSub() userId: string,
@@ -62,6 +61,20 @@ export class FinancesController {
     );
   }
 
+  /* @Get()
+  async getOverview(
+    @GetSub() userId: string,
+    @Query('start-date') startDate?: Date,
+    @Query('end-date') endDate?: Date
+  ) {
+    const transactions = await this.financesService.getOverview(
+      userId,
+      startDate,
+      endDate
+    );
+    return FinancesMapper.mapOverview(transactions);
+  }
+*/
   @Get(':type/:id')
   @ApiParam({
     name: 'type',

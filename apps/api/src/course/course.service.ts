@@ -35,6 +35,13 @@ export class CourseService {
   }
 
   async update(id: string, updateCourse: CreateCourseDto): Promise<Course> {
+    const course = await this.findById(id);
+    this.registrationService.removeAllProgressFromCourse(id);
+    const updatedCourse = CourseMapper.updateEntity(updateCourse, course);
+    return this.repository.save(updatedCourse);
+  }
+
+  async findById(id: string): Promise<Course> {
     const course = await this.repository.findOne({
       where: { id },
       relations: ['lessons'],
@@ -42,9 +49,7 @@ export class CourseService {
     if (!course) {
       throw new NotFoundException(`Course with id ${id} not found`);
     }
-    this.registrationService.removeAllProgressFromCourse(id);
-    const updatedCourse = CourseMapper.updateEntity(updateCourse, course);
-    return this.repository.save(updatedCourse);
+    return course;
   }
 
   async findOne(id: string, classroom: string): Promise<ClassroomCourser> {

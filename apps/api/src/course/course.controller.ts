@@ -5,6 +5,8 @@ import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
 import { CourseService } from './course.service';
 import { ICourseResponseDTO } from './dto/courser.dto';
 import { CreateCourseDto } from './dto/create-course.dto';
+import { CourseMapper } from './courser.mapper';
+import ICourseDetailsResponseDTO from './dto/couser-details.dto';
 
 @Controller('/api/course')
 export class CourseController {
@@ -14,6 +16,11 @@ export class CourseController {
   @RequireUserType('teacher')
   async create(@Body() createCourseDto: CreateCourseDto) {
     await this.courseService.create(createCourseDto);
+  }
+
+  @Get(':id')
+  async getById(@Param('id') id: string): Promise<ICourseDetailsResponseDTO> {
+    return CourseMapper.toResponse(await this.courseService.findById(id));
   }
 
   @Put(':id')
