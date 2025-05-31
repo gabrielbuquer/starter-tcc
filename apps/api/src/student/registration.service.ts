@@ -68,16 +68,18 @@ export class RegistrationService {
   }
 
   async removeAllProgressFromCourse(courseId: string): Promise<void> {
-    await this.repository
-      .createQueryBuilder()
-      .update()
-      .set({
-        progress: 0,
-        startDate: () => 'CURRENT_TIMESTAMP',
-        endDate: null,
-      })
-      .where('courseId = :courseId', { courseId })
-      .execute();
+    const registrations = await this.repository.find({
+      where: { course: { id: courseId } },
+      relations: ['lessons'],
+    });
+
+    for (const reg of registrations) {
+      reg.lessons = [];
+      reg.progress = 0;
+      reg.startDate = new Date();
+      reg.endDate = null;
+    }
+    await this.repository.save(registrations);
   }
 
   async upset(student: Student, course: Course): Promise<Registration> {

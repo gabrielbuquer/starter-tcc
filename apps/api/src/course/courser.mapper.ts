@@ -19,7 +19,7 @@ export class CourseMapper {
     return {
       ...course,
       ...updateCourse,
-      lessons: course.lessons.map((lesson, index) => ({
+      lessons: updateCourse.lessons.map((lesson, index) => ({
         ...lesson,
         order: index + 1,
       })),

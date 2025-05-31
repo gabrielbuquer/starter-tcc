@@ -35,7 +35,10 @@ export class CourseService {
   }
 
   async update(id: string, updateCourse: CreateCourseDto): Promise<Course> {
-    const course = await this.repository.findOneBy({ id });
+    const course = await this.repository.findOne({
+      where: { id },
+      relations: ['lessons'],
+    });
     if (!course) {
       throw new NotFoundException(`Course with id ${id} not found`);
     }
