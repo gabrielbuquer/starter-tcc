@@ -11,13 +11,4 @@ module.exports = {
       base: '',
     },
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/financas',
-        permanent: true,
-      },
-    ];
-  },
 };

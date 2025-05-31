@@ -59,7 +59,7 @@ export const SnackBar = () => (
   <WrapperToastify>
     <S.Toast
       position="bottom-center"
-      autoClose={10000}
+      autoClose={4000}
       closeButton={false}
       closeOnClick={false}
     />
