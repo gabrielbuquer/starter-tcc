@@ -14,7 +14,6 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
-  @RequireUserType('teacher')
   @Get('/:id')
   async getStudent(@Param('id') id: string) {
     const student = await this.studentService.findById(id);
