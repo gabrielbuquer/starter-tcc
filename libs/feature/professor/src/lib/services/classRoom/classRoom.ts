@@ -7,6 +7,7 @@ import {
   ClassRoomCoursesDataResponse,
   ClassRoomStudentsDataResponse,
   CoursesQueryParams,
+  StudentsQueryParams,
 } from './types';
 
 const API_PATHS = getPaths();
@@ -104,6 +105,8 @@ export const useClassRoomCourseEnable = () => {
 
 export const classRoomStudentsFetcher = (
   classRoomId: string,
+  page = 1,
+  limit = 2,
   token?: string,
 ) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -114,8 +117,8 @@ export const classRoomStudentsFetcher = (
       {
         headers,
         params: {
-          page: 1,
-          limit: 2,
+          page,
+          limit,
         },
       },
     )
@@ -127,10 +130,10 @@ export const useClassRoomStudents = () => {
     ClassRoomStudentsDataResponse,
     unknown,
     [string, string],
-    { classRoomId: string; token?: string }
+    StudentsQueryParams
   >(
     [API_PATHS.CLASS_ROOM_API, 'students'],
-    (_key, { arg }: { arg: { classRoomId: string; token?: string } }) =>
-      classRoomStudentsFetcher(arg.classRoomId, arg.token),
+    (_key, { arg }: { arg: StudentsQueryParams }) =>
+      classRoomStudentsFetcher(arg.classRoomId, arg.page, arg.limit, arg.token),
   );
 };

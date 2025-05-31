@@ -19,11 +19,14 @@ type StudentViewerState = {
 type StudentManagementContextProps = {
   classRooms: ClassRoomType[];
   classRoomStudents: ClassRoomStudentsDataResponse;
+  classRoomStudentsPage: number;
   selectedClassRoom: string | null;
-  isLoading: boolean;
+  isLoadingClasses: boolean;
+  isLoadingStudents: boolean;
   studentView: StudentViewerState;
   setStudentView: (user: StudentViewerState) => void;
   setSelectedClassRoom: (classRoomId: string | null) => void;
+  setClassRoomStudentsPage: (page: number) => void;
 };
 
 export type StudentManagementContextPropsProviderProps = {
@@ -37,10 +40,11 @@ export const StudentManagementContext = createContext(
 const StudentManagementContextProvider = ({
   children,
 }: StudentManagementContextPropsProviderProps) => {
-  const { data: classRooms } = useClassRoom();
+  const { data: classRooms, isLoading: loadingClassRooms } = useClassRoom();
   const [selectedClassRoom, setSelectedClassRoom] = useState<string | null>(
     classRooms?.[0].id,
   );
+  const [classRoomStudentsPage, setClassRoomStudentsPage] = useState(1);
   const {
     data: classRoomStudents,
     trigger: classRoomStudentsTrigger,
@@ -54,6 +58,8 @@ const StudentManagementContextProvider = ({
     if (selectedClassRoom) {
       classRoomStudentsTrigger({
         classRoomId: selectedClassRoom,
+        page: classRoomStudentsPage,
+        limit: 10,
       });
     }
   }, [selectedClassRoom, classRoomStudentsTrigger]);
@@ -63,11 +69,14 @@ const StudentManagementContextProvider = ({
       value={{
         classRooms,
         classRoomStudents,
+        classRoomStudentsPage,
         selectedClassRoom,
-        isLoading: !classRoomStudents && loadingClassRoomStudents,
+        isLoadingClasses: !classRooms && loadingClassRooms,
+        isLoadingStudents: !classRoomStudents && loadingClassRoomStudents,
         studentView,
         setStudentView,
         setSelectedClassRoom,
+        setClassRoomStudentsPage,
       }}
     >
       {children}

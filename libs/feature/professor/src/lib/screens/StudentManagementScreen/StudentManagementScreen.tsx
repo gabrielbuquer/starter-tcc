@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { PaginatedTable } from '@monetix/shared/ui';
+import { Loader, PaginatedTable } from '@monetix/shared/ui';
 
 import {
   StudentManagementContextProvider,
@@ -20,11 +20,18 @@ import { columns } from './constants';
 import { rows } from './StudentManagementScreen.content';
 
 export const StudentManagementScreen = () => {
-  const { classRooms, classRoomStudents, isLoading, setSelectedClassRoom } =
-    useStudentManagement();
+  const {
+    classRooms,
+    classRoomStudents,
+    isLoadingClasses,
+    isLoadingStudents,
+    setSelectedClassRoom,
+    setClassRoomStudentsPage,
+    classRoomStudentsPage,
+  } = useStudentManagement();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isLoadingClasses) {
+    return <Loader />;
   }
 
   return (
@@ -58,8 +65,11 @@ export const StudentManagementScreen = () => {
         <PaginatedTable
           columns={columns}
           rows={rows(classRoomStudents?.items ?? [])}
-          page={1}
+          page={classRoomStudentsPage}
           rowsPerPage={2}
+          totalRows={classRoomStudents?.meta?.totalItems ?? 0}
+          onChangePage={(newPage) => setClassRoomStudentsPage(newPage)}
+          loading={isLoadingStudents}
         />
 
         <StudentViewer />

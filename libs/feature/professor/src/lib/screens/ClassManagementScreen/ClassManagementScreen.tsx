@@ -28,7 +28,7 @@ export const ClassManagementScreen = () => {
   } = useClassManagement();
 
   if (isLoadingClasses) {
-    return <Typography variant="h6">Carregando...</Typography>;
+    return <Loader />;
   }
 
   return (
