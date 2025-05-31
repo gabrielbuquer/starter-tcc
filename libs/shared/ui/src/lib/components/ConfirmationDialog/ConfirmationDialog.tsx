@@ -1,4 +1,11 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Typography } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 export type ConfimationDialogProps = {
@@ -8,9 +15,16 @@ export type ConfimationDialogProps = {
   isLoading?: boolean;
   handleSuccess: () => void;
   handleCancel: () => void;
-}
+};
 
-export const ConfirmationDialog = ({ open = true, title, text, isLoading, handleSuccess, handleCancel }: ConfimationDialogProps) => {
+export const ConfirmationDialog = ({
+  open = true,
+  title,
+  text,
+  isLoading,
+  handleSuccess,
+  handleCancel,
+}: ConfimationDialogProps) => {
   return (
     <Dialog
       open={open}
@@ -42,5 +56,5 @@ export const ConfirmationDialog = ({ open = true, title, text, isLoading, handle
         </LoadingButton>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};

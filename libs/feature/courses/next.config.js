@@ -8,7 +8,16 @@ module.exports = {
   },
   publicRuntimeConfig: {
     publicApi: {
-      base: ''
+      base: '',
     },
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/financas',
+        permanent: true,
+      },
+    ];
   },
 };

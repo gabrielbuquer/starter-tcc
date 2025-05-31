@@ -7,12 +7,14 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { Response } from 'express';
+
+import { GetSub } from '../auth/decorator/get-sub';
+
 import { FinancesMapper } from './finances.mapper';
 import { FinancesService } from './finances.service';
-import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { GetSub } from '../auth/decorator/get-sub';
-import { Response } from 'express';
 
 @Controller('/api/finances')
 export class FinancesController {
@@ -36,7 +38,7 @@ export class FinancesController {
   async createTransaction(
     @Res() res: Response,
     @GetSub() userId: string,
-    @Body() body: CreateTransactionDto
+    @Body() body: CreateTransactionDto,
   ) {
     await this.financesService.createTransaction(userId, body);
     res.status(HttpStatus.CREATED).send();
@@ -51,7 +53,7 @@ export class FinancesController {
   })
   async getCategoryById(
     @Param('type') type: 'expense' | 'income',
-    @Param('id') id: string
+    @Param('id') id: string,
   ) {
     const category = await this.financesService.getCategoryById(id);
     return FinancesMapper.mapCategory(category);

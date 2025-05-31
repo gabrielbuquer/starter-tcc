@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { FinancesService } from './finances.service';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
+
+import { FinancesService } from './finances.service';
 import { Category, CategoryType } from './entities/category.entity';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class FinancesSeed implements OnModuleInit {
   constructor(
     private readonly financesService: FinancesService,
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async onModuleInit() {
@@ -51,12 +51,12 @@ export class FinancesSeed implements OnModuleInit {
     try {
       await this.financesService.getCategoryById(category.id);
       console.log(
-        `Categoria "${category.description}" (${category.type}) já existe.`
+        `Categoria "${category.description}" (${category.type}) já existe.`,
       );
     } catch {
       await this.categoryRepository.save(category);
       console.log(
-        `Categoria "${category.description}" (${category.type}) criada.`
+        `Categoria "${category.description}" (${category.type}) criada.`,
       );
     }
   }
