@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 
 import { GetClassroom } from '../auth/decorator/get-classroom';
 import { GetSub } from '../auth/decorator/get-sub';
@@ -16,6 +16,12 @@ export class CourseController {
   @RequireUserType('teacher')
   async create(@Body() createCourseDto: CreateCourseDto) {
     await this.courseService.create(createCourseDto);
+  }
+
+  @Put(':id')
+  @RequireUserType('teacher')
+  async update(@Param('id') id: string, @Body() updateCourse: CreateCourseDto) {
+    return await this.courseService.update(id, updateCourse);
   }
 
   @Get()

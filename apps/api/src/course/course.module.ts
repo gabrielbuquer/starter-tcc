@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ClassroomModule } from '../classroom/classroom.module';
 import { ClassroomCourser } from '../classroom/entities/classroom-course';
+import { StudentModule } from '../student/student.module';
 
 import { CourseController } from './course.controller';
 import { CourseService } from './course.service';
@@ -16,6 +17,7 @@ import { Lesson } from './entities/lesson.entity';
     TypeOrmModule.forFeature([ClassroomCourser]),
     TypeOrmModule.forFeature([Lesson]),
     forwardRef(() => ClassroomModule),
+    forwardRef(() => StudentModule),
   ],
   controllers: [CourseController],
   providers: [CourseService, LessonService],

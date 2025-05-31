@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { ClassroomService } from '../classroom/classroom.service';
 import { ClassroomCourser } from '../classroom/entities/classroom-course';
 import { ClassroomMapper } from '../classroom/classroom.mapper';
+import { RegistrationService } from '../student/registration.service';
 
 import { ICourseResponseDTO } from './dto/courser.dto';
 import { Course } from './entities/course.entity';
@@ -25,12 +26,27 @@ export class CourseService {
     private readonly classroomService: ClassroomService,
     @InjectRepository(ClassroomCourser)
     private readonly classroomCourseRepository: Repository<ClassroomCourser>,
+    @Inject(forwardRef(() => RegistrationService))
+    private readonly registrationService: RegistrationService,
   ) {}
 
   async create(createCourseDto: CreateCourseDto) {
     const course = CourseMapper.toEntity(createCourseDto);
     await this.repository.save(course);
     await this.classroomService.includeCourserInAllClassroom(course);
+  }
+
+  async update(id: string, updateCourse: CreateCourseDto): Promise<Course> {
+    const course = await this.repository.findOne({
+      where: { id },
+      relations: ['lessons'],
+    });
+    if (!course) {
+      throw new NotFoundException(`Course with id ${id} not found`);
+    }
+    this.registrationService.removeAllProgressFromCourse(id);
+    const updatedCourse = CourseMapper.updateEntity(updateCourse, course);
+    return this.repository.save(updatedCourse);
   }
 
   async findOne(id: string, classroom: string): Promise<ClassroomCourser> {

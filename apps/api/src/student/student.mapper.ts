@@ -1,15 +1,10 @@
-import { describe } from 'node:test';
-
-import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { Classroom } from '../classroom/entities/classroom.entity';
-import { Course } from '../course/entities/course.entity';
 
-import { CreateStudentDto } from './dto/student.create';
-import { Student } from './entities/student.entity';
-import { IStudentResponseDTO } from './dto/student.response';
-import { StudentLesson } from './entities/student-lesson';
-import { Registration } from './entities/registration.entity';
 import { ICourseResponseDTO } from './dto/student.courser.dto';
+import { CreateStudentDto } from './dto/student.create';
+import { IStudentResponseDTO } from './dto/student.response';
+import { Registration } from './entities/registration.entity';
+import { Student } from './entities/student.entity';
 
 export class StudentMapper {
   static toEntity(dto: CreateStudentDto, classRoom: Classroom): Student {
