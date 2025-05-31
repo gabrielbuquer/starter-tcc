@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 
 import { Category, CategoryType } from './entities/category.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Transaction } from './entities/transaction.entity';
+import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
 
 @Injectable()
 export class FinancesService {
@@ -43,5 +46,72 @@ export class FinancesService {
       student: { id: userId },
     });
     return this.transactionRepository.save(newTransaction);
+  }
+
+  async getTransactions(
+    userId: string,
+    filter: FilterTransactionDto,
+    page: number,
+    limit: number,
+  ): Promise<PaginatedWithResumeDto<Transaction>> {
+    const applyFilters = (
+      query: SelectQueryBuilder<Transaction>,
+      alias = 'transaction',
+    ): SelectQueryBuilder<Transaction> => {
+      if (filter.type) {
+        query.andWhere(`${alias}.type = :type`, { type: filter.type });
+      }
+
+      if (filter['start-date']) {
+        query.andWhere(`${alias}.date >= :startDate`, {
+          startDate: filter['start-date'],
+        });
+      }
+
+      if (filter['end-date']) {
+        query.andWhere(`${alias}.date <= :endDate`, {
+          endDate: filter['end-date'],
+        });
+      }
+
+      return query;
+    };
+
+    const queryBuilder = this.transactionRepository
+      .createQueryBuilder('transaction')
+      .leftJoinAndSelect('transaction.category', 'category')
+      .where('transaction.studentId = :userId', { userId })
+      .orderBy('transaction.date', 'DESC');
+
+    applyFilters(queryBuilder);
+
+    const paginated = await paginate<Transaction>(queryBuilder, {
+      page,
+      limit,
+    });
+
+    const resumeQuery = this.transactionRepository
+      .createQueryBuilder('t')
+      .select([
+        "SUM(CASE WHEN t.type = 'income' THEN t.value ELSE 0 END) AS totalIncome",
+        "SUM(CASE WHEN t.type = 'expense' THEN t.value ELSE 0 END) AS totalExpense",
+      ])
+      .where('t.studentId = :userId', { userId });
+
+    applyFilters(resumeQuery, 't');
+
+    const resumeRaw = await resumeQuery.getRawOne();
+
+    const totalIncome = Number(resumeRaw['totalincome']) || 0;
+    const totalExpense = Number(resumeRaw['totalexpense']) || 0;
+
+    return {
+      ...paginated,
+      resume: {
+        totalIncome,
+        totalExpense,
+        amount: totalIncome - totalExpense,
+      },
+    };
   }
 }
