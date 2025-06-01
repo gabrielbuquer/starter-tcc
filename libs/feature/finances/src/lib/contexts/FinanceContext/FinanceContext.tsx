@@ -1,5 +1,7 @@
 import { ReactNode, createContext, useState } from 'react';
 
+import { TransactionTypeEnum } from '@monetix/shared/config';
+
 import { TransactionForm, TransactionFormProps } from '../../components';
 
 type FinanceContextProps = {
@@ -20,7 +22,7 @@ const FinanceContextProvider = ({
 }: FinanceContextPropsProviderProps) => {
   const [transactionForm, setTransactionForm] = useState({
     open: false,
-    formType: 'expense' as 'expense' | 'income',
+    formType: 'expense' as TransactionTypeEnum,
     isEditing: false,
     defaultValues: null,
   });

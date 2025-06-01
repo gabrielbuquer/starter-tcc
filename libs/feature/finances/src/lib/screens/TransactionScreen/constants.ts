@@ -1,15 +1,17 @@
+import { TransactionTypeEnum } from '@monetix/shared/config';
+
 export const transactionsFilter = [
   {
     label: 'Todas',
-    value: 'all',
+    value: TransactionTypeEnum.ALL,
   },
   {
     label: 'Receitas',
-    value: 'income',
+    value: TransactionTypeEnum.INCOME,
   },
   {
     label: 'Despesas',
-    value: 'expense',
+    value: TransactionTypeEnum.EXPENSE,
   },
 ];
 
@@ -21,14 +23,12 @@ export const columns: any[] = [
     label: 'Descrição',
     minWidth: 200,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
     id: 'category',
     label: 'Categoria',
     minWidth: 200,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
     id: 'value',
@@ -42,6 +42,5 @@ export const columns: any[] = [
     label: 'Ações',
     minWidth: 50,
     align: 'right',
-    format: (value: number) => value.toFixed(2),
   },
 ];

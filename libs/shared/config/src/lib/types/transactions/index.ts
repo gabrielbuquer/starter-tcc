@@ -14,12 +14,13 @@ export type TransactionType = {
 };
 
 export enum TransactionTypeEnum {
+  ALL = 'all',
   EXPENSE = 'expense',
   INCOME = 'income',
 }
 
 export type TransactionResumeType = {
   amount: number;
-  'amount-expense': number;
-  'amount-income': number;
+  totalIncome: number;
+  totalExpense: number;
 };

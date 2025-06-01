@@ -15,11 +15,13 @@ import { useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { ActionDialog } from '@monetix/shared/ui';
+import { TransactionTypeEnum } from '@monetix/shared/config';
 
 import {
   usePostTransaction,
   useTransactionCategories,
 } from '../../services/transactions';
+import { useTransactionTable } from '../../contexts';
 
 import { Actions } from './TransactionForm.styled';
 import {
@@ -40,7 +42,7 @@ type TransactionFormData = {
 
 export type TransactionFormProps = {
   open: boolean;
-  formType: 'expense' | 'income';
+  formType: TransactionTypeEnum;
   isEditing?: boolean;
   defaultValues?: TransactionFormData;
   onClose?: () => void;
@@ -56,6 +58,7 @@ export const TransactionForm = ({
   const { titleNew, titleEdit } = FORM_DATA[formType];
   const { trigger: postTransaction } = usePostTransaction();
   const { data: categories } = useTransactionCategories(formType);
+  const { updateTransactions } = useTransactionTable();
   const [loading, setLoading] = useState(false);
 
   const methods = useForm<TransactionFormData>({
@@ -84,6 +87,7 @@ export const TransactionForm = ({
         date: new Date(formData.date).toISOString(),
         type: formType,
       });
+      updateTransactions?.();
       setLoading(false);
       onClose?.();
     }

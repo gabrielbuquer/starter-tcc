@@ -2,12 +2,15 @@ import {
   PaginationType,
   TransactionResumeType,
   TransactionType,
+  TransactionTypeEnum,
 } from '@monetix/shared/config';
 
 export type TransactionQueryParams = {
-  'start-date': string;
-  'end-date': string;
-  type: 'expense' | 'income';
+  type?: TransactionTypeEnum;
+  'start-date'?: string;
+  'end-date'?: string;
+  page: number;
+  limit: number;
 };
 
 export type TransactionPostData = Omit<
@@ -18,7 +21,7 @@ export type TransactionPostData = Omit<
 };
 
 export type TransactionsDataResponse = {
-  data: TransactionType[];
+  items: TransactionType[];
   resume: TransactionResumeType;
-  pagination: PaginationType;
+  meta: PaginationType;
 };

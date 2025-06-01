@@ -31,3 +31,34 @@ export const generateLastNMonths = (
 
   return result;
 };
+
+export const getCurrentMonth = (): { label: string; value: string } => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const monthIndex = now.getMonth();
+  const monthName = monthNamesPtBR[monthIndex];
+  const label = `${monthName} / ${year}`;
+  const value = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+  return { label, value };
+};
+
+export const getStartAndEndDateFromMonthValue = (value: string) => {
+  if (!value) return null;
+  const [year, month] = value.split('-').map(Number);
+
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+
+  const end = new Date(year, month, 0);
+  const endDate = end.toISOString().split('T')[0];
+
+  return { 'start-date': startDate, 'end-date': endDate };
+};
+
+export const dateFormatter = (date: string): string => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: 'numeric',
+  };
+  return new Date(date).toLocaleDateString('pt-BR', options);
+};

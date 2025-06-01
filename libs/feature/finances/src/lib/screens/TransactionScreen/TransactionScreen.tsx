@@ -4,13 +4,14 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
 import { MonthSelector, PaginatedTable } from '@monetix/shared/ui';
+import { TransactionTypeEnum } from '@monetix/shared/config';
 
 import { MainGrid } from '../../containers/MainGrid';
 import { useTransactionTable } from '../../contexts';
 
 import { Container, Content, Filters } from './TransactionScreen.styled';
-import { rows } from './TransactionScreen.mock';
 import { columns, transactionsFilter } from './constants';
+import { rows } from './TransactionScreen.content';
 
 export const TransactionScreen = () => {
   const {
@@ -20,29 +21,24 @@ export const TransactionScreen = () => {
     isLoadingTransactions,
     setSelectedType,
     setTransactionsPage,
+    setTransactionsMonth,
   } = useTransactionTable();
-
-  console.log(
-    transactions,
-    transactionsPage,
-    selectedType,
-    isLoadingTransactions,
-  );
-
-  console.log('Rendering TransactionScreen');
 
   return (
     <Container>
-      <MainGrid />
+      <MainGrid {...transactions?.resume} />
       <Content>
         <Filters>
-          <MonthSelector />
+          <MonthSelector onChange={(e) => setTransactionsMonth(e)} />
           <FormControl sx={{ minWidth: 140 }} size="small">
             <InputLabel id="transaction-select-label">Transações</InputLabel>
             <Select
               label={'Tipo de transação'}
               labelId="transaction-select-label"
-              defaultValue={transactionsFilter[0].value}
+              defaultValue={selectedType ?? transactionsFilter[0].value}
+              onChange={(e) =>
+                setSelectedType(e.target.value as TransactionTypeEnum)
+              }
             >
               {transactionsFilter.map((item) => (
                 <MenuItem key={item.value} value={item.value}>
@@ -54,9 +50,12 @@ export const TransactionScreen = () => {
         </Filters>
         <PaginatedTable
           columns={columns}
-          rows={rows}
-          page={0}
+          rows={rows(transactions?.items || [])}
+          page={transactionsPage}
+          totalRows={transactions?.meta?.totalItems}
           rowsPerPage={10}
+          loading={isLoadingTransactions}
+          onChangePage={(page) => setTransactionsPage(page)}
         />
       </Content>
     </Container>

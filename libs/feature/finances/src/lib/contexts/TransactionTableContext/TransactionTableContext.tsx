@@ -1,7 +1,11 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import { useSession } from 'next-auth/react';
 
 import { TransactionTypeEnum } from '@monetix/shared/config';
+import {
+  generateLastNMonths,
+  getCurrentMonth,
+  getStartAndEndDateFromMonthValue,
+} from '@monetix/core-utils';
 
 import { useTransactionsData } from '../../services/transactions';
 import { TransactionsDataResponse } from '../../services/transactions/types';
@@ -9,10 +13,13 @@ import { TransactionsDataResponse } from '../../services/transactions/types';
 type TransactionTableContextProps = {
   transactions: TransactionsDataResponse;
   transactionsPage: number;
+  transactionsMonth: string;
   selectedType: TransactionTypeEnum;
   isLoadingTransactions: boolean;
   setSelectedType: (type: TransactionTypeEnum) => void;
   setTransactionsPage: (page: number) => void;
+  setTransactionsMonth: (month: string) => void;
+  updateTransactions: () => void;
 };
 
 export type TransactionTableContextPropsProviderProps = {
@@ -26,31 +33,37 @@ export const TransactionTableContext = createContext(
 export const TransactionTableContextProvider = ({
   children,
 }: TransactionTableContextPropsProviderProps) => {
-  const { data: session } = useSession();
   const [selectedType, setSelectedType] = useState<TransactionTypeEnum | null>(
-    TransactionTypeEnum.EXPENSE,
+    TransactionTypeEnum.ALL,
   );
   const [transactionsPage, setTransactionsPage] = useState(0);
-  const { data: transactions, isLoading: loadingTransactions } =
-    useTransactionsData(session?.user?.id, {
-      type: selectedType,
-      'start-date': new Date(
-        new Date().setDate(new Date().getDate() - 30),
-      ).toDateString(),
-      'end-date': new Date().toDateString(),
-    });
+  const [transactionsMonth, setTransactionsMonth] = useState<string>(
+    getCurrentMonth().value,
+  );
 
-  console.log(session?.user?.id, transactions, loadingTransactions);
+  const {
+    data: transactions,
+    isLoading: loadingTransactions,
+    mutate: updateTransactions,
+  } = useTransactionsData({
+    type: selectedType,
+    ...getStartAndEndDateFromMonthValue(transactionsMonth),
+    page: transactionsPage + 1,
+    limit: 10,
+  });
 
   return (
     <TransactionTableContext.Provider
       value={{
         transactions,
         transactionsPage,
+        transactionsMonth,
         selectedType,
         isLoadingTransactions: !transactions || loadingTransactions,
         setSelectedType,
         setTransactionsPage,
+        setTransactionsMonth,
+        updateTransactions,
       }}
     >
       {children}

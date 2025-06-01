@@ -6,11 +6,12 @@ export type SummaryProps = {
   title: string;
   content: string;
   icon: JSX.Element;
+  onClick?: () => void;
 };
 
-export const Summary = ({ title, content, icon }: SummaryProps) => {
+export const Summary = ({ title, content, icon, onClick }: SummaryProps) => {
   return (
-    <Container>
+    <Container onClick={() => onClick?.()}>
       <TextWrapper>
         {title ? <Typography variant="caption">{title}</Typography> : null}
         {content ? <Typography variant="h3">{content}</Typography> : null}

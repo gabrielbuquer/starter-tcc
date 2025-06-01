@@ -1,7 +1,12 @@
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
-import { TransactionCategoryType, api, getPaths } from '@monetix/shared/config';
+import {
+  TransactionCategoryType,
+  TransactionTypeEnum,
+  api,
+  getPaths,
+} from '@monetix/shared/config';
 
 import {
   TransactionPostData,
@@ -11,27 +16,32 @@ import {
 
 const API_PATHS = getPaths();
 
-const USER_TRANSACTIONS_API = (userId: string) =>
-  `${API_PATHS.USER_API}/${userId}${API_PATHS.FINANCES_API}`;
-
 export const transactionsDataFetcher = (
-  userId: string,
   params: TransactionQueryParams,
 ): Promise<TransactionsDataResponse> => {
   return api
-    .get<TransactionsDataResponse>(USER_TRANSACTIONS_API(userId), { params })
+    .get<TransactionsDataResponse>(API_PATHS.FINANCES_API, {
+      params: {
+        ...params,
+        type: params.type === TransactionTypeEnum.ALL ? undefined : params.type,
+      },
+    })
     .then((res) => {
       return res.data;
     });
 };
 
-export const useTransactionsData = (
-  userId: string,
-  params: TransactionQueryParams,
-) => {
+export const useTransactionsData = (params: TransactionQueryParams) => {
   return useSWR(
-    [USER_TRANSACTIONS_API(userId), params],
-    transactionsDataFetcher,
+    [
+      API_PATHS.FINANCES_API,
+      params.type,
+      params.page,
+      params.limit,
+      params['start-date'],
+      params['end-date'],
+    ],
+    () => transactionsDataFetcher(params),
   );
 };
 
@@ -48,9 +58,8 @@ export const usePostTransaction = () =>
   );
 
 export const transactionCategoriesFetcher = (
-  type: 'expense' | 'income',
+  type: TransactionTypeEnum,
 ): Promise<TransactionCategoryType[]> => {
-  console.log('Fetching transaction categories for type:', type);
   return api
     .get<
       TransactionCategoryType[]
@@ -60,7 +69,7 @@ export const transactionCategoriesFetcher = (
     });
 };
 
-export const useTransactionCategories = (type: 'expense' | 'income') => {
+export const useTransactionCategories = (type: TransactionTypeEnum) => {
   return useSWR([`${API_PATHS.FINANCES_API}/${type}/categories`], () =>
     transactionCategoriesFetcher(type),
   );

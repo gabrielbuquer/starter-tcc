@@ -24,15 +24,15 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const TransactionsSummaryPage = () => {
-  return (
-    <TransactionTableContextProvider>
-      <TransactionScreen />
-    </TransactionTableContextProvider>
-  );
+  return <TransactionScreen />;
 };
 
 TransactionsSummaryPage.getLayout = (page: React.ReactNode) => {
-  return <FinanceLayout>{page}</FinanceLayout>;
+  return (
+    <TransactionTableContextProvider>
+      <FinanceLayout>{page}</FinanceLayout>
+    </TransactionTableContextProvider>
+  );
 };
 
 export default TransactionsSummaryPage;
