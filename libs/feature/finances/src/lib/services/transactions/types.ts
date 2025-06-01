@@ -5,7 +5,6 @@ import {
 } from '@monetix/shared/config';
 
 export type TransactionQueryParams = {
-  id: string;
   'start-date': string;
   'end-date': string;
   type: 'expense' | 'income';

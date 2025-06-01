@@ -9,9 +9,14 @@ export type TransactionType = {
   description: string;
   value: number;
   date: string;
-  type: 'expense' | 'income';
+  type: TransactionTypeEnum;
   category: TransactionCategoryType;
 };
+
+export enum TransactionTypeEnum {
+  EXPENSE = 'expense',
+  INCOME = 'income',
+}
 
 export type TransactionResumeType = {
   amount: number;

@@ -25,6 +25,16 @@ export const transactionsDataFetcher = (
     });
 };
 
+export const useTransactionsData = (
+  userId: string,
+  params: TransactionQueryParams,
+) => {
+  return useSWR(
+    [USER_TRANSACTIONS_API(userId), params],
+    transactionsDataFetcher,
+  );
+};
+
 export const transactionDataPost = (data: TransactionPostData) => {
   return api.post(API_PATHS.FINANCES_API, data).then((res) => {
     return res.data;
@@ -36,16 +46,6 @@ export const usePostTransaction = () =>
     [API_PATHS.FINANCES_API],
     (_key, { arg }: { arg: TransactionPostData }) => transactionDataPost(arg),
   );
-
-export const useTransactionsData = (
-  userId: string,
-  params: TransactionQueryParams,
-) => {
-  return useSWR(
-    [USER_TRANSACTIONS_API(userId), params],
-    transactionsDataFetcher,
-  );
-};
 
 export const transactionCategoriesFetcher = (
   type: 'expense' | 'income',

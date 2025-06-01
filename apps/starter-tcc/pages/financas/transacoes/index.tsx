@@ -1,6 +1,10 @@
 import { GetServerSideProps } from 'next';
 
-import { FinanceLayout, TransactionScreen } from '@monetix/feature/finances';
+import {
+  FinanceLayout,
+  TransactionScreen,
+  TransactionTableContextProvider,
+} from '@monetix/feature/finances';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
@@ -20,7 +24,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const TransactionsSummaryPage = () => {
-  return <TransactionScreen />;
+  return (
+    <TransactionTableContextProvider>
+      <TransactionScreen />
+    </TransactionTableContextProvider>
+  );
 };
 
 TransactionsSummaryPage.getLayout = (page: React.ReactNode) => {
