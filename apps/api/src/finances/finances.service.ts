@@ -144,21 +144,22 @@ export class FinancesService {
   ): Promise<PaginatedWithResumeDto<Transaction>> {
     const applyFilters = (
       query: SelectQueryBuilder<Transaction>,
-      alias = 'transaction'
+      alias = 'transaction',
+      actualFilter: FilterTransactionDto = filter
     ): SelectQueryBuilder<Transaction> => {
-      if (filter.type) {
-        query.andWhere(`${alias}.type = :type`, { type: filter.type });
+      if (actualFilter.type) {
+        query.andWhere(`${alias}.type = :type`, { type: actualFilter.type });
       }
 
-      if (filter['start-date']) {
+      if (actualFilter['start-date']) {
         query.andWhere(`${alias}.date >= :startDate`, {
-          startDate: filter['start-date'],
+          startDate: actualFilter['start-date'],
         });
       }
 
-      if (filter['end-date']) {
+      if (actualFilter['end-date']) {
         query.andWhere(`${alias}.date <= :endDate`, {
-          endDate: filter['end-date'],
+          endDate: actualFilter['end-date'],
         });
       }
 
@@ -186,7 +187,8 @@ export class FinancesService {
       ])
       .where('t.studentId = :userId', { userId });
 
-    applyFilters(resumeQuery, 't');
+    filter.type = null;
+    applyFilters(resumeQuery, 't', filter);
 
     const resumeRaw = await resumeQuery.getRawOne();
 
