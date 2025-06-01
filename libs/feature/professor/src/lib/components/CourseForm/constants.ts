@@ -83,3 +83,9 @@ export const CATEGORY_ATTRIBUTES = {
     INVALID: 'Informe uma categoria válida.',
   },
 };
+
+export const EMPTY_COURSE = {
+  name: '',
+  description: '',
+  lessons: [],
+};

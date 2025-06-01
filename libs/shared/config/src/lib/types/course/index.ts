@@ -9,7 +9,7 @@ export type CourseType = {
   lessons: LessonType[];
 };
 
-export type BaseCourseType = Pick<CourseType, 'name' | 'description'> & {
+export type BaseCourseType = Pick<CourseType, 'id' | 'name' | 'description'> & {
   lessons: BaseLessonType[];
 };
 

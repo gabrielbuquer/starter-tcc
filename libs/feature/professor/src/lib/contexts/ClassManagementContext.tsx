@@ -27,6 +27,7 @@ type ClassManagementContextProps = {
 type ModalCourseState = {
   open: boolean;
   course?: Partial<CourseType>;
+  completeCourse?: CourseType;
 };
 
 export type ClassManagementContextPropsProviderProps = {

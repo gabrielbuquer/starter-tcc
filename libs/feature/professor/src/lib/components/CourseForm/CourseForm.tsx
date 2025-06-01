@@ -3,15 +3,21 @@ import { Button, Grid2 as Grid, TextField, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 
-import { ActionDialog, SortableList, showSnackBar } from '@monetix/shared/ui';
-import { BaseLessonType } from '@monetix/shared/config';
+import {
+  ActionDialog,
+  Loader,
+  SortableList,
+  showSnackBar,
+} from '@monetix/shared/ui';
+import { BaseCourseType, BaseLessonType } from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
-import { usePostCourse } from '../../services/courses';
+import { useCourse, usePostCourse } from '../../services/courses';
 
 import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
 import {
   DESCRIPTION_ATTRIBUTES,
+  EMPTY_COURSE,
   FORM_DATA,
   LESSON_ATTRIBUTES,
   NAME_ATTRIBUTES,
@@ -24,16 +30,12 @@ type ModalLessonState = {
   lesson?: BaseLessonType;
 };
 
-type CourseFormData = {
-  name: string;
-  description: string;
-  lessons: BaseLessonType[];
-};
+type CourseFormData = BaseCourseType;
 
 export type CourseFormProps = {
   open: boolean;
   isEditing?: boolean;
-  defaultValues?: CourseFormData | object;
+  defaultValues?: CourseFormData;
   onClose?: () => void;
   onSubmit?: () => void;
 };
@@ -46,6 +48,9 @@ export const CourseForm = ({
   onSubmit,
 }: CourseFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA;
+  const { data: defaultCourse, isLoading: loadingDefaultCourse } = useCourse(
+    isEditing ? defaultValues?.id : null,
+  );
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
   });
@@ -102,9 +107,19 @@ export const CourseForm = ({
     onClose?.();
   };
 
+  // console.log('CourseForm defaultValues', defaultValues);
+  // console.log('CourseForm defaultCourse', defaultCourse);
+
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
+    console.log(
+      'CourseForm useEffect defaultCourse',
+      defaultValues,
+      defaultCourse,
+    );
+    if (open) {
+      reset(defaultCourse ?? EMPTY_COURSE);
+    }
+  }, [defaultCourse, open, reset]);
 
   return (
     <ActionDialog
@@ -190,6 +205,7 @@ export const CourseForm = ({
           </Button>
         </Actions>
       </form>
+      {loadingDefaultCourse && <Loader isFullScreen={false} />}
       <LessonForm
         open={modalLessonOpen.open}
         defaultValues={modalLessonOpen.lesson}

@@ -71,7 +71,7 @@ export const ClassManagementScreen = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setModalCourseOpen({ open: true })}
+              onClick={() => setModalCourseOpen({ open: true, course: null })}
             >
               Adicionar novo curso
             </Button>

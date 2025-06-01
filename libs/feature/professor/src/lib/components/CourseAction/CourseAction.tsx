@@ -11,6 +11,7 @@ export const CourseAction = (course: Partial<CourseType>) => {
   const { setModalCourseOpen } = useClassManagement();
 
   const handleEdit = () => {
+    console.log('Editing course:', course);
     setModalCourseOpen({ open: true, course: course });
   };
 

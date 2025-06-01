@@ -1,3 +1,4 @@
+import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
 import { api, getPaths } from '@monetix/shared/config';
@@ -5,6 +6,18 @@ import { api, getPaths } from '@monetix/shared/config';
 import { CoursePostData } from './types';
 
 const API_PATHS = getPaths();
+
+export const courseDataFetcher = (courseId: string) => {
+  return api.get(`${API_PATHS.COURSE_API}/${courseId}`).then((res) => {
+    return res.data;
+  });
+};
+
+export const useCourse = (courseId) => {
+  return useSWR(courseId ? [API_PATHS.COURSE_API, courseId] : null, () =>
+    courseDataFetcher(courseId),
+  );
+};
 
 export const courseDataPost = (data: CoursePostData) => {
   return api.post(API_PATHS.COURSE_API, data).then((res) => {

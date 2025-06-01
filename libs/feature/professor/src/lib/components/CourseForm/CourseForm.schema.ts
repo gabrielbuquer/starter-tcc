@@ -11,6 +11,7 @@ import {
 export const schema = yup
   .object()
   .shape({
+    id: yup.string().optional(),
     name: yup
       .string()
       .min(2, NAME_ATTRIBUTES.errorMessages.TOO_SHORT)

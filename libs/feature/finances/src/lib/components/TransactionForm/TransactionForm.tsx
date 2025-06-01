@@ -11,7 +11,7 @@ import {
   TextField,
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import { ActionDialog } from '@monetix/shared/ui';
@@ -73,10 +73,10 @@ export const TransactionForm = ({
     formState: { errors, isValid },
     handleSubmit,
     control,
+    reset,
   } = methods;
 
   const onSubmit = async (formData: TransactionFormData) => {
-    console.log(formData);
     setLoading(true);
     if (isEditing) {
       // Call the mutation to update the transaction
@@ -92,6 +92,10 @@ export const TransactionForm = ({
       onClose?.();
     }
   };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
 
   return (
     <ActionDialog
