@@ -8,14 +8,13 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiBody, ApiParam } from '@nestjs/swagger';
+import { Response } from 'express';
+import { GetSub } from '../auth/decorator/get-sub';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
 import { FinancesMapper } from './finances.mapper';
 import { FinancesService } from './finances.service';
-import { ApiBody, ApiParam } from '@nestjs/swagger';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { GetSub } from '../auth/decorator/get-sub';
-import { Response } from 'express';
-import { filter } from 'rxjs';
-import { FilterTransactionDto } from './dto/filter-transaction.dto';
 
 @Controller('/api/finances')
 export class FinancesController {
@@ -61,20 +60,11 @@ export class FinancesController {
     );
   }
 
-  /* @Get()
-  async getOverview(
-    @GetSub() userId: string,
-    @Query('start-date') startDate?: Date,
-    @Query('end-date') endDate?: Date
-  ) {
-    const transactions = await this.financesService.getOverview(
-      userId,
-      startDate,
-      endDate
-    );
-    return FinancesMapper.mapOverview(transactions);
+  @Get('overview')
+  async getOverview(@GetSub() userId: string) {
+    return await this.financesService.getOverview(userId);
   }
-*/
+
   @Get(':type/:id')
   @ApiParam({
     name: 'type',
