@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -42,6 +43,17 @@ export class FinancesController {
   ) {
     await this.financesService.createTransaction(userId, body);
     res.status(HttpStatus.CREATED).send();
+  }
+
+  @Delete(':id')
+  @ApiParam({ name: 'id', description: 'ID da transação' })
+  async deleteTransaction(
+    @Res() res: Response,
+    @GetSub() userId: string,
+    @Param('id') id: string
+  ) {
+    await this.financesService.deleteTransaction(userId, id);
+    res.status(HttpStatus.NO_CONTENT).send();
   }
 
   @Get()

@@ -204,4 +204,16 @@ export class FinancesService {
       },
     };
   }
+
+  async deleteTransaction(userId: string, id: string) {
+    const transaction = await this.transactionRepository.findOne({
+      where: { id, student: { id: userId } },
+    });
+
+    if (!transaction) {
+      throw new Error(`Transaction with id ${id} not found`);
+    }
+
+    await this.transactionRepository.remove(transaction);
+  }
 }
