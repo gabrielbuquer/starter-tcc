@@ -79,18 +79,51 @@ export class FinancesController {
     return await this.financesService.getOverview(userId);
   }
 
-  @Get(':type/:id')
+  @Get(':/income/:id')
+  async getCategoryIncomeById(@Param('id') id: string) {
+    const category = await this.financesService.getCategoryById(id);
+    return FinancesMapper.mapCategory(category);
+  }
+
+  @Get('/expense/:id')
+  async getCategoryExpenseById(@Param('id') id: string) {
+    const category = await this.financesService.getCategoryById(id);
+    return FinancesMapper.mapCategory(category);
+  }
+
+  @Post('/goals')
+  async createGoal(
+    @GetSub() userId: string,
+    @Body() body: { categoryId: string; value: number },
+    @Res() res: Response,
+  ) {
+    console.log('Creating goal', body);
+    await this.financesService.createGoal(userId, body.categoryId, body.value);
+    res.status(HttpStatus.CREATED).send();
+  }
+
+  @Get('/goals/:type')
   @ApiParam({
     name: 'type',
     enum: ['expense', 'income'],
     description:
       'Tipo de categoria: "expense" para despesas, "income" para receitas',
   })
-  async getCategoryById(
+  async getGoals(
+    @GetSub() userId: string,
     @Param('type') type: 'expense' | 'income',
+  ) {
+    return await this.financesService.getProgressGoals(userId, type);
+  }
+
+  @Delete('/goals/:id')
+  @ApiParam({ name: 'id', description: 'ID da meta' })
+  async deleteGoal(
+    @Res() res: Response,
+    @GetSub() userId: string,
     @Param('id') id: string,
   ) {
-    const category = await this.financesService.getCategoryById(id);
-    return FinancesMapper.mapCategory(category);
+    await this.financesService.deleteGoal(userId, id);
+    res.status(HttpStatus.NO_CONTENT).send();
   }
 }
