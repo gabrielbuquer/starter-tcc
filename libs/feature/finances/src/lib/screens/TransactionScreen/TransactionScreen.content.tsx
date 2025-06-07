@@ -12,6 +12,6 @@ export const rows = (transactions: TransactionType[]) => {
     description: transaction?.description ?? 'Transação sem descrição',
     category: transaction?.category?.description ?? 'Categoria não definida',
     value: currencyFormatter(transaction?.value ?? 0),
-    actions: <TransactionAction />,
+    actions: <TransactionAction transaction={transaction} />,
   }));
 };

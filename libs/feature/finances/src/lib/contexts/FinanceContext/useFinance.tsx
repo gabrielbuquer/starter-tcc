@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { TransactionFormProps } from '../../components';
+import { TransactionType, TransactionTypeEnum } from '@monetix/shared/config';
 
 import { FinanceContext } from './FinanceContext';
 
@@ -18,15 +18,23 @@ export function useTransactionForm() {
   const { setTransactionForm } = useFinanceContext();
 
   const openForm = (
-    formType: 'expense' | 'income',
-    defaultValues: TransactionFormProps['defaultValues'] = null,
+    formType: TransactionTypeEnum,
+    defaultValues: TransactionType | null = null,
   ) => {
     const isEditing = defaultValues !== null;
     setTransactionForm({
       open: true,
       formType,
       isEditing,
-      defaultValues,
+      defaultValues: defaultValues
+        ? {
+            ...defaultValues,
+            date: defaultValues?.date
+              ? new Date(defaultValues.date)
+              : new Date(),
+            category: defaultValues?.category?.description || '',
+          }
+        : null,
     });
   };
 

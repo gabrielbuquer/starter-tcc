@@ -28,6 +28,7 @@ import {
   CATEGORY_ATTRIBUTES,
   DATE_ATTRIBUTES,
   DESCRIPTION_ATTRIBUTES,
+  EMPTY_TRANSACTION,
   FORM_DATA,
   VALUE_ATTRIBUTES,
 } from './constants';
@@ -94,8 +95,11 @@ export const TransactionForm = ({
   };
 
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
+    console.log('defaultValues', defaultValues);
+    if (open) {
+      reset(defaultValues ?? EMPTY_TRANSACTION);
+    }
+  }, [defaultValues, open, reset]);
 
   return (
     <ActionDialog

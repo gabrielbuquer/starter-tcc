@@ -54,7 +54,6 @@ export const CourseForm = ({
     mutate: updateDefaultCourse,
   } = useCourse(isEditing ? defaultValues?.id : null);
 
-  console.log('default', defaultCourse, loadingDefaultCourse);
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
   });

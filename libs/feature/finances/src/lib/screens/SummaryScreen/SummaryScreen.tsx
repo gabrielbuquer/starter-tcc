@@ -2,6 +2,7 @@ import { Button, Grid2 as Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import { BarChart, Box, PieChart } from '@monetix/shared/ui';
+import { currencyFormatter } from '@monetix/core-utils';
 
 import { MainGrid } from '../../containers/MainGrid';
 import { useFinanceOverview } from '../../services/overview';
@@ -76,7 +77,7 @@ export const SummaryScreen = () => {
               series={[
                 {
                   data: [230.02, 120.99, 24, -34, 100, -50],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
               ]}
             />
@@ -88,11 +89,11 @@ export const SummaryScreen = () => {
               series={[
                 {
                   data: [1230.0, 1250.0, 1330.0, 1800.0, 200, 2000],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
                 {
                   data: [1000, 800.99, 1200, 2500, 700, 1000],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
               ]}
             />
