@@ -8,6 +8,7 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { Transaction } from './entities/transaction.entity';
 import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
+import OverviewDTO from './dto/overview.transaction.dto';
 
 @Injectable()
 export class FinancesService {
@@ -20,6 +21,94 @@ export class FinancesService {
 
   async getCategories(type: CategoryType): Promise<Category[]> {
     return this.categoryRepository.find({ where: { type } });
+  }
+
+  async getOverview(userId: string): Promise<OverviewDTO> {
+    const incomeQuery = this.transactionRepository
+      .createQueryBuilder('t')
+      .select([
+        'c.id AS categoryId',
+        'c.description AS categoryName',
+        'SUM(t.value) AS totalValue',
+      ])
+      .leftJoin('t.category', 'c')
+      .where('t.studentId = :userId', { userId })
+      .andWhere('t.type = :type', { type: 'income' })
+      .groupBy('c.id');
+
+    const expenseQuery = this.transactionRepository
+      .createQueryBuilder('t')
+      .select([
+        'c.id AS categoryId',
+        'c.description AS categoryName',
+        'SUM(t.value) AS totalValue',
+      ])
+      .leftJoin('t.category', 'c')
+      .where('t.studentId = :userId', { userId })
+      .andWhere('t.type = :type', { type: 'expense' })
+      .groupBy('c.id');
+
+    const [incomes, expenses] = await Promise.all([
+      incomeQuery.getRawMany(),
+      expenseQuery.getRawMany(),
+    ]);
+
+    const totalIncome = incomes.reduce(
+      (sum, item) => sum + Number(item.totalvalue),
+      0,
+    );
+    const totalExpense = expenses.reduce(
+      (sum, item) => sum + Number(item.totalvalue),
+      0,
+    );
+
+    const incomeMonth = await this.getIncomeMonth(userId);
+    const expenseMonth = await this.getExpenseMonth(userId);
+    const totalMonth = incomeMonth - expenseMonth;
+
+    return {
+      amount: totalIncome - totalExpense,
+      amountMonth: totalMonth,
+      incomeMonth,
+      expenseMonth,
+      incomes: incomes.map((item) => ({
+        category: {
+          id: item.categoryid,
+          description: item.categoryname,
+          type: 'income',
+        },
+        value: Number(item.totalvalue),
+      })),
+      expenses: expenses.map((item) => ({
+        category: {
+          id: item.categoryid,
+          description: item.categoryname,
+          type: 'expense',
+        },
+        value: Number(item.totalvalue),
+      })),
+    };
+  }
+
+  async getIncomeMonth(userId: string): Promise<number> {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select('SUM(t.value)', 'totalIncome')
+      .where('t.studentId = :userId', { userId })
+      .andWhere('t.type = :type', { type: 'income' })
+      .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
+    const result = await query.getRawOne();
+    return Number(result.totalIncome) || 0;
+  }
+  async getExpenseMonth(userId: string): Promise<number> {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select('SUM(t.value)', 'totalExpense')
+      .where('t.studentId = :userId', { userId })
+      .andWhere('t.type = :type', { type: 'expense' })
+      .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
+    const result = await query.getRawOne();
+    return Number(result.totalExpense) || 0;
   }
 
   async getCategoryById(id: string): Promise<Category> {
@@ -57,20 +146,21 @@ export class FinancesService {
     const applyFilters = (
       query: SelectQueryBuilder<Transaction>,
       alias = 'transaction',
+      actualFilter: FilterTransactionDto = filter,
     ): SelectQueryBuilder<Transaction> => {
-      if (filter.type) {
-        query.andWhere(`${alias}.type = :type`, { type: filter.type });
+      if (actualFilter.type) {
+        query.andWhere(`${alias}.type = :type`, { type: actualFilter.type });
       }
 
-      if (filter['start-date']) {
+      if (actualFilter['start-date']) {
         query.andWhere(`${alias}.date >= :startDate`, {
-          startDate: filter['start-date'],
+          startDate: actualFilter['start-date'],
         });
       }
 
-      if (filter['end-date']) {
+      if (actualFilter['end-date']) {
         query.andWhere(`${alias}.date <= :endDate`, {
-          endDate: filter['end-date'],
+          endDate: actualFilter['end-date'],
         });
       }
 
@@ -98,7 +188,8 @@ export class FinancesService {
       ])
       .where('t.studentId = :userId', { userId });
 
-    applyFilters(resumeQuery, 't');
+    filter.type = null;
+    applyFilters(resumeQuery, 't', filter);
 
     const resumeRaw = await resumeQuery.getRawOne();
 
@@ -113,5 +204,17 @@ export class FinancesService {
         amount: totalIncome - totalExpense,
       },
     };
+  }
+
+  async deleteTransaction(userId: string, id: string) {
+    const transaction = await this.transactionRepository.findOne({
+      where: { id, student: { id: userId } },
+    });
+
+    if (!transaction) {
+      throw new Error(`Transaction with id ${id} not found`);
+    }
+
+    await this.transactionRepository.remove(transaction);
   }
 }

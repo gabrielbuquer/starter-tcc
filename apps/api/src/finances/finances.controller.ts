@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -10,14 +11,13 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiParam } from '@nestjs/swagger';
 import { Response } from 'express';
-import { filter } from 'rxjs';
 
 import { GetSub } from '../auth/decorator/get-sub';
 
-import { FinancesMapper } from './finances.mapper';
-import { FinancesService } from './finances.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
+import { FinancesMapper } from './finances.mapper';
+import { FinancesService } from './finances.service';
 
 @Controller('/api/finances')
 export class FinancesController {
@@ -47,6 +47,17 @@ export class FinancesController {
     res.status(HttpStatus.CREATED).send();
   }
 
+  @Delete(':id')
+  @ApiParam({ name: 'id', description: 'ID da transação' })
+  async deleteTransaction(
+    @Res() res: Response,
+    @GetSub() userId: string,
+    @Param('id') id: string,
+  ) {
+    await this.financesService.deleteTransaction(userId, id);
+    res.status(HttpStatus.NO_CONTENT).send();
+  }
+
   @Get()
   @ApiBody({ type: CreateTransactionDto })
   async getTransactions(
@@ -63,20 +74,11 @@ export class FinancesController {
     );
   }
 
-  /* @Get()
-  async getOverview(
-    @GetSub() userId: string,
-    @Query('start-date') startDate?: Date,
-    @Query('end-date') endDate?: Date
-  ) {
-    const transactions = await this.financesService.getOverview(
-      userId,
-      startDate,
-      endDate
-    );
-    return FinancesMapper.mapOverview(transactions);
+  @Get('overview')
+  async getOverview(@GetSub() userId: string) {
+    return await this.financesService.getOverview(userId);
   }
-*/
+
   @Get(':type/:id')
   @ApiParam({
     name: 'type',

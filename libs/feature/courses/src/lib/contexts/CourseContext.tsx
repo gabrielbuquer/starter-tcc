@@ -32,6 +32,7 @@ const CourseContextProvider = ({
   courseId,
 }: CourseContextPropsProviderProps) => {
   const { data: course, isLoading } = useCourse(courseId);
+  console.log('course', course);
   const lessons = course?.lessons;
   const [selectedLesson, setSelectedLesson] = useState<LessonType>(
     course?.lessons[0],
