@@ -26,7 +26,7 @@ export const TransactionScreen = () => {
 
   return (
     <Container>
-      <MainGrid {...transactions?.resume} />
+      <MainGrid resume={transactions?.resume} />
       <Content>
         <Filters>
           <MonthSelector onChange={(e) => setTransactionsMonth(e)} />

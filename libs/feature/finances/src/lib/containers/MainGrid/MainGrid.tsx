@@ -1,3 +1,6 @@
+import { Insights } from '@mui/icons-material';
+import { useRouter } from 'next/router';
+
 import { TransactionResumeType } from '@monetix/shared/config';
 
 import { Summary } from '../../components';
@@ -5,15 +8,28 @@ import { Summary } from '../../components';
 import { Container, Grid } from './MainGrid.styled';
 import { content } from './utils';
 
-export type MainGridProps = TransactionResumeType;
+export type MainGridProps = {
+  resume?: TransactionResumeType;
+  reportOption?: boolean;
+};
 
-export const MainGrid = (props: MainGridProps) => {
+export const MainGrid = ({ resume, reportOption = true }: MainGridProps) => {
+  const { push } = useRouter();
+
   return (
     <Container>
       <Grid>
-        {content(props).map(({ title, content, icon }) => (
-          <Summary key={title} title={title} content={content} icon={icon} />
-        ))}
+        {resume &&
+          content(resume).map(({ title, content, icon }) => (
+            <Summary key={title} title={title} content={content} icon={icon} />
+          ))}
+        {reportOption ? (
+          <Summary
+            title="Ver relatórios"
+            icon={<Insights />}
+            onClick={() => push('/financas')}
+          />
+        ) : null}
       </Grid>
     </Container>
   );

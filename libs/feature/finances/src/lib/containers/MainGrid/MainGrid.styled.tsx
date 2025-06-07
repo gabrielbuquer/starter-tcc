@@ -8,13 +8,22 @@ export const Container = styled('div')`
 
 export const Grid = styled('div')`
   ${({ theme }) => css`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
     gap: ${theme.spacing(2)};
 
     ${theme.breakpoints.down('lg')} {
-      grid-template-columns: repeat(2, 1fr);
       gap: ${theme.spacing(1)};
+      flex-wrap: wrap;
+
+      & > * {
+        flex: 1 1 calc(50% - ${theme.spacing(0.5)});
+        max-width: calc(50% - ${theme.spacing(0.5)});
+      }
+
+      & > *:nth-last-child(1):nth-child(odd) {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
     }
-  `};
+  `}
 `;

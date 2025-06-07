@@ -1,19 +1,13 @@
-import {
-  AddCircle,
-  Insights,
-  RemoveCircle,
-  Savings,
-} from '@mui/icons-material';
+import { AddCircle, RemoveCircle, Savings } from '@mui/icons-material';
 
 import { currencyFormatter } from '@monetix/core-utils';
-
-import { MainGridProps } from './MainGrid';
+import { TransactionResumeType } from '@monetix/shared/config';
 
 export const content = ({
   amount,
   totalExpense,
   totalIncome,
-}: MainGridProps) => [
+}: TransactionResumeType) => [
   {
     title: 'Meu balanço',
     content: currencyFormatter(amount || 0),
@@ -28,9 +22,5 @@ export const content = ({
     title: 'Despesas do mês',
     content: currencyFormatter(totalExpense || 0),
     icon: <RemoveCircle />,
-  },
-  {
-    title: 'Ver relatórios',
-    icon: <Insights />,
   },
 ];

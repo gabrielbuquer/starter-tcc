@@ -28,6 +28,7 @@ export const getMenuLinks = (
       link: '/financas',
       icon: <AccountBalanceWalletOutlined />,
       submenu: [
+        { title: 'Relatórios', link: '/financas' },
         { title: 'Transações', link: '/financas/transacoes' },
         { title: 'Metas', link: '/financas/metas' },
       ],

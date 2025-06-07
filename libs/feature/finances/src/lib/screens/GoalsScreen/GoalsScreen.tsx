@@ -1,11 +1,19 @@
 import { useState } from 'react';
-import { Container, Content, Controllers, MainGrid } from './GoalsScreen.styled';
 import { IconButton, Tab, Tabs, Tooltip } from '@mui/material';
-import { Box, PaginatedTable } from '@monetix/shared/ui';
-import { rows, totalizers } from './GoalsScreen.mock';
-import { a11yProps } from '@monetix/shared/config';
-import { MonthTotalizers } from '../../components/MonthTotalizers';
 import Edit from '@mui/icons-material/Edit';
+
+import { Box, PaginatedTable } from '@monetix/shared/ui';
+import { a11yProps } from '@monetix/shared/config';
+
+import { MonthTotalizers } from '../../components/MonthTotalizers';
+
+import {
+  Container,
+  Content,
+  Controllers,
+  MainGrid,
+} from './GoalsScreen.styled';
+import { rows, totalizers } from './GoalsScreen.mock';
 
 const COMPONENT = 'goals';
 
@@ -44,15 +52,18 @@ export const GoalsScreen = () => {
 
   return (
     <Container>
-      <Tabs value={value} onChange={handleChange} aria-label="Selecione entre Despesas ou Receitas" centered>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="Selecione entre Despesas ou Receitas"
+        centered
+      >
         <Tab label="Despesas" {...a11yProps(COMPONENT, 'expenses')} />
         <Tab label="Receitas" {...a11yProps(COMPONENT, 'income')} />
       </Tabs>
       <MainGrid>
         <Controllers>
-          <Box>
-            Controle Data
-          </Box>
+          <Box>Controle Data</Box>
           <MonthTotalizers title="Total do mês" totalizers={totalizers} />
         </Controllers>
         <Content>
@@ -64,7 +75,9 @@ export const GoalsScreen = () => {
             actions={
               <Tooltip title="Editar metas" placement="right">
                 <IconButton
-                  onClick={() => {console.log('teste')}}
+                  onClick={() => {
+                    console.log('teste');
+                  }}
                   size="medium"
                   aria-label={'Editar metas'}
                 >
@@ -76,5 +89,5 @@ export const GoalsScreen = () => {
         </Content>
       </MainGrid>
     </Container>
-  )
-}
+  );
+};
