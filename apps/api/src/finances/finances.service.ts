@@ -301,7 +301,7 @@ export class FinancesService {
       })
     );
 
-    const totalGoals = await this.getSumOfGoalsFromMonth(userId, type);
+    const totalGoals = await this.getSumOfGoals(userId, type);
     const totalActual = await this.getTotal(userId, type);
 
     return {
@@ -331,7 +331,7 @@ export class FinancesService {
     return Number(result.totalValue) || 0;
   }
 
-  async getSumOfGoalsFromMonth(
+  async getSumOfGoals(
     userId: string,
     type?: 'expense' | 'income' | undefined
   ): Promise<number> {
@@ -339,8 +339,7 @@ export class FinancesService {
       .createQueryBuilder('goal')
       .select('SUM(goal.value)', 'totalValue')
       .leftJoin('goal.category', 'category')
-      .where('goal.studentId = :userId', { userId })
-      .andWhere("DATE_TRUNC('month', goal.date) = DATE_TRUNC('month', NOW())");
+      .where('goal.studentId = :userId', { userId });
 
     if (type) {
       query.andWhere('category.type = :type', { type });
