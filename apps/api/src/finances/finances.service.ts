@@ -8,6 +8,10 @@ import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
 import OverviewDTO from './dto/overview.transaction.dto';
+import Goal from './entities/goal.entity';
+import GoalsProgressDto from './dto/goals-progress.dto';
+import { PaginatedWithResumeGoalsDTO } from './dto/resume.goals.dto';
+import { round2 } from '../common/number.utils';
 
 @Injectable()
 export class FinancesService {
@@ -15,7 +19,9 @@ export class FinancesService {
     @InjectRepository(Transaction)
     private readonly transactionRepository: Repository<Transaction>,
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>
+    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Goal)
+    private readonly goalRepository: Repository<Goal>
   ) {}
 
   async getCategories(type: CategoryType): Promise<Category[]> {
@@ -215,5 +221,159 @@ export class FinancesService {
     }
 
     await this.transactionRepository.remove(transaction);
+  }
+
+  async createGoal(userId: string, categoryId: string, value: number) {
+    const category = await this.getCategoryById(categoryId);
+    const goal = this.goalRepository.create({
+      value,
+      student: { id: userId },
+      date: new Date(),
+      category,
+    });
+    this.goalRepository.save(goal);
+  }
+
+  async getGoalInMonth(
+    userId: string,
+    type: 'expense' | 'income' | undefined,
+    page = 1,
+    limit = 10
+  ): Promise<Pagination<Goal>> {
+    const query = this.goalRepository
+      .createQueryBuilder('goal')
+      .leftJoinAndSelect('goal.category', 'category')
+      .where('goal.studentId = :userId', { userId })
+      .andWhere("DATE_TRUNC('month', goal.date) = DATE_TRUNC('month', NOW())");
+
+    if (type) {
+      query.andWhere('category.type = :type', { type });
+    }
+
+    const paginated = await paginate<Goal>(query, {
+      page,
+      limit,
+    });
+
+    return paginated;
+  }
+
+  async getProgressGoals(
+    userId: string,
+    type: 'expense' | 'income',
+    page = 1,
+    limit = 10
+  ): Promise<PaginatedWithResumeGoalsDTO<GoalsProgressDto>> {
+    console.log('type', type);
+    const query = this.goalRepository
+      .createQueryBuilder('goal')
+      .leftJoinAndSelect('goal.category', 'category')
+      .where('goal.studentId = :userId', { userId });
+
+    if (type) {
+      query.andWhere('category.type = :type', { type });
+    }
+
+    const paginated = await paginate<Goal>(query, {
+      page,
+      limit,
+    });
+
+    const goalsProgress: GoalsProgressDto[] = await Promise.all(
+      paginated.items.map(async (item) => {
+        {
+          const realizedFromCategory = await this.getValueFromCategory(
+            userId,
+            item.category.id
+          );
+          return {
+            id: item.id,
+            category: {
+              id: item.category.id,
+              description: item.category.description,
+            },
+            realized: realizedFromCategory,
+            planed: round2(Number(item.value)),
+            progress: round2((realizedFromCategory / Number(item.value)) * 100),
+            diff: round2(realizedFromCategory - Number(item.value)),
+          };
+        }
+      })
+    );
+
+    const totalGoals = await this.getSumOfGoalsFromMonth(userId, type);
+    const totalActual = await this.getTotal(userId, type);
+
+    return {
+      ...paginated,
+      items: goalsProgress,
+      resume: {
+        goals: round2(totalGoals),
+        actual: round2(totalActual),
+        diff: round2(totalActual - totalGoals),
+      },
+    };
+  }
+
+  async getTotal(userId: string, type?: 'expense' | 'income' | undefined) {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select('SUM(t.value)', 'totalValue')
+      .leftJoin('t.category', 'category')
+      .where('t.studentId = :userId', { userId })
+      .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
+
+    if (type) {
+      query.andWhere('category.type = :type', { type });
+    }
+
+    const result = await query.getRawOne();
+    return Number(result.totalValue) || 0;
+  }
+
+  async getSumOfGoalsFromMonth(
+    userId: string,
+    type?: 'expense' | 'income' | undefined
+  ): Promise<number> {
+    const query = this.goalRepository
+      .createQueryBuilder('goal')
+      .select('SUM(goal.value)', 'totalValue')
+      .leftJoin('goal.category', 'category')
+      .where('goal.studentId = :userId', { userId })
+      .andWhere("DATE_TRUNC('month', goal.date) = DATE_TRUNC('month', NOW())");
+
+    if (type) {
+      query.andWhere('category.type = :type', { type });
+    }
+
+    const result = await query.getRawOne();
+    return Number(result.totalValue) || 0;
+  }
+
+  async getValueFromCategory(
+    userId: string,
+    categoryId: string
+  ): Promise<number> {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select('SUM(t.value)', 'totalValue')
+      .where('t.studentId = :userId', { userId })
+      .andWhere('t.categoryId = :categoryId', { categoryId })
+      .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
+
+    const result = await query.getRawOne();
+    return Number(result.totalValue) || 0;
+  }
+
+  async deleteGoal(userId: string, id: string) {
+    const goal = await this.goalRepository.findOne({
+      where: { id, student: { id: userId } },
+    });
+
+    if (!goal) {
+      throw new Error(`Transaction with id ${id} not found`);
+    }
+
+    await this.goalRepository.remove(goal);
   }
 }
