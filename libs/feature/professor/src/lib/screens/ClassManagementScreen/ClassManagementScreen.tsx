@@ -66,7 +66,7 @@ export const ClassManagementScreen = () => {
           totalRows={classRoomCourses?.meta?.totalItems ?? 0}
           onChangePage={(newPage) => setClassRoomCoursesPage(newPage)}
           loading={isLoadingCourses}
-          rowsPerPage={2}
+          rowsPerPage={10}
           actions={
             <Button
               variant="contained"

@@ -48,6 +48,7 @@ export class CourseService {
       where: { id },
       relations: ['lessons'],
     });
+    console.log('curso', course);
     if (!course) {
       throw new NotFoundException(`Course with id ${id} not found`);
     }

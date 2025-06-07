@@ -12,7 +12,7 @@ import {
 import { BaseCourseType, BaseLessonType } from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
-import { useCourse, usePostCourse } from '../../services/courses';
+import { useCourse, usePostCourse, usePutCourse } from '../../services/courses';
 
 import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
 import {
@@ -48,14 +48,19 @@ export const CourseForm = ({
   onSubmit,
 }: CourseFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA;
-  const { data: defaultCourse, isLoading: loadingDefaultCourse } = useCourse(
-    isEditing ? defaultValues?.id : null,
-  );
+  const {
+    data: defaultCourse,
+    isLoading: loadingDefaultCourse,
+    mutate: updateDefaultCourse,
+  } = useCourse(isEditing ? defaultValues?.id : null);
+
+  console.log('default', defaultCourse, loadingDefaultCourse);
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
   });
 
   const { trigger: postCourse } = usePostCourse();
+  const { trigger: updateCourse } = usePutCourse();
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
@@ -91,15 +96,24 @@ export const CourseForm = ({
 
   const internalSubmit = async (formData: CourseFormData) => {
     try {
-      await postCourse(formData);
-      showSnackBar({
-        message: `Curso ${formData.name} criado com sucesso!`,
-        type: 'success',
-      });
+      if (isEditing) {
+        await updateCourse(formData);
+        await updateDefaultCourse();
+        showSnackBar({
+          message: `Curso ${formData.name} atualizado com sucesso!`,
+          type: 'success',
+        });
+      } else {
+        await postCourse(formData);
+        showSnackBar({
+          message: `Curso ${formData.name} criado com sucesso!`,
+          type: 'success',
+        });
+      }
       onSubmit?.();
     } catch (error) {
       showSnackBar({
-        message: `Erro ao criar curso ${formData.name}. Verifique os dados e tente novamente.`,
+        message: `Erro ao ${isEditing ? 'atualizar' : 'criar'} curso ${formData.name}. Verifique os dados e tente novamente.`,
         type: 'error',
       });
     }
@@ -108,11 +122,6 @@ export const CourseForm = ({
   };
 
   useEffect(() => {
-    console.log(
-      'CourseForm useEffect defaultCourse',
-      defaultValues,
-      defaultCourse,
-    );
     if (open && !loadingDefaultCourse) {
       reset(defaultCourse ?? EMPTY_COURSE);
     }

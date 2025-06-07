@@ -50,7 +50,7 @@ const ClassManagementContextProvider = ({
     useClassRoomCourses({
       classRoomId: selectedClassRoom,
       page: classRoomCoursesPage + 1,
-      limit: 2,
+      limit: 10,
     });
 
   const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({

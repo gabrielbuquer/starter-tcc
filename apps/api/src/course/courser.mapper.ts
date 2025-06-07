@@ -37,6 +37,7 @@ export class CourseMapper {
       id: lesson.id,
       name: lesson.name,
       order: lesson.order,
+      type: lesson.type,
       url: lesson.url,
     }));
     return response;
