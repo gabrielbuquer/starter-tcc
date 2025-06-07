@@ -3,13 +3,12 @@ import {
   createContext,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from 'react';
-import { useRouter } from 'next/router';
 
 import { LessonType } from '@monetix/shared/config';
 
-import { MOCK_LESSONS } from '../components/StepList/StepList.mock';
 import { useCourse } from '../services';
 
 type CourseContextProps = {
@@ -32,24 +31,26 @@ const CourseContextProvider = ({
   courseId,
 }: CourseContextPropsProviderProps) => {
   const { data: course, isLoading } = useCourse(courseId);
-  console.log('course', course);
-  const lessons = course?.lessons;
+  const lessons = useMemo(() => course?.lessons, [course]);
   const [selectedLesson, setSelectedLesson] = useState<LessonType>(
-    course?.lessons[0],
+    lessons?.[0],
   );
   const [currentStep, setCurrentStep] = useState<number>(0);
 
-  const memoizedSetSelectedLesson = useCallback((lessonStep: number) => {
-    const stepToUpdate =
-      lessonStep < 0
-        ? 0
-        : lessonStep >= lessons.length
-          ? lessons.length - 1
-          : lessonStep;
-    const lesson = MOCK_LESSONS[stepToUpdate];
-    setSelectedLesson(lesson);
-    setCurrentStep(stepToUpdate);
-  }, []);
+  const memoizedSetSelectedLesson = useCallback(
+    (lessonStep: number) => {
+      const stepToUpdate =
+        lessonStep < 0
+          ? 0
+          : lessonStep >= lessons.length
+            ? lessons.length - 1
+            : lessonStep;
+      const lesson = lessons[stepToUpdate];
+      setSelectedLesson(lesson);
+      setCurrentStep(stepToUpdate);
+    },
+    [course],
+  );
 
   return (
     <CourseContext.Provider
