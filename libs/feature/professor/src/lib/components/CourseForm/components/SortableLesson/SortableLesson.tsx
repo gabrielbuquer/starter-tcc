@@ -7,7 +7,7 @@ import { LessonType } from '@monetix/shared/config';
 import { Card, Info } from './SortableLesson.styled';
 
 export interface SortableLessonProps {
-  lesson: LessonType;
+  lesson: Partial<LessonType>;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
 }

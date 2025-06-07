@@ -11,29 +11,29 @@ import { Container, Header, Main, Navigation } from './Content.styled';
 
 const contentElement = (lesson: LessonType) => {
   const elements = {
-    video: <Video title={lesson.name} src={lesson.url} />,
+    video: <Video title={lesson?.name} src={lesson?.url} />,
     pdf: (
       <iframe
-        src={`${lesson.url}`}
+        src={`${lesson?.url}`}
         width="100%"
         height="600px"
-        title={lesson.name}
+        title={lesson?.name}
         style={{ border: 'none' }}
       />
     ),
     form: (
       <iframe
-        src={`${lesson.url}`}
+        src={`${lesson?.url}`}
         width="100%"
         height="600px"
-        title={lesson.name}
+        title={lesson?.name}
         style={{ border: 'none' }}
       />
     ),
   };
 
   return (
-    elements[lesson.type] || (
+    elements[lesson?.type] || (
       <Typography>Tipo de conteúdo não suportado</Typography>
     )
   );
@@ -48,7 +48,7 @@ export const Content = () => {
       <Container>
         <Header>
           <Typography variant="h4" component="h1">
-            {currentStep + 1} - {selectedLesson.name}
+            {currentStep + 1} - {selectedLesson?.name}
           </Typography>
           <Navigation>
             <IconButton
@@ -59,7 +59,7 @@ export const Content = () => {
             </IconButton>
             <IconButton
               onClick={() => setSelectedLesson(currentStep + 1)}
-              disabled={currentStep === lessons.length - 1}
+              disabled={currentStep === lessons?.length - 1}
             >
               <ArrowForwardIosIcon />
             </IconButton>

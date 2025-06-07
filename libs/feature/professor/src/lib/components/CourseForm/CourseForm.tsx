@@ -35,7 +35,7 @@ type CourseFormData = BaseCourseType;
 export type CourseFormProps = {
   open: boolean;
   isEditing?: boolean;
-  defaultValues?: CourseFormData;
+  defaultValues?: Partial<CourseFormData>;
   onClose?: () => void;
   onSubmit?: () => void;
 };
@@ -107,19 +107,20 @@ export const CourseForm = ({
     onClose?.();
   };
 
-  // console.log('CourseForm defaultValues', defaultValues);
-  // console.log('CourseForm defaultCourse', defaultCourse);
-
   useEffect(() => {
     console.log(
       'CourseForm useEffect defaultCourse',
       defaultValues,
       defaultCourse,
     );
-    if (open) {
+    if (open && !loadingDefaultCourse) {
       reset(defaultCourse ?? EMPTY_COURSE);
     }
   }, [defaultCourse, open, reset]);
+
+  if (loadingDefaultCourse) {
+    return <Loader />;
+  }
 
   return (
     <ActionDialog
@@ -205,7 +206,6 @@ export const CourseForm = ({
           </Button>
         </Actions>
       </form>
-      {loadingDefaultCourse && <Loader isFullScreen={false} />}
       <LessonForm
         open={modalLessonOpen.open}
         defaultValues={modalLessonOpen.lesson}

@@ -2,7 +2,11 @@ import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { ParsedUrlQuery } from 'querystring';
 
-import { CourseScreen, courseFetcher } from '@monetix/feature/courses';
+import {
+  CourseContextProvider,
+  CourseScreen,
+  courseFetcher,
+} from '@monetix/feature/courses';
 import { getPaths } from '@monetix/shared/config';
 
 import { authOptions } from '../api/auth/[...nextauth]';
@@ -28,20 +32,26 @@ export const getServerSideProps: GetServerSideProps = async ({
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
+        courseId,
         fallback: {
           [(API_PATHS.COURSE_API, courseId)]: course,
         },
       },
     };
   } catch (err) {
+    console.log('Error fetching course:', err);
     return {
       notFound: true,
     };
   }
 };
 
-const CoursePage = () => {
-  return <CourseScreen />;
+const CoursePage = ({ courseId }: { courseId: string }) => {
+  return (
+    <CourseContextProvider courseId={courseId}>
+      <CourseScreen />
+    </CourseContextProvider>
+  );
 };
 
 export default CoursePage;

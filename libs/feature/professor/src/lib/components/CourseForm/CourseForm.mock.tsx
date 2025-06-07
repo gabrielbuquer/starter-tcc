@@ -6,8 +6,8 @@ export const MOCK_LESSONS: LessonType[] = [
     type: 'video',
     url: 'https://www.youtube.com/watch?v=W3BJZgYaYwY',
     id: 'lesson-1',
-    'start-date': '2023-01-01',
-    'end-date': '2023-01-02',
+    startDate: '2023-01-01',
+    endDate: '2023-01-02',
     done: true,
   },
   {
@@ -15,8 +15,8 @@ export const MOCK_LESSONS: LessonType[] = [
     type: 'pdf',
     url: 'https://pdfobject.com/pdf/sample.pdf',
     id: 'lesson-2',
-    'start-date': '2023-02-01',
-    'end-date': '2023-02-02',
+    startDate: '2023-02-01',
+    endDate: '2023-02-02',
     done: false,
   },
   {
@@ -24,8 +24,8 @@ export const MOCK_LESSONS: LessonType[] = [
     type: 'form',
     url: 'https://docs.google.com/forms/d/e/1FAIpQLSfO9tyw6eKy1df-6TYJje5fdeJ4lzEp6hEUOISOBYl8nesNHA/viewform?usp=header',
     id: 'lesson-3',
-    'start-date': '2023-02-01',
-    'end-date': '2023-02-02',
+    startDate: '2023-02-01',
+    endDate: '2023-02-02',
     done: false,
   },
 ];

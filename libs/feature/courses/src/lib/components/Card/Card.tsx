@@ -51,7 +51,7 @@ export const Card = ({ id, name, enabled }: CourseType) => {
         <Button
           variant="contained"
           disabled={!enabled}
-          onClick={() => push(`/courses/${id}`)}
+          onClick={() => push(`/cursos/${id}`)}
         >
           {enabled ? COURSE_ACTION : COURSE_UNAVAILABLE}
         </Button>
