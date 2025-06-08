@@ -46,28 +46,12 @@ export const SummaryScreen = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas">
-            <PieChart
-              data={mapperTransactionsValue([
-                ...expenses,
-                ...expenses,
-                ...expenses,
-                ...expenses,
-              ])}
-              type="income"
-            />
+            <PieChart data={mapperTransactionsValue(incomes)} type="income" />
           </Box>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Despesas">
-            <PieChart
-              data={mapperTransactionsValue([
-                ...expenses,
-                ...expenses,
-                ...expenses,
-                ...expenses,
-              ])}
-              type="expense"
-            />
+            <PieChart data={mapperTransactionsValue(expenses)} type="expense" />
           </Box>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
