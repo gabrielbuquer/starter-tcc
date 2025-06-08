@@ -1,5 +1,7 @@
 import { css, styled } from '@mui/material';
 
+import { MonthSelector } from '@monetix/shared/ui';
+
 export const Container = styled('div')`
   ${({ theme }) => css`
     display: flex;
@@ -14,6 +16,9 @@ export const MainGrid = styled('div')`
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: ${theme.spacing(4)};
+    ${theme.breakpoints.down('lg')} {
+      grid-template-columns: minmax(0, 1fr);
+    }
   `};
 `;
 
@@ -26,7 +31,13 @@ export const Controllers = styled('aside')`
   `};
 `;
 
-export const Content = styled('div')`
+export const Filter = styled('div')`
   ${({ theme }) => css`
+    width: 100%;
+    padding: ${theme.spacing(2)};
   `};
+`;
+
+export const Content = styled('div')`
+  ${({ theme }) => css``};
 `;

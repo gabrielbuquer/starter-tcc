@@ -5,3 +5,4 @@ export * from './classRoom';
 export * from './student';
 export * from './user';
 export * from './pagination';
+export * from './goals';

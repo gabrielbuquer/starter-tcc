@@ -2,76 +2,82 @@ import { useState } from 'react';
 import { IconButton, Tab, Tabs, Tooltip } from '@mui/material';
 import Edit from '@mui/icons-material/Edit';
 
-import { Box, PaginatedTable } from '@monetix/shared/ui';
-import { a11yProps } from '@monetix/shared/config';
+import { Box, MonthSelector, PaginatedTable } from '@monetix/shared/ui';
+import { TransactionTypeEnum, a11yProps } from '@monetix/shared/config';
 
 import { MonthTotalizers } from '../../components/MonthTotalizers';
+import { useGoalsTable } from '../../contexts';
 
 import {
   Container,
   Content,
   Controllers,
+  Filter,
   MainGrid,
 } from './GoalsScreen.styled';
-import { rows, totalizers } from './GoalsScreen.mock';
+import { columns, rows, totalizers } from './GoalsScreen.content';
 
 const COMPONENT = 'goals';
 
-const columns: any[] = [
-  { id: 'expense', label: 'Despesas', minWidth: 170 },
-  { id: 'goal', label: 'Meta', minWidth: 100 },
-  {
-    id: 'spended',
-    label: 'Realizado',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
-  },
-  {
-    id: 'remained',
-    label: 'A realizar',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
-  },
-  {
-    id: 'result',
-    label: 'Excendente',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2),
-  },
-];
-
 export const GoalsScreen = () => {
-  const [value, setValue] = useState(0);
+  const {
+    goals,
+    goalsPage,
+    isLoadingGoals,
+    selectedType,
+    setSelectedType,
+    setGoalsMonth,
+    setGoalsPage,
+  } = useGoalsTable();
 
-  const handleChange = (event: React.SyntheticEvent, value: number) => {
-    setValue(value);
+  const handleTypeChange = (
+    event: React.SyntheticEvent,
+    value: TransactionTypeEnum,
+  ) => {
+    console.log(event, value);
+    setSelectedType(value);
   };
 
   return (
     <Container>
       <Tabs
-        value={value}
-        onChange={handleChange}
+        value={selectedType}
+        onChange={handleTypeChange}
         aria-label="Selecione entre Despesas ou Receitas"
         centered
       >
-        <Tab label="Despesas" {...a11yProps(COMPONENT, 'expenses')} />
-        <Tab label="Receitas" {...a11yProps(COMPONENT, 'income')} />
+        <Tab
+          label="Receitas"
+          value={TransactionTypeEnum.INCOME}
+          {...a11yProps(COMPONENT, TransactionTypeEnum.INCOME)}
+        />
+        <Tab
+          label="Despesas"
+          value={TransactionTypeEnum.EXPENSE}
+          {...a11yProps(COMPONENT, TransactionTypeEnum.EXPENSE)}
+        />
       </Tabs>
       <MainGrid>
         <Controllers>
-          <Box>Controle Data</Box>
-          <MonthTotalizers title="Total do mês" totalizers={totalizers} />
+          <Box>
+            <Filter>
+              <MonthSelector onChange={(e) => setGoalsMonth(e)} fullWidth />
+            </Filter>
+          </Box>
+          <MonthTotalizers
+            title="Total do mês"
+            totalizers={totalizers(goals?.resume)}
+          />
         </Controllers>
         <Content>
           <PaginatedTable
             columns={columns}
-            rows={rows}
-            page={0}
+            rows={rows(goals?.items ?? [])}
+            page={goalsPage}
+            totalRows={goals?.meta?.totalItems}
             rowsPerPage={10}
+            loading={isLoadingGoals}
+            onChangePage={(page) => setGoalsPage(page)}
             actions={
               <Tooltip title="Editar metas" placement="right">
                 <IconButton

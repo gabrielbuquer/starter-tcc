@@ -8,11 +8,13 @@ import { generateLastNMonths } from '@monetix/core-utils';
 
 interface MonthSelectorProps {
   lastMonths?: number;
+  fullWidth?: boolean;
   onChange?: (month: string) => void;
 }
 
 export const MonthSelector = ({
   lastMonths = 12,
+  fullWidth = false,
   onChange,
 }: MonthSelectorProps) => {
   const monthOptions = useMemo(
@@ -21,7 +23,7 @@ export const MonthSelector = ({
   );
 
   return (
-    <FormControl sx={{ minWidth: 140 }} size="small">
+    <FormControl sx={{ minWidth: 140 }} size="small" fullWidth={fullWidth}>
       <InputLabel id="month-select-label">Mês</InputLabel>
       <Select
         label={'Mês'}
@@ -30,6 +32,7 @@ export const MonthSelector = ({
         onChange={(e) => {
           onChange?.(e.target.value as string);
         }}
+        fullWidth={fullWidth}
       >
         {monthOptions.map((item) => (
           <MenuItem key={item.value} value={item.value}>
