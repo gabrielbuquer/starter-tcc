@@ -3,6 +3,7 @@ export const GOALS_API_PATH = '/goals';
 export const USER_API_PATH = '/user';
 export const COURSE_API_PATH = '/course';
 export const COURSES_API_PATH = '/courses';
+export const COURSER_API_PATH = '/courser';
 export const CLASS_ROOM_API_PATH = '/class-room';
 export const STUDENT_API_PATH = '/student';
 export const STUDENTS_API_PATH = '/students';

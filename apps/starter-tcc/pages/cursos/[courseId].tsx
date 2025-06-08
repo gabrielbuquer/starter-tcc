@@ -5,9 +5,9 @@ import { ParsedUrlQuery } from 'querystring';
 import {
   CourseContextProvider,
   CourseScreen,
-  courseFetcher,
+  studentCourseFetcher,
+  studentCourserApi,
 } from '@monetix/feature/courses';
-import { getPaths } from '@monetix/shared/config';
 
 import { authOptions } from '../api/auth/[...nextauth]';
 
@@ -20,11 +20,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   res,
   query,
 }) => {
-  const API_PATHS = getPaths();
   const session = await getServerSession(req, res, authOptions);
+
   try {
     const { courseId } = query as IQuery;
-    const course = await courseFetcher(courseId, session?.user?.accessToken);
+
+    const course = await studentCourseFetcher(
+      session?.user?.id ?? '',
+      courseId,
+      session?.user?.accessToken,
+    );
 
     return {
       props: {
@@ -34,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         hasMargin: true,
         courseId,
         fallback: {
-          [`${API_PATHS.COURSE_API}/${courseId}`]: course,
+          [studentCourserApi(session?.user?.id ?? '', courseId)]: course,
         },
       },
     };

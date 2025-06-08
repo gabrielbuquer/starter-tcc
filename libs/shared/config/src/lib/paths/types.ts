@@ -4,6 +4,7 @@ export type SharedPathsKeyType =
   | 'USER_API'
   | 'COURSE_API'
   | 'COURSES_API'
+  | 'COURSER_API'
   | 'STUDENT_API'
   | 'STUDENTS_API'
   | 'CLASS_ROOM_API'

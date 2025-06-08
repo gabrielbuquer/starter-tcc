@@ -30,6 +30,7 @@ export class CourseMapper {
 
   static toResponse(entity: Course): ICourseDetailsResponseDTO {
     const response = {} as ICourseDetailsResponseDTO;
+    console.log('toResponse', entity);
     response.id = entity.id;
     response.name = entity.name;
     response.description = entity.description;

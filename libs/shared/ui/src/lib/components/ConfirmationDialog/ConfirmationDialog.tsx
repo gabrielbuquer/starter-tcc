@@ -13,6 +13,8 @@ export type ConfimationDialogProps = {
   title: string;
   text: string;
   isLoading?: boolean;
+  cancelButtonText?: string;
+  successButtonText?: string;
   handleSuccess: () => void;
   handleCancel: () => void;
 };
@@ -22,6 +24,8 @@ export const ConfirmationDialog = ({
   title,
   text,
   isLoading,
+  cancelButtonText = 'Cancelar',
+  successButtonText = 'Continuar',
   handleSuccess,
   handleCancel,
 }: ConfimationDialogProps) => {
@@ -46,13 +50,13 @@ export const ConfirmationDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions style={{ padding: '0 16px 16px 16px' }}>
-        <LoadingButton onClick={handleCancel}>Cancelar</LoadingButton>
+        <LoadingButton onClick={handleCancel}>{cancelButtonText}</LoadingButton>
         <LoadingButton
           variant="contained"
           loading={isLoading}
           onClick={handleSuccess}
         >
-          Continuar
+          {successButtonText}
         </LoadingButton>
       </DialogActions>
     </Dialog>
