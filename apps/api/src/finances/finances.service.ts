@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 
 import { round2 } from '../common/number.utils';
 
-import { Category, CategoryType } from './entities/category.entity';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { Transaction } from './entities/transaction.entity';
-import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
-import OverviewDTO from './dto/overview.transaction.dto';
-import Goal from './entities/goal.entity';
 import GoalsProgressDto from './dto/goals-progress.dto';
+import OverviewDTO from './dto/overview.transaction.dto';
 import { PaginatedWithResumeGoalsDTO } from './dto/resume.goals.dto';
+import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
+import { UpdateTransactionDTO } from './dto/update-transaction.dto';
+import { Category, CategoryType } from './entities/category.entity';
+import Goal from './entities/goal.entity';
+import { Transaction } from './entities/transaction.entity';
 
 @Injectable()
 export class FinancesService {
@@ -100,7 +101,7 @@ export class FinancesService {
   }
 
   async resumeMonth(
-    userId: string
+    userId: string,
   ): Promise<{ month: string; value: number; type: 'expense' | 'income' }[]> {
     const query = this.transactionRepository
       .createQueryBuilder('t')
@@ -111,7 +112,7 @@ export class FinancesService {
       ])
       .where('t.studentId = :userId', { userId })
       .andWhere(
-        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'"
+        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'",
       )
       .groupBy("TO_CHAR(t.date, 'YYYY-MM')")
       .addGroupBy('t.type')
@@ -127,7 +128,7 @@ export class FinancesService {
   }
 
   async resumeDiff(
-    userId: string
+    userId: string,
   ): Promise<{ month: string; value: number }[]> {
     const query = this.transactionRepository
       .createQueryBuilder('t')
@@ -138,7 +139,7 @@ export class FinancesService {
       ])
       .where('t.studentId = :userId', { userId })
       .andWhere(
-        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'"
+        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'",
       )
       .groupBy("TO_CHAR(t.date, 'YYYY-MM')")
       .addGroupBy('t.type')
@@ -169,7 +170,7 @@ export class FinancesService {
       ([month, { income, expense }]) => ({
         month,
         value: income - expense,
-      })
+      }),
     );
 
     return resumeDiff;
@@ -220,6 +221,39 @@ export class FinancesService {
       student: { id: userId },
     });
     return this.transactionRepository.save(newTransaction);
+  }
+
+  async updateTransaction(
+    userId: string,
+    id: string,
+    updateTransaction: CreateTransactionDto,
+  ) {
+    const transaction = await this.transactionRepository.findOne({
+      where: {
+        id,
+        student: {
+          id: userId,
+        },
+      },
+    });
+    if (!transaction) {
+      throw new Error(`Transaction not found with id ${id}`);
+    }
+
+    if (updateTransaction.categoryId !== undefined) {
+      const category = await this.getCategoryById(updateTransaction.categoryId);
+      if (!category) {
+        throw new Error(
+          `Category with id ${updateTransaction.categoryId} not found`,
+        );
+      }
+      transaction.category = category;
+    }
+    const { categoryId, ...otherFields } = updateTransaction;
+
+    Object.assign(transaction, otherFields);
+    transaction.student = { id: userId } as any;
+    return this.transactionRepository.save(transaction);
   }
 
   async getTransactions(
