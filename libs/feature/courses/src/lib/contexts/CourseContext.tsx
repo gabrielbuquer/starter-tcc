@@ -3,6 +3,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -32,10 +33,10 @@ const CourseContextProvider = ({
 }: CourseContextPropsProviderProps) => {
   const { data: course, isLoading } = useCourse(courseId);
   const lessons = useMemo(() => course?.lessons, [course]);
-  const [selectedLesson, setSelectedLesson] = useState<LessonType>(
-    lessons?.[0],
-  );
+  const [selectedLesson, setSelectedLesson] = useState<LessonType | null>();
   const [currentStep, setCurrentStep] = useState<number>(0);
+
+  console.log(course);
 
   const memoizedSetSelectedLesson = useCallback(
     (lessonStep: number) => {
@@ -51,6 +52,13 @@ const CourseContextProvider = ({
     },
     [course],
   );
+
+  useEffect(() => {
+    if (lessons && lessons.length > 0) {
+      setSelectedLesson(lessons[0]);
+      setCurrentStep(0);
+    }
+  }, [lessons]);
 
   return (
     <CourseContext.Provider

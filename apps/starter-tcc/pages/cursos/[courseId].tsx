@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         hasMargin: true,
         courseId,
         fallback: {
-          [(API_PATHS.COURSE_API, courseId)]: course,
+          [`${API_PATHS.COURSE_API}/${courseId}`]: course,
         },
       },
     };

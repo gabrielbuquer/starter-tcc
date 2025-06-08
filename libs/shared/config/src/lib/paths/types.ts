@@ -6,7 +6,8 @@ export type SharedPathsKeyType =
   | 'COURSES_API'
   | 'STUDENT_API'
   | 'STUDENTS_API'
-  | 'CLASS_ROOM_API';
+  | 'CLASS_ROOM_API'
+  | 'LESSON_API';
 
 type PublicPathsType = {
   PUBLIC: {

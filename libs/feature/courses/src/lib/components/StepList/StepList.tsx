@@ -12,7 +12,7 @@ export const StepList = () => {
   return (
     <Box>
       <Container>
-        {lessons.map((lesson, i) => (
+        {lessons?.map((lesson, i) => (
           <ListItemButton
             component="button"
             key={lesson.id}

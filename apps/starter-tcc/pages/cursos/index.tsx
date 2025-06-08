@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         hasContainer: true,
         hasMargin: true,
         fallback: {
-          [(API_PATHS.COURSE_API, 'list')]: courses,
+          [API_PATHS.COURSE_API]: courses,
         },
       },
     };

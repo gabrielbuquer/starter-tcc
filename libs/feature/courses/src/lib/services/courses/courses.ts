@@ -15,10 +15,7 @@ export const courseListFetcher = (token?: string) => {
 };
 
 export const useCourseList = () => {
-  return useSWR<CourseType[]>(
-    [API_PATHS.COURSE_API, 'list'],
-    courseListFetcher,
-  );
+  return useSWR<CourseType[]>(API_PATHS.COURSE_API, courseListFetcher);
 };
 
 export const courseFetcher = (id: string, token?: string) => {
@@ -32,7 +29,7 @@ export const courseFetcher = (id: string, token?: string) => {
 };
 
 export const useCourse = (id: string) => {
-  return useSWR<CourseType>([API_PATHS.COURSE_API, id], ([, courseId]) =>
-    courseFetcher(courseId as string),
+  return useSWR<CourseType>(`${API_PATHS.COURSE_API}/${id}`, () =>
+    courseFetcher(id),
   );
 };
