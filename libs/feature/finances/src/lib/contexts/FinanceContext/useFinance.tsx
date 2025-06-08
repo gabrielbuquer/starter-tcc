@@ -22,6 +22,7 @@ export function useTransactionForm() {
     defaultValues: TransactionType | null = null,
   ) => {
     const isEditing = defaultValues !== null;
+    console.log('open', defaultValues);
     setTransactionForm({
       open: true,
       formType,
@@ -29,10 +30,11 @@ export function useTransactionForm() {
       defaultValues: defaultValues
         ? {
             ...defaultValues,
+            value: Number(defaultValues.value) || 0,
             date: defaultValues?.date
               ? new Date(defaultValues.date)
               : new Date(),
-            category: defaultValues?.category?.description || '',
+            category: defaultValues?.category?.id || '',
           }
         : null,
     });

@@ -20,7 +20,7 @@ export const TransactionAction = ({ transaction }: TransactionActionProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEdit = () => {
-    openForm(TransactionTypeEnum.EXPENSE, transaction);
+    openForm(transaction?.type, transaction);
   };
   const handleDelete = async () => {
     console.log('Delete action triggered');

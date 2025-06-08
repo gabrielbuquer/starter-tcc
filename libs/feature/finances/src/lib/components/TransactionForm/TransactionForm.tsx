@@ -95,7 +95,6 @@ export const TransactionForm = ({
   };
 
   useEffect(() => {
-    console.log('defaultValues', defaultValues);
     if (open) {
       reset(defaultValues ?? EMPTY_TRANSACTION);
     }
@@ -143,20 +142,33 @@ export const TransactionForm = ({
             />
           </Grid>
           <Grid size={6}>
-            <InputMask mask="99/99/9999" maskChar=" " {...register('date')}>
-              {(props) => {
-                return (
-                  <TextField
-                    {...props}
-                    fullWidth
-                    label={DATE_ATTRIBUTES.label}
-                    variant="outlined"
-                    error={!!errors.date}
-                    helperText={errors.date?.message}
-                  />
-                );
-              }}
-            </InputMask>
+            <Controller
+              name="date"
+              control={control}
+              render={({ field: { onChange, onBlur, value, ref, name } }) => (
+                <InputMask
+                  mask="99/99/9999"
+                  value={
+                    value instanceof Date
+                      ? value.toLocaleDateString('pt-BR')
+                      : value ?? ''
+                  }
+                  onChange={(e) => onChange(e.target.value)}
+                  onBlur={onBlur}
+                >
+                  {(inputProps) => (
+                    <TextField
+                      {...inputProps}
+                      fullWidth
+                      label={DATE_ATTRIBUTES.label}
+                      variant="outlined"
+                      error={!!errors.date}
+                      helperText={errors.date?.message}
+                    />
+                  )}
+                </InputMask>
+              )}
+            />
           </Grid>
           <FormControl fullWidth>
             <InputLabel id="category-select-label">Categoria</InputLabel>
@@ -164,6 +176,7 @@ export const TransactionForm = ({
               labelId="category-select-label"
               id="category-select"
               label={CATEGORY_ATTRIBUTES.label}
+              defaultValue={defaultValues?.category || ''}
               {...register('category')}
             >
               {categories?.map((category) => (

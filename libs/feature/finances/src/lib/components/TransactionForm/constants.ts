@@ -64,7 +64,7 @@ export const CATEGORY_ATTRIBUTES = {
 
 export const EMPTY_TRANSACTION = {
   description: '',
-  value: 0,
+  value: undefined,
   date: new Date(),
   category: '',
 };
