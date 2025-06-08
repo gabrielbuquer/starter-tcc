@@ -79,7 +79,7 @@ export class FinancesController {
     return await this.financesService.getOverview(userId);
   }
 
-  @Get(':/income/:id')
+  @Get('/income/:id')
   async getCategoryIncomeById(@Param('id') id: string) {
     const category = await this.financesService.getCategoryById(id);
     return FinancesMapper.mapCategory(category);

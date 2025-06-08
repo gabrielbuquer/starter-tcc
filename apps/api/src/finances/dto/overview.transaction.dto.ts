@@ -19,4 +19,13 @@ export default interface OverviewDTO {
     };
     value: number;
   }[];
+  totals: {
+    month: string;
+    value: number;
+    type: 'expense' | 'income';
+  }[];
+  balances: {
+    month: string;
+    value: number;
+  }[];
 }

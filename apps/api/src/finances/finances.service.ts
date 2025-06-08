@@ -94,7 +94,85 @@ export class FinancesService {
         },
         value: Number(item.totalvalue),
       })),
+      totals: await this.resumeMonth(userId),
+      balances: await this.resumeDiff(userId),
     };
+  }
+
+  async resumeMonth(
+    userId: string
+  ): Promise<{ month: string; value: number; type: 'expense' | 'income' }[]> {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select([
+        "TO_CHAR(t.date, 'YYYY-MM') AS month",
+        't.type AS type',
+        'SUM(t.value) AS totalValue',
+      ])
+      .where('t.studentId = :userId', { userId })
+      .andWhere(
+        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'"
+      )
+      .groupBy("TO_CHAR(t.date, 'YYYY-MM')")
+      .addGroupBy('t.type')
+      .orderBy("TO_CHAR(t.date, 'YYYY-MM')", 'ASC');
+
+    const result = await query.getRawMany();
+
+    return result.map((row) => ({
+      month: row.month,
+      value: round2(Number(row.totalvalue)),
+      type: row.type,
+    }));
+  }
+
+  async resumeDiff(
+    userId: string
+  ): Promise<{ month: string; value: number }[]> {
+    const query = this.transactionRepository
+      .createQueryBuilder('t')
+      .select([
+        "TO_CHAR(t.date, 'YYYY-MM') AS month",
+        't.type AS type',
+        'SUM(t.value) AS totalValue',
+      ])
+      .where('t.studentId = :userId', { userId })
+      .andWhere(
+        "t.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '5 months'"
+      )
+      .groupBy("TO_CHAR(t.date, 'YYYY-MM')")
+      .addGroupBy('t.type')
+      .orderBy("TO_CHAR(t.date, 'YYYY-MM')", 'ASC');
+
+    const result = await query.getRawMany();
+
+    const monthMap = new Map<string, { income: number; expense: number }>();
+
+    result.forEach((row) => {
+      const month = row.month;
+      const type = row.type;
+      const value = Number(row.totalvalue) || 0;
+
+      if (!monthMap.has(month)) {
+        monthMap.set(month, { income: 0, expense: 0 });
+      }
+
+      const current = monthMap.get(month)!;
+      if (type === 'income') {
+        current.income += value;
+      } else if (type === 'expense') {
+        current.expense += value;
+      }
+    });
+
+    const resumeDiff = Array.from(monthMap.entries()).map(
+      ([month, { income, expense }]) => ({
+        month,
+        value: income - expense,
+      })
+    );
+
+    return resumeDiff;
   }
 
   async getIncomeMonth(userId: string): Promise<number> {
