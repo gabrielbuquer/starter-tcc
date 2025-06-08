@@ -10,6 +10,13 @@ export function useTransactionForm() {
     defaultValues: TransactionType | null = null,
   ) => {
     const isEditing = defaultValues !== null;
+
+    let parsedDate = new Date();
+    if (defaultValues?.date) {
+      const [year, month, day] = defaultValues.date.split('-');
+      parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
+    }
+
     setTransactionForm({
       open: true,
       formType,
@@ -18,9 +25,7 @@ export function useTransactionForm() {
         ? {
             ...defaultValues,
             value: Number(defaultValues.value) || 0,
-            date: defaultValues?.date
-              ? new Date(defaultValues.date)
-              : new Date(),
+            date: parsedDate,
             category: defaultValues?.category?.id || '',
           }
         : null,

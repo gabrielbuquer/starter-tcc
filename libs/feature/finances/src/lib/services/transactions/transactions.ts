@@ -11,6 +11,7 @@ import {
 import {
   TransactionDeleteData,
   TransactionPostData,
+  TransactionPutData,
   TransactionQueryParams,
   TransactionsDataResponse,
 } from './types';
@@ -56,6 +57,18 @@ export const usePostTransaction = () =>
   useSWRMutation(
     [API_PATHS.FINANCES_API],
     (_key, { arg }: { arg: TransactionPostData }) => transactionDataPost(arg),
+  );
+
+export const transactionDataPut = (data: TransactionPutData) => {
+  return api.put(`${API_PATHS.FINANCES_API}/${data.id}`, data).then((res) => {
+    return res.data;
+  });
+};
+
+export const usePutTransaction = () =>
+  useSWRMutation(
+    [API_PATHS.FINANCES_API],
+    (_key, { arg }: { arg: TransactionPutData }) => transactionDataPut(arg),
   );
 
 export const transactionDataDelete = (data: TransactionDeleteData) => {

@@ -22,6 +22,13 @@ export type TransactionPostData = Omit<
 
 export type TransactionDeleteData = TransactionType;
 
+export type TransactionPutData = Omit<
+  TransactionType,
+  'id' | 'category' | 'enabled'
+> & {
+  categoryId: string;
+};
+
 export type TransactionsDataResponse = {
   items: TransactionType[];
   resume: TransactionResumeType;

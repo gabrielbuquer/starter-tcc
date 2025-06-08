@@ -55,7 +55,7 @@ export const TransactionForm = ({
   onClose,
 }: TransactionFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA[formType];
-  const { postTransaction } = useTransaction();
+  const { postTransaction, updateTransaction } = useTransaction();
   const { data: categories } = useTransactionCategories(formType);
   const [loading, setLoading] = useState(false);
 
@@ -76,18 +76,15 @@ export const TransactionForm = ({
 
   const onSubmit = async (formData: TransactionFormData) => {
     setLoading(true);
-    if (isEditing) {
-      // Call the mutation to update the transaction
-    } else {
-      await postTransaction({
-        ...formData,
-        categoryId: formData.category,
-        date: new Date(formData.date).toISOString(),
-        type: formType,
-      });
-      setLoading(false);
-      onClose?.();
-    }
+    const transactionHandler = isEditing ? updateTransaction : postTransaction;
+    await transactionHandler({
+      ...formData,
+      categoryId: formData.category,
+      date: new Date(formData.date).toISOString(),
+      type: formType,
+    });
+    setLoading(false);
+    onClose?.();
   };
 
   useEffect(() => {

@@ -2,8 +2,6 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { useSWRConfig } from 'swr';
-import { useEffect } from 'react';
 
 import { MonthSelector, PaginatedTable } from '@monetix/shared/ui';
 import { TransactionTypeEnum } from '@monetix/shared/config';
@@ -16,13 +14,6 @@ import { columns, transactionsFilter } from './constants';
 import { rows } from './TransactionScreen.content';
 
 export const TransactionScreen = () => {
-  const { cache } = useSWRConfig();
-
-  useEffect(() => {
-    for (const key of cache.keys()) {
-      console.log('SWR Cache Key:', key);
-    }
-  }, []);
   const {
     transactions,
     transactionsPage,
