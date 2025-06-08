@@ -9,6 +9,7 @@ import {
 } from '@monetix/shared/config';
 
 import {
+  TransactionDeleteData,
   TransactionPostData,
   TransactionQueryParams,
   TransactionsDataResponse,
@@ -55,6 +56,19 @@ export const usePostTransaction = () =>
   useSWRMutation(
     [API_PATHS.FINANCES_API],
     (_key, { arg }: { arg: TransactionPostData }) => transactionDataPost(arg),
+  );
+
+export const transactionDataDelete = (data: TransactionDeleteData) => {
+  return api.del(`${API_PATHS.FINANCES_API}/${data.id}`).then((res) => {
+    return res.data;
+  });
+};
+
+export const useDeleteTransaction = () =>
+  useSWRMutation(
+    [API_PATHS.FINANCES_API],
+    (_key, { arg }: { arg: TransactionDeleteData }) =>
+      transactionDataDelete(arg),
   );
 
 export const transactionCategoriesFetcher = (

@@ -7,7 +7,9 @@ import {
 } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
-import { useTransactionForm } from '../../contexts/FinanceContext';
+import { TransactionTypeEnum } from '@monetix/shared/config';
+
+import { useTransactionForm } from '../../hooks/useTransactionForm';
 
 export const QuickMenu = () => {
   const { push } = useRouter();
@@ -27,12 +29,12 @@ export const QuickMenu = () => {
     {
       icon: <ArrowDownwardOutlined color="error" />,
       name: 'Adicionar despesa',
-      onClick: () => openForm('expense'),
+      onClick: () => openForm(TransactionTypeEnum.EXPENSE),
     },
     {
       icon: <ArrowUpwardOutlined color="success" />,
       name: 'Adicionar receita',
-      onClick: () => openForm('income'),
+      onClick: () => openForm(TransactionTypeEnum.INCOME),
     },
   ];
 

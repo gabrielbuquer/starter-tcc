@@ -3,10 +3,12 @@ import IconButton from '@mui/material/IconButton';
 import Edit from '@mui/icons-material/Edit';
 import Delete from '@mui/icons-material/Delete';
 
-import { ConfirmationDialog } from '@monetix/shared/ui';
-import { TransactionType, TransactionTypeEnum } from '@monetix/shared/config';
+import { ConfirmationDialog, showSnackBar } from '@monetix/shared/ui';
+import { TransactionType } from '@monetix/shared/config';
 
-import { useTransactionForm } from '../../contexts/FinanceContext';
+import { useTransactionForm } from '../../hooks/useTransactionForm';
+import { useDeleteTransaction } from '../../services/transactions';
+import { useTransaction } from '../../hooks/useTransaction';
 
 import { Container } from './TransactionAction.styled';
 
@@ -15,6 +17,7 @@ interface TransactionActionProps {
 }
 
 export const TransactionAction = ({ transaction }: TransactionActionProps) => {
+  const { deleteTransaction } = useTransaction();
   const { openForm } = useTransactionForm();
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,16 +25,16 @@ export const TransactionAction = ({ transaction }: TransactionActionProps) => {
   const handleEdit = () => {
     openForm(transaction?.type, transaction);
   };
+
   const handleDelete = async () => {
-    console.log('Delete action triggered');
+    if (!transaction?.id) return;
+
     setIsLoading(true);
 
-    // Simulate an API call
-    setTimeout(() => {
-      console.log('Transaction deleted');
-      setDeleteConfirmation(false);
-      setIsLoading(false);
-    }, 2000);
+    await deleteTransaction(transaction);
+
+    setIsLoading(false);
+    setDeleteConfirmation(false);
   };
 
   return (

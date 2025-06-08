@@ -1,14 +1,22 @@
 import { Resolver, useForm } from 'react-hook-form';
-import { Button, TextField } from "@mui/material";
+import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Form } from "./Register.styled";
-import { PasswordInput } from "@monetix/shared/ui";
+
+import { PasswordInput } from '@monetix/shared/ui';
+
+import { Form } from './Register.styled';
 import { schema } from './Register.schema';
-import { BIRTHDATE_ATTRIBUTES, EMAIL_ATTRIBUTES, MATCHED_PASSWORD_ATTRIBUTES, NAME_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
+import {
+  BIRTHDATE_ATTRIBUTES,
+  EMAIL_ATTRIBUTES,
+  MATCHED_PASSWORD_ATTRIBUTES,
+  NAME_ATTRIBUTES,
+  PASSWORD_ATTRIBUTES,
+} from './constants';
 
 type RegisterProps = {
   onBack: () => void;
-}
+};
 
 type RegisterFormData = {
   name: string;
@@ -16,7 +24,7 @@ type RegisterFormData = {
   birthDate: string;
   password: string;
   matchedPassword: string;
-}
+};
 
 export const Register = ({ onBack }: RegisterProps) => {
   const methods = useForm<RegisterFormData>({
@@ -33,7 +41,7 @@ export const Register = ({ onBack }: RegisterProps) => {
 
   const onSubmit = async (formData: RegisterFormData) => {
     console.log(formData);
-  }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -80,9 +88,13 @@ export const Register = ({ onBack }: RegisterProps) => {
       <Button type="submit" variant="contained" disabled={!isValid}>
         Entrar
       </Button>
-      <Button variant="contained" sx={{ bgcolor: 'primary.light' }} onClick={() => onBack()}>
+      <Button
+        variant="contained"
+        sx={{ bgcolor: 'primary.light' }}
+        onClick={() => onBack()}
+      >
         Voltar
       </Button>
     </Form>
-  )
+  );
 };

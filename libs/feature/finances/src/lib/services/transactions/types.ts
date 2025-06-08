@@ -20,6 +20,8 @@ export type TransactionPostData = Omit<
   categoryId: string;
 };
 
+export type TransactionDeleteData = TransactionType;
+
 export type TransactionsDataResponse = {
   items: TransactionType[];
   resume: TransactionResumeType;
