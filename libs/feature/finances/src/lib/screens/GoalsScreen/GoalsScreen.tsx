@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IconButton, Tab, Tabs, Tooltip } from '@mui/material';
-import Edit from '@mui/icons-material/Edit';
+import Add from '@mui/icons-material/Add';
 
 import { Box, MonthSelector, PaginatedTable } from '@monetix/shared/ui';
 import { TransactionTypeEnum, a11yProps } from '@monetix/shared/config';
@@ -31,10 +31,9 @@ export const GoalsScreen = () => {
   } = useGoalsTable();
 
   const handleTypeChange = (
-    event: React.SyntheticEvent,
+    _: React.SyntheticEvent,
     value: TransactionTypeEnum,
   ) => {
-    console.log(event, value);
     setSelectedType(value);
   };
 
@@ -79,15 +78,15 @@ export const GoalsScreen = () => {
             loading={isLoadingGoals}
             onChangePage={(page) => setGoalsPage(page)}
             actions={
-              <Tooltip title="Editar metas" placement="right">
+              <Tooltip title="Criar meta" placement="right">
                 <IconButton
                   onClick={() => {
                     console.log('teste');
                   }}
                   size="medium"
-                  aria-label={'Editar metas'}
+                  aria-label={'Criar meta'}
                 >
-                  <Edit />
+                  <Add />
                 </IconButton>
               </Tooltip>
             }
