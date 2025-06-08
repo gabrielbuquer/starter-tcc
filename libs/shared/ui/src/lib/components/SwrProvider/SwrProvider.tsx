@@ -5,39 +5,19 @@ export type SwrFallbackType = {
   [key: string]: any;
 };
 
-export type SwrProviderPropsType =
-  | {
-      swrFallback?: SwrFallbackType;
-      children: React.ReactNode;
-      disableSWRManager?: never;
-    }
-  | {
-      swrFallback?: never;
-      children: React.ReactNode;
-      disableSWRManager?: boolean;
-    };
+export type SwrProviderPropsType = {
+  swrFallback?: SwrFallbackType;
+  children: React.ReactNode;
+};
 
 export const SwrProvider = ({
   swrFallback: fallback,
   children,
 }: SwrProviderPropsType) => {
-  return fallback ? (
+  return (
     <SWRConfig
       value={{
-        provider: () => new Map(),
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
         fallback,
-      }}
-    >
-      {children}
-    </SWRConfig>
-  ) : (
-    <SWRConfig
-      value={{
-        provider: () => new Map(),
-        revalidateIfStale: false,
-        revalidateOnFocus: false,
       }}
     >
       {children}

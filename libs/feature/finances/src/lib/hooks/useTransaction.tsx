@@ -57,7 +57,7 @@ export function useTransaction() {
     try {
       await triggerDelete(transaction);
       updateTransactions();
-      showSnackBar({
+      await showSnackBar({
         message: `Transação "${transaction.description}" excluída com sucesso.`,
         type: 'success',
       });
