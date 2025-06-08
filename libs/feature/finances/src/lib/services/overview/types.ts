@@ -19,4 +19,17 @@ export type OverviewDataResponse = {
   expenseMonth: number;
   incomes: TransactionValue[];
   expenses: TransactionValue[];
+  totals: OverviewTotals[];
+  balances: OverviewBalances[];
+};
+
+export type OverviewTotals = {
+  month: string;
+  value: number;
+  type: TransactionTypeEnum;
+};
+
+export type OverviewBalances = {
+  month: string;
+  value: number;
 };

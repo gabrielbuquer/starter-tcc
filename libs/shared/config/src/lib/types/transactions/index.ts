@@ -21,6 +21,7 @@ export enum TransactionTypeEnum {
 
 export type TransactionResumeType = {
   amount: number;
+  amountMonth: number;
   totalIncome: number;
   totalExpense: number;
 };

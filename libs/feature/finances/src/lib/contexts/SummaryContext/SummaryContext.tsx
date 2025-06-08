@@ -1,25 +1,23 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext } from 'react';
 
-import { TransactionTypeEnum } from '@monetix/shared/config';
+import { useFinanceOverview } from '../../services/overview';
 import {
-  getCurrentMonth,
-  getStartAndEndDateFromMonthValue,
-} from '@monetix/core-utils';
-
-import { useTransactionsData } from '../../services/transactions';
-import { TransactionsDataResponse } from '../../services/transactions/types';
-import { useFinanceContext } from '../FinanceContext';
+  OverviewBalances,
+  OverviewTotals,
+  TransactionValue,
+} from '../../services/overview/types';
 
 type SummaryContextProps = {
-  transactions: TransactionsDataResponse;
-  transactionsPage: number;
-  transactionsMonth: string;
-  selectedType: TransactionTypeEnum;
-  isLoadingTransactions: boolean;
-  setSelectedType: (type: TransactionTypeEnum) => void;
-  setTransactionsPage: (page: number) => void;
-  setTransactionsMonth: (month: string) => void;
-  updateTransactions: () => void;
+  amount: number;
+  amountMonth: number;
+  incomeMonth: number;
+  expenseMonth: number;
+  incomes: TransactionValue[];
+  expenses: TransactionValue[];
+  totals: OverviewTotals[];
+  balances: OverviewBalances[];
+  isLoadingOverview: boolean;
+  updateOverview: () => void;
 };
 
 export type SummaryContextPropsProviderProps = {
@@ -31,38 +29,25 @@ export const SummaryContext = createContext({} as SummaryContextProps);
 export const SummaryContextProvider = ({
   children,
 }: SummaryContextPropsProviderProps) => {
-  const {} = useFinanceContext();
-  const [selectedType, setSelectedType] = useState<TransactionTypeEnum | null>(
-    TransactionTypeEnum.ALL,
-  );
-  const [transactionsPage, setTransactionsPage] = useState(0);
-  const [transactionsMonth, setTransactionsMonth] = useState<string>(
-    getCurrentMonth().value,
-  );
-
   const {
-    data: transactions,
-    isLoading: loadingTransactions,
-    mutate: updateTransactions,
-  } = useTransactionsData({
-    type: selectedType,
-    ...getStartAndEndDateFromMonthValue(transactionsMonth),
-    page: transactionsPage + 1,
-    limit: 10,
-  });
+    data: overview,
+    isLoading: loadingOverview,
+    mutate: updateOverview,
+  } = useFinanceOverview();
 
   return (
     <SummaryContext.Provider
       value={{
-        transactions,
-        transactionsPage,
-        transactionsMonth,
-        selectedType,
-        isLoadingTransactions: !transactions || loadingTransactions,
-        setSelectedType,
-        setTransactionsPage,
-        setTransactionsMonth,
-        updateTransactions,
+        amount: overview?.amount ?? 0,
+        amountMonth: overview?.amountMonth ?? 0,
+        incomeMonth: overview?.incomeMonth ?? 0,
+        expenseMonth: overview?.expenseMonth ?? 0,
+        incomes: overview?.incomes ?? [],
+        expenses: overview?.expenses ?? [],
+        totals: overview?.totals ?? ([] as OverviewTotals[]),
+        balances: overview?.balances ?? ([] as OverviewBalances[]),
+        isLoadingOverview: !overview || loadingOverview,
+        updateOverview,
       }}
     >
       {children}

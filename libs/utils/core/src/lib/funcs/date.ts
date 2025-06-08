@@ -56,7 +56,7 @@ export const getStartAndEndDateFromMonthValue = (value: string) => {
 
 export const dateFormatter = (date: string): string => {
   const [year, month, day] = date.split('-').map(Number);
-  const localDate = new Date(year, month - 1, day);
+  const localDate = new Date(year, month - 1, day ?? 1);
   const options: Intl.DateTimeFormatOptions = {
     timeZone: 'America/Sao_Paulo',
     year: 'numeric',
@@ -64,4 +64,9 @@ export const dateFormatter = (date: string): string => {
     day: 'numeric',
   };
   return new Date(localDate).toLocaleDateString('pt-BR', options);
+};
+
+export const stringToDate = (value: string): Date => {
+  const [year, month] = value.split('-').map(Number);
+  return new Date(year, month - 1, 1 ?? 1);
 };

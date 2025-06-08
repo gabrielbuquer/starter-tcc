@@ -6,11 +6,15 @@ import { useTheme } from '@mui/material/styles';
 
 type BarChartProps = {
   type?: 'balance' | 'default';
+  dates: Date[];
 } & Pick<MUIBarChartProps, 'series'>;
 
-export const BarChart = ({ series, type = 'default' }: BarChartProps) => {
+export const BarChart = ({
+  series,
+  dates,
+  type = 'default',
+}: BarChartProps) => {
   const theme = useTheme();
-  const date = new Date();
   return (
     <MUIBarChart
       series={series}
@@ -19,14 +23,7 @@ export const BarChart = ({ series, type = 'default' }: BarChartProps) => {
       xAxis={[
         {
           scaleType: 'band',
-          data: [
-            new Date(date.getFullYear(), date.getMonth() - 5, 1),
-            new Date(date.getFullYear(), date.getMonth() - 4, 1),
-            new Date(date.getFullYear(), date.getMonth() - 3, 1),
-            new Date(date.getFullYear(), date.getMonth() - 2, 1),
-            new Date(date.getFullYear(), date.getMonth() - 1, 1),
-            new Date(date.getFullYear(), date.getMonth(), 1),
-          ],
+          data: dates,
           valueFormatter: (value) =>
             `${value.getMonth() + 1}/${value.getFullYear()}`,
         },

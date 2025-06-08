@@ -9,21 +9,27 @@ import {
   TransactionPostData,
 } from '../services/transactions/types';
 import { useTransactionTable } from '../contexts/TransactionTableContext';
+import { useGoalsTable, useSummary } from '../contexts';
 
 export function useTransaction() {
   const { updateTransactions } = useTransactionTable();
+  const { updateGoals } = useGoalsTable();
+  const { updateOverview } = useSummary();
   const { trigger: triggerPost } = usePostTransaction();
   const { trigger: triggerDelete } = useDeleteTransaction();
 
   const postTransaction = async (transaction: TransactionPostData) => {
     try {
       await triggerPost(transaction);
-      updateTransactions();
+      updateTransactions?.();
+      updateGoals?.();
+      updateOverview?.();
       showSnackBar({
         message: `Transação "${transaction.description}" criada com sucesso.`,
         type: 'success',
       });
     } catch (error) {
+      console.log(error);
       showSnackBar({
         message: `Erro ao criar a transação "${transaction.description}". Tente novamente mais tarde.`,
         type: 'error',

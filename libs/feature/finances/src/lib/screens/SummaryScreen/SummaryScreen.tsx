@@ -1,14 +1,20 @@
 import { Button, Grid2 as Grid } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import { BarChart, Box, PieChart } from '@monetix/shared/ui';
 import { currencyFormatter } from '@monetix/core-utils';
 
 import { MainGrid } from '../../containers/MainGrid';
 import { useFinanceOverview } from '../../services/overview';
+import { useSummary } from '../../contexts/SummaryContext';
 
 import { Container } from './SummaryScreen.styled';
-import { mapperTransactionsValue } from './SummaryScreen.content';
+import {
+  mapperBalances,
+  mapperTotals,
+  mapperTransactionsValue,
+} from './SummaryScreen.content';
 
 export const desktopOS = [
   {
@@ -27,17 +33,28 @@ export const desktopOS = [
 
 export const SummaryScreen = () => {
   const { push } = useRouter();
-  const { data } = useFinanceOverview();
-  const amount = data?.amount ?? 0;
-  const expenseMonth = data?.expenseMonth ?? 0;
-  const incomeMonth = data?.incomeMonth ?? 0;
-  const incomes = data?.incomes ?? [];
-  const expenses = data?.expenses ?? [];
+  const {
+    amount,
+    amountMonth,
+    incomeMonth,
+    expenseMonth,
+    incomes,
+    expenses,
+    totals,
+    balances,
+  } = useSummary();
+
+  const graphBalances = useMemo(
+    () => mapperBalances(balances ?? []),
+    [balances],
+  );
+  const graphTotals = useMemo(() => mapperTotals(totals ?? []), [totals]);
   return (
     <Container>
       <MainGrid
         resume={{
           amount,
+          amountMonth,
           totalExpense: expenseMonth,
           totalIncome: incomeMonth,
         }}
@@ -58,9 +75,10 @@ export const SummaryScreen = () => {
           <Box title="Balanço mensal">
             <BarChart
               type="balance"
+              dates={graphBalances.dates}
               series={[
                 {
-                  data: [230.02, 120.99, 24, -34, 100, -50],
+                  data: graphBalances.series,
                   valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
               ]}
@@ -70,13 +88,14 @@ export const SummaryScreen = () => {
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas x Despesas">
             <BarChart
+              dates={graphTotals.dates}
               series={[
                 {
-                  data: [1230.0, 1250.0, 1330.0, 1800.0, 200, 2000],
+                  data: graphTotals.incomes,
                   valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
                 {
-                  data: [1000, 800.99, 1200, 2500, 700, 1000],
+                  data: graphTotals.expenses,
                   valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
               ]}

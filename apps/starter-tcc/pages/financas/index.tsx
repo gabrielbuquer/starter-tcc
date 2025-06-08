@@ -1,7 +1,11 @@
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
 
-import { FinanceLayout, SummaryScreen } from '@monetix/feature/finances';
+import {
+  FinanceLayout,
+  SummaryContextProvider,
+  SummaryScreen,
+} from '@monetix/feature/finances';
 import { getPaths } from '@monetix/shared/config';
 
 import { authOptions } from '../api/auth/[...nextauth]';
@@ -31,7 +35,11 @@ const FinanceSummaryPage = () => {
 };
 
 FinanceSummaryPage.getLayout = (page: React.ReactNode) => {
-  return <FinanceLayout>{page}</FinanceLayout>;
+  return (
+    <SummaryContextProvider>
+      <FinanceLayout>{page}</FinanceLayout>
+    </SummaryContextProvider>
+  );
 };
 
 export default FinanceSummaryPage;

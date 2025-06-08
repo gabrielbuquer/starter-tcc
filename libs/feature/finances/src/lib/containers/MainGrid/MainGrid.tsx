@@ -7,11 +7,7 @@ import { Summary } from '../../components';
 
 import { Container, Grid } from './MainGrid.styled';
 import { content } from './utils';
-
-export type MainGridProps = {
-  resume?: TransactionResumeType;
-  reportOption?: boolean;
-};
+import { MainGridProps } from './types';
 
 export const MainGrid = ({ resume, reportOption = true }: MainGridProps) => {
   const { push } = useRouter();
