@@ -12,10 +12,10 @@ export const ButtonFinish = () => {
   const [finishConfirmation, setFinishConfirmation] = useState(false);
 
   const {
-    lessons,
     selectedLesson,
     currentStep,
     isLastStep,
+    isCourseFinished,
     setSelectedLesson,
     updateCourse,
   } = useCourseContext();
@@ -39,8 +39,6 @@ export const ButtonFinish = () => {
     }
   }, [finishLesson, updateCourse, isLastStep, setSelectedLesson]);
 
-  // console.log(lessons, selectedLesson);
-
   return (
     <>
       {selectedLesson?.startDate && !selectedLesson?.endDate && (
@@ -53,9 +51,9 @@ export const ButtonFinish = () => {
         </Button>
       )}
 
-      {isLastStep && selectedLesson?.endDate && (
+      {isCourseFinished && (
         <Button variant="contained" disabled>
-          Finalizar curso
+          Curso finalizado
         </Button>
       )}
 

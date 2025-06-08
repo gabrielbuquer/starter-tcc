@@ -21,6 +21,7 @@ type CourseContextProps = {
   currentStep: number;
   isLoading: boolean;
   isLastStep: boolean;
+  isCourseFinished: boolean;
   setSelectedLesson: (index: number) => void;
   setConfirmationDialogOpen: (open: boolean) => void;
   updateCourse: () => ReturnType<typeof mutate>;
@@ -73,22 +74,20 @@ const CourseContextProvider = ({
     [lessons, currentStep],
   );
 
-  const { trigger: checkLesson } = useCheckLesson(
+  const { trigger: checkLesson, isMutating: isCheckingLesson } = useCheckLesson(
     session?.user?.id ?? '',
     selectedLesson?.id ?? '',
   );
 
   useEffect(() => {
-    if (lessons && lessons.length > 0 && !selectedLesson) {
+    if (lessons && lessons.length > 0 && currentStep === 0) {
       const firstPendingIndex = lessons.findIndex((lesson) => !lesson.endDate);
+      const defaultStep =
+        firstPendingIndex !== -1 ? firstPendingIndex : lessons.length - 1;
 
-      if (firstPendingIndex !== -1) {
-        setCurrentStep(firstPendingIndex);
-      } else {
-        setCurrentStep(lessons.length - 1);
-      }
+      setCurrentStep(defaultStep);
     }
-  }, [lessons, selectedLesson]);
+  }, [lessons]);
 
   useEffect(() => {
     const startLesson = async () => {
@@ -110,7 +109,16 @@ const CourseContextProvider = ({
     startLesson();
   }, [selectedLesson]);
 
-  console.log(lessons, selectedLesson, 'lessons changed');
+  const isCourseFinished = useMemo(
+    () => lessons?.every((lesson) => lesson.endDate) ?? false,
+    [lessons],
+  );
+
+  const handleConfirmedCheckLesson = useCallback(async () => {
+    await checkLesson();
+    await updateCourse();
+    setConfirmationDialogOpen(false);
+  }, [checkLesson, updateCourse]);
 
   return (
     <CourseContext.Provider
@@ -120,6 +128,7 @@ const CourseContextProvider = ({
         isLoading,
         currentStep,
         isLastStep,
+        isCourseFinished,
         setSelectedLesson: memoizedSetSelectedLesson,
         setConfirmationDialogOpen,
         updateCourse,
@@ -130,10 +139,10 @@ const CourseContextProvider = ({
         title="Iniciar lição"
         text={`Deseja iniciar a lição ${selectedLesson?.name}? Você ainda tem uma lição anterior pendente.`}
         open={confirmationDialogOpen}
-        isLoading={isLoading}
+        isLoading={isCheckingLesson}
         cancelButtonText="Ainda não"
         successButtonText="Iniciar lição"
-        handleSuccess={() => console.log('Lição iniciada')}
+        handleSuccess={handleConfirmedCheckLesson}
         handleCancel={() => setConfirmationDialogOpen(false)}
       />
     </CourseContext.Provider>
