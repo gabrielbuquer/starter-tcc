@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, SelectQueryBuilder } from 'typeorm';
-import { Category, CategoryType } from './entities/category.entity';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { Transaction } from './entities/transaction.entity';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
-import { FilterTransactionDto } from './dto/filter-transaction.dto';
-import OverviewDTO from './dto/overview.transaction.dto';
-import Goal from './entities/goal.entity';
-import GoalsProgressDto from './dto/goals-progress.dto';
-import { PaginatedWithResumeGoalsDTO } from './dto/resume.goals.dto';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { round2 } from '../common/number.utils';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { FilterTransactionDto } from './dto/filter-transaction.dto';
+import GoalsProgressDto from './dto/goals-progress.dto';
+import OverviewDTO from './dto/overview.transaction.dto';
+import { PaginatedWithResumeGoalsDTO } from './dto/resume.goals.dto';
+import { PaginatedWithResumeDto } from './dto/resume.transaction.dto';
+import { UpdateTransactionDTO } from './dto/update-transaction.dto';
+import { Category, CategoryType } from './entities/category.entity';
+import Goal from './entities/goal.entity';
+import { Transaction } from './entities/transaction.entity';
 
 @Injectable()
 export class FinancesService {
@@ -218,6 +219,39 @@ export class FinancesService {
       student: { id: userId },
     });
     return this.transactionRepository.save(newTransaction);
+  }
+
+  async updateTransaction(
+    userId: string,
+    id: string,
+    updateTransaction: CreateTransactionDto
+  ) {
+    const transaction = await this.transactionRepository.findOne({
+      where: {
+        id,
+        student: {
+          id: userId,
+        },
+      },
+    });
+    if (!transaction) {
+      throw new Error(`Transaction not found with id ${id}`);
+    }
+
+    if (updateTransaction.categoryId !== undefined) {
+      const category = await this.getCategoryById(updateTransaction.categoryId);
+      if (!category) {
+        throw new Error(
+          `Category with id ${updateTransaction.categoryId} not found`
+        );
+      }
+      transaction.category = category;
+    }
+    const { categoryId, ...otherFields } = updateTransaction;
+
+    Object.assign(transaction, otherFields);
+    transaction.student = { id: userId } as any;
+    return this.transactionRepository.save(transaction);
   }
 
   async getTransactions(

@@ -1424,3 +1424,51 @@ Student {
 [90m[4mquery:[24m[39m [94mSELECT[39m [95mSUM[39m("t"."value") [94mAS[39m "totalExpense" [94mFROM[39m "transaction" "t" [94mWHERE[39m "t"."studentId" = $[32m1[39m [94mAND[39m "t"."type" = $[32m2[39m [94mAND[39m DATE_TRUNC([37m'month'[39m, "t"."date") = DATE_TRUNC([37m'month'[39m, NOW()) [90m-- PARAMETERS: ["62339710-3dd8-4864-a15f-3fcfaceca86e","expense"][39m
 [90m[4mquery:[24m[39m [94mSELECT[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m) [94mAS[39m [94mmonth[39m, "t"."type" [94mAS[39m type, [95mSUM[39m("t"."value") [94mAS[39m totalValue [94mFROM[39m "transaction" "t" [94mWHERE[39m "t"."studentId" = $[32m1[39m [94mAND[39m "t"."date" >= DATE_TRUNC([37m'month'[39m, [95mCURRENT_DATE[39m) - [95mINTERVAL[39m [37m'5 months'[39m [94mGROUP[39m [94mBY[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m), "t"."type" [94mORDER[39m [94mBY[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m) [94mASC[39m [90m-- PARAMETERS: ["62339710-3dd8-4864-a15f-3fcfaceca86e"][39m
 [90m[4mquery:[24m[39m [94mSELECT[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m) [94mAS[39m [94mmonth[39m, "t"."type" [94mAS[39m type, [95mSUM[39m("t"."value") [94mAS[39m totalValue [94mFROM[39m "transaction" "t" [94mWHERE[39m "t"."studentId" = $[32m1[39m [94mAND[39m "t"."date" >= DATE_TRUNC([37m'month'[39m, [95mCURRENT_DATE[39m) - [95mINTERVAL[39m [37m'5 months'[39m [94mGROUP[39m [94mBY[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m), "t"."type" [94mORDER[39m [94mBY[39m TO_CHAR("t"."date", [37m'YYYY-MM'[39m) [94mASC[39m [90m-- PARAMETERS: ["62339710-3dd8-4864-a15f-3fcfaceca86e"][39m
+yarn run v1.22.22
+$ npx nx run api:serve
+
+ NX   Running target serve for project api and 1 task it depends on:
+
+
+
+> nx run api:build
+
+> webpack-cli build --node-env=production
+
+chunk (runtime: main) [1m[32mmain.js[39m[22m (main) 112 KiB [1m[33m[entry][39m[22m [1m[32m[rendered][39m[22m
+
+[1m[31mERROR[39m[22m in [1m./src/finances/finances.controller.ts:[32m[1m20:10[22m[39m[1m[39m[22m
+[90mTS2724: [39m'"./dto/update-transaction.dto"' has no exported member named 'UpdateTransaction'. Did you mean 'UpdateTransactionDTO'?
+  [0m [90m 18 |[39m [36mimport[39m { [33mFinancesMapper[39m } [36mfrom[39m [32m'./finances.mapper'[39m[33m;[39m
+   [90m 19 |[39m [36mimport[39m { [33mFinancesService[39m } [36mfrom[39m [32m'./finances.service'[39m[33m;[39m
+  [31m[1m>[22m[39m[90m 20 |[39m [36mimport[39m { [33mUpdateTransaction[39m } [36mfrom[39m [32m'./dto/update-transaction.dto'[39m[33m;[39m
+   [90m    |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+   [90m 21 |[39m
+   [90m 22 |[39m [33m@[39m[33mController[39m([32m'/api/finances'[39m)
+   [90m 23 |[39m [36mexport[39m [36mclass[39m [33mFinancesController[39m {[0m
+
+[1m[31mERROR[39m[22m in [1m./src/finances/finances.service.ts:[32m[1m16:3[22m[39m[1m[39m[22m
+[90mTS2724: [39m'"./dto/update-transaction.dto"' has no exported member named 'UpdateTransaction'. Did you mean 'UpdateTransactionDTO'?
+  [0m [90m 14 |[39m [36mimport[39m { round2 } [36mfrom[39m [32m'../common/number.utils'[39m[33m;[39m
+   [90m 15 |[39m [36mimport[39m {
+  [31m[1m>[22m[39m[90m 16 |[39m   [33mUpdateTransaction[39m[33m,[39m
+   [90m    |[39m   [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+   [90m 17 |[39m   [33mUpdateTransactionDTO[39m[33m,[39m
+   [90m 18 |[39m } [36mfrom[39m [32m'./dto/update-transaction.dto'[39m[33m;[39m
+   [90m 19 |[39m[0m
+
+webpack compiled with [1m[31m2 errors[39m[22m (21325f1f9869e18e)
+
+
+
+ NX   Running target serve for project api and 1 task it depends on failed
+
+Failed tasks:
+
+- api:build
+
+Hint: run the command with --verbose for more details.
+
+View structured, searchable error logs at https://cloud.nx.app/runs/xDLy6ZRSt7
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
