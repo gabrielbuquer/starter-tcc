@@ -3,10 +3,14 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 interface AuthUser {
   id: string;
-  name?: string;
-  email?: string;
+  name: string;
+  email: string;
+  type: string;
+  birthDate: string;
+  classroom: string | null;
   accessToken: string;
-  expiresIn: number;
+  refreshToken: string;
+  expiresIn: string;
 }
 
 export const authOptions: AuthOptions = {
@@ -31,16 +35,43 @@ export const authOptions: AuthOptions = {
 
         const data = await res.json();
 
-        return data;
+        return {
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          type: data.type,
+          birthDate: data.birthDate,
+          classroom: data.classroom,
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: '1d',
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        return {
+          ...token,
+          ...user,
+        };
+      }
+
+      return token;
     },
     async session({ session, token }) {
-      session.user = token;
+      session.user = {
+        id: token.id as string,
+        name: token.name as string,
+        email: token.email as string,
+        type: token.type as 'student' | 'teacher',
+        birthDate: token.birthDate as string,
+        classroom: token.classroom as string | null,
+        accessToken: token.accessToken as string,
+        refreshToken: token.refreshToken as string,
+        expiresIn: '1d',
+      };
       return session;
     },
   },

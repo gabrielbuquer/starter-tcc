@@ -7,6 +7,7 @@ import { getBaseUrls } from '@monetix/shared/config';
 export async function middleware(req: NextRequest) {
   const { LOGIN } = getBaseUrls();
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log(token);
 
   if (!token && req.nextUrl.pathname !== LOGIN) {
     return NextResponse.redirect(new URL(LOGIN, req.url));
