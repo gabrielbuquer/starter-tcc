@@ -19,6 +19,10 @@ export class ClassroomMapper {
       startDate: e.startDate,
       progress: progress,
       endDate: null,
+      teacher: {
+        id: e.course?.teacher?.id,
+        name: e.course?.teacher?.name,
+      },
     };
   }
 }

@@ -1,5 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Lesson } from './lesson.entity';
+import { User } from '../../auth/entities/user.entity';
 
 @Entity()
 export class Course {
@@ -11,4 +18,6 @@ export class Course {
   description: string;
   @OneToMany(() => Lesson, (l) => l.course, { cascade: true })
   lessons: Lesson[];
+  @ManyToOne(() => User, { eager: true })
+  teacher: User;
 }

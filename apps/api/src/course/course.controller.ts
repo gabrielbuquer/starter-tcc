@@ -14,8 +14,11 @@ export class CourseController {
 
   @Post()
   @RequireUserType('teacher')
-  async create(@Body() createCourseDto: CreateCourseDto) {
-    await this.courseService.create(createCourseDto);
+  async create(
+    @Body() createCourseDto: CreateCourseDto,
+    @GetSub() userId: string
+  ) {
+    await this.courseService.create(createCourseDto, userId);
   }
 
   @Get(':id')
@@ -32,8 +35,9 @@ export class CourseController {
   @Get()
   @RequireUserType('student')
   async listAll(
-    @GetClassroom() classroom: string
+    @GetClassroom() classroom: string,
+    @GetSub() userId: string
   ): Promise<ICourseResponseDTO[]> {
-    return await this.courseService.findAll(classroom);
+    return await this.courseService.findAll(classroom, userId);
   }
 }

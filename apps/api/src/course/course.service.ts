@@ -28,8 +28,12 @@ export class CourseService {
     private readonly registrationService: RegistrationService
   ) {}
 
-  async create(createCourseDto: CreateCourseDto) {
+  async create(
+    createCourseDto: CreateCourseDto,
+    userId: string
+  ): Promise<void> {
     const course = CourseMapper.toEntity(createCourseDto);
+    course.teacher = { id: userId } as any;
     await this.repository.save(course);
     await this.classroomService.includeCourserInAllClassroom(course);
   }
@@ -70,19 +74,28 @@ export class CourseService {
     return classroomCourse;
   }
 
-  async findAll(classroom: string): Promise<ICourseResponseDTO[]> {
+  async findAll(classroom: string, userId): Promise<ICourseResponseDTO[]> {
     const queryBuilder = this.classroomCourseRepository
       .createQueryBuilder('classroom_course')
       .leftJoinAndSelect('classroom_course.course', 'course')
+      .leftJoinAndSelect('course.teacher', 'teacher')
       .where('classroom_course.classroom = :classroomId', {
         classroomId: classroom,
       })
       .andWhere('classroom_course.enabled = :enabled', { enabled: true });
 
-    return queryBuilder.getMany().then((classroomCourses) => {
-      return classroomCourses.map((classroomCourse) => {
-        return ClassroomMapper.toResponse(classroomCourse, 0); //TODO:
-      });
-    });
+    const classroomCourses = await queryBuilder.getMany();
+
+    const responses = await Promise.all(
+      classroomCourses.map(async (classroomCourse) => {
+        const progress =
+          await this.registrationService.getProgressByStudentAndCourse(
+            userId,
+            classroomCourse.course.id
+          );
+        return ClassroomMapper.toResponse(classroomCourse, progress);
+      })
+    );
+    return responses;
   }
 }
