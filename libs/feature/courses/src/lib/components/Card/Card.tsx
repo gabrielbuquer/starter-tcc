@@ -1,8 +1,8 @@
-import { Button, Typography } from '@mui/material';
+import { Button, LinearProgress, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
 import { Avatar } from '@monetix/shared/ui';
-import { CourseType } from '@monetix/shared/config';
+import { CourseType, generateAcronym } from '@monetix/shared/config';
 
 import { Info } from './components/Info';
 import {
@@ -17,34 +17,44 @@ import {
   COURSE_ACTION,
   COURSE_DURATION,
   COURSE_LESSONS,
+  COURSE_PROGRESS,
   COURSE_UNAVAILABLE,
 } from './constants';
 
-export const Card = ({ id, name, enabled }: CourseType) => {
+export const Card = ({
+  id,
+  name,
+  description,
+  progress,
+  teacher,
+  enabled,
+}: CourseType) => {
   const { push } = useRouter();
 
   return (
     <Box>
       <TeacherBox>
-        <Avatar acronym="OP" />
+        <Avatar acronym={generateAcronym(teacher.name)} />
         <TeacherName>
           <Typography variant="caption">Professor</Typography>
-          <Typography variant="h4">Nome professor</Typography>
+          {teacher?.name && (
+            <Typography variant="caption">{teacher.name}</Typography>
+          )}
         </TeacherName>
       </TeacherBox>
       <CourseBox>
         <Typography variant="h3">{name}</Typography>
       </CourseBox>
+      <CourseBox>
+        <Typography variant="body1">{description}</Typography>
+      </CourseBox>
       <CourseInfo>
         <Info
-          title={COURSE_DURATION.title}
-          content="20 minutos"
-          icon={COURSE_DURATION.icon}
-        />
-        <Info
-          title={COURSE_LESSONS.title}
-          content="0 / 5"
-          icon={COURSE_LESSONS.icon}
+          title={`${COURSE_PROGRESS.title} (${progress ?? 0}%)`}
+          content={
+            <LinearProgress variant="determinate" value={progress || 0} />
+          }
+          icon={COURSE_PROGRESS.icon}
         />
       </CourseInfo>
       <Actions>

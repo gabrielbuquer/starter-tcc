@@ -55,6 +55,7 @@ export const getStartAndEndDateFromMonthValue = (value: string) => {
 };
 
 export const dateFormatter = (date: string): string => {
+  if (!date) return '';
   const [year, month, day] = date.split('-').map(Number);
   const localDate = new Date(year, month - 1, day ?? 1);
   const options: Intl.DateTimeFormatOptions = {
