@@ -60,6 +60,23 @@ export class RegistrationService {
     registration.lessons.push(newLesson);
     await this.repository.save(registration);
   }
+
+  async getProgressByStudentAndCourse(
+    studentId: string,
+    courseId: string,
+  ): Promise<number> {
+    const registration = await this.repository.findOne({
+      where: {
+        student: { id: studentId },
+        course: { id: courseId },
+      },
+    });
+    if (!registration) {
+      return 0;
+    }
+    return registration.progress;
+  }
+
   async findAllByStudent(student: Student): Promise<Registration[]> {
     return await this.repository.find({
       where: {
@@ -92,7 +109,6 @@ export class RegistrationService {
       },
       relations: ['lessons', 'lessons.lesson', 'course', 'course.lessons'],
     });
-    console.log(registration);
     if (registration) {
       return registration;
     }
@@ -110,8 +126,6 @@ export class RegistrationService {
     classRoom: Classroom,
     course: Course,
   ): Promise<number> {
-    console.log(classRoom);
-    console.log(course);
     const sum = await this.repository
       .createQueryBuilder('registration')
       .select('SUM(registration.progress)', 'progress')

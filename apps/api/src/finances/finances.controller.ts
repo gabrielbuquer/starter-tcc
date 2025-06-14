@@ -19,7 +19,6 @@ import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { FilterTransactionDto } from './dto/filter-transaction.dto';
 import { FinancesMapper } from './finances.mapper';
 import { FinancesService } from './finances.service';
-import { UpdateTransactionDTO } from './dto/update-transaction.dto';
 
 @Controller('/api/finances')
 export class FinancesController {
