@@ -1,3 +1,4 @@
+export const AUTH_API_PATH = '/auth';
 export const FINANCES_API_PATH = '/finances';
 export const GOALS_API_PATH = '/goals';
 export const USER_API_PATH = '/user';

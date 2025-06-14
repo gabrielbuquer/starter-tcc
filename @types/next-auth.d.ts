@@ -11,12 +11,15 @@ declare module 'next-auth' {
       type: 'student' | 'teacher';
       accessToken: string;
       refreshToken: string;
-      expiresIn: string;
+      accessTokenExpires: string;
+      refreshTokenExpires: string;
     } & DefaultSession['user'];
   }
 
   interface User extends DefaultUser {
     accessToken: string;
-    expiresIn: string;
+    refreshToken: string;
+    accessTokenExpires: string;
+    refreshTokenExpires: string;
   }
 }

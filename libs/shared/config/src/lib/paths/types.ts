@@ -1,4 +1,5 @@
 export type SharedPathsKeyType =
+  | 'AUTH_API'
   | 'FINANCES_API'
   | 'GOALS_API'
   | 'USER_API'

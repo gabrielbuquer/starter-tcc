@@ -2,6 +2,7 @@ import * as PATHS from './constants';
 import { SharedCorePathsType } from './types';
 
 const PATHS_CONFIG = {
+  AUTH_API: PATHS.AUTH_API_PATH,
   FINANCES_API: PATHS.FINANCES_API_PATH,
   GOALS_API: PATHS.GOALS_API_PATH,
   USER_API: PATHS.USER_API_PATH,
