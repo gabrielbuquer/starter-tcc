@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
+import { NextSeo } from 'next-seo';
 
 import { ListCoursesScreen, courseListFetcher } from '@monetix/feature/courses';
 import { getPaths } from '@monetix/shared/config';
@@ -31,7 +32,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const ListCoursesPage = () => {
-  return <ListCoursesScreen />;
+  return (
+    <>
+      <NextSeo title="Nossos Cursos" />
+      <ListCoursesScreen />
+    </>
+  );
 };
 
 export default ListCoursesPage;

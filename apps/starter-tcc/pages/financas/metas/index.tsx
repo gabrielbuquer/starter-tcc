@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { NextSeo } from 'next-seo';
 
 import {
   FinanceLayout,
@@ -30,6 +31,7 @@ const GoalsSummaryPage = () => {
 GoalsSummaryPage.getLayout = (page: React.ReactNode) => {
   return (
     <GoalsTableContextProvider>
+      <NextSeo title="Metas" />
       <FinanceLayout>{page}</FinanceLayout>
     </GoalsTableContextProvider>
   );

@@ -8,6 +8,8 @@ import { Container, MainGrid } from './ListCoursesScreen.styled';
 export const ListCoursesScreen = () => {
   const { data: courses } = useCourseList();
 
+  console.log('courses', JSON.stringify(courses));
+
   return (
     <Container>
       <Typography variant="h1">Nossos cursos</Typography>

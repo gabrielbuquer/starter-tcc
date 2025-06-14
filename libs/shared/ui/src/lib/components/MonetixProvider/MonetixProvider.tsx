@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { ReactNode } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { SessionProvider } from 'next-auth/react';
+import { NextSeo } from 'next-seo';
 
 import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
@@ -82,18 +83,21 @@ export const MonetixProvider = ({
   swrFallback,
 }: MonetixProviderPropsType) => {
   return (
-    <SessionProvider>
-      <SwrProvider swrFallback={swrFallback}>
-        <Head>
-          <MetaTags />
-          <Preconnect urlsList={preconnectUrls} />
-        </Head>
-        <ThemeProvider theme={theme}>
-          {children}
-          <SnackBar />
-          <RouteLoader />
-        </ThemeProvider>
-      </SwrProvider>
-    </SessionProvider>
+    <>
+      <Head>
+        <MetaTags />
+        <Preconnect urlsList={preconnectUrls} />
+      </Head>
+      <SessionProvider>
+        <SwrProvider swrFallback={swrFallback}>
+          <ThemeProvider theme={theme}>
+            <NextSeo titleTemplate="%s | Monetix" />
+            {children}
+            <SnackBar />
+            <RouteLoader />
+          </ThemeProvider>
+        </SwrProvider>
+      </SessionProvider>
+    </>
   );
 };

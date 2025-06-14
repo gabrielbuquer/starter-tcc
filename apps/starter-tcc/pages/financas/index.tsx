@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
+import { NextSeo } from 'next-seo';
 
 import {
   FinanceLayout,
@@ -37,6 +38,7 @@ const FinanceSummaryPage = () => {
 FinanceSummaryPage.getLayout = (page: React.ReactNode) => {
   return (
     <SummaryContextProvider>
+      <NextSeo title="Finanças" />
       <FinanceLayout>{page}</FinanceLayout>
     </SummaryContextProvider>
   );

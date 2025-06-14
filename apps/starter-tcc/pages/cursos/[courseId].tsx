@@ -1,6 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { ParsedUrlQuery } from 'querystring';
+import { NextSeo } from 'next-seo';
 
 import {
   CourseContextProvider,
@@ -38,6 +39,7 @@ export const getServerSideProps: GetServerSideProps = async ({
         hasContainer: true,
         hasMargin: true,
         courseId,
+        courseName: course.name,
         fallback: {
           [studentCourserApi(session?.user?.id ?? '', courseId)]: course,
         },
@@ -51,9 +53,16 @@ export const getServerSideProps: GetServerSideProps = async ({
   }
 };
 
-const CoursePage = ({ courseId }: { courseId: string }) => {
+const CoursePage = ({
+  courseId,
+  courseName,
+}: {
+  courseId: string;
+  courseName: string;
+}) => {
   return (
     <CourseContextProvider courseId={courseId}>
+      <NextSeo title={`${courseName}`} />
       <CourseScreen />
     </CourseContextProvider>
   );

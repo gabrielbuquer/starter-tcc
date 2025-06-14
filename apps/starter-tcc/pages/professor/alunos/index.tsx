@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
+import { NextSeo } from 'next-seo';
 
 import {
   StudentManagementContextProvider,
@@ -37,6 +38,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const StudentManagementPage = () => {
   return (
     <StudentManagementContextProvider>
+      <NextSeo title="Gestão de Alunos" />
       <StudentManagementScreen />
     </StudentManagementContextProvider>
   );

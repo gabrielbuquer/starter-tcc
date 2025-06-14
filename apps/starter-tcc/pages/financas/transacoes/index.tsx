@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { NextSeo } from 'next-seo';
 
 import {
   FinanceLayout,
@@ -30,6 +31,7 @@ const TransactionsSummaryPage = () => {
 TransactionsSummaryPage.getLayout = (page: React.ReactNode) => {
   return (
     <TransactionTableContextProvider>
+      <NextSeo title="Transações" />
       <FinanceLayout>{page}</FinanceLayout>
     </TransactionTableContextProvider>
   );
