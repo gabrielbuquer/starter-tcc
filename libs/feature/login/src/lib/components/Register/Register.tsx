@@ -1,8 +1,11 @@
-import { Resolver, useForm } from 'react-hook-form';
+import { Controller, Resolver, useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import InputMask from 'react-input-mask';
 
-import { PasswordInput } from '@monetix/shared/ui';
+import { PasswordInput, showSnackBar } from '@monetix/shared/ui';
+
+import { authSignUp } from '../../services';
 
 import { Form } from './Register.styled';
 import { schema } from './Register.schema';
@@ -34,6 +37,7 @@ export const Register = ({ onBack }: RegisterProps) => {
   });
 
   const {
+    control,
     register,
     formState: { errors, isValid },
     handleSubmit,
@@ -41,6 +45,25 @@ export const Register = ({ onBack }: RegisterProps) => {
 
   const onSubmit = async (formData: RegisterFormData) => {
     console.log(formData);
+
+    try {
+      await authSignUp({
+        name: formData.name,
+        email: formData.email,
+        birthDate: formData.birthDate,
+        password: formData.password,
+      });
+      showSnackBar({
+        message: 'Usuário cadastrado com sucesso. Faça o login.',
+        type: 'success',
+      });
+    } catch (error) {
+      console.error('Error during registration:', error);
+      showSnackBar({
+        message: 'Erro ao cadastrar usuário. Tente novamente.',
+        type: 'error',
+      });
+    }
   };
 
   return (
@@ -61,13 +84,32 @@ export const Register = ({ onBack }: RegisterProps) => {
         helperText={errors.email?.message}
         {...register('email')}
       />
-      <TextField
-        id={BIRTHDATE_ATTRIBUTES.id}
-        label={BIRTHDATE_ATTRIBUTES.label}
-        variant="outlined"
-        error={!!errors.birthDate}
-        helperText={errors.birthDate?.message}
-        {...register('birthDate')}
+      <Controller
+        name="birthDate"
+        control={control}
+        render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          <InputMask
+            mask="99/99/9999"
+            value={
+              value instanceof Date
+                ? value.toLocaleDateString('pt-BR')
+                : value ?? ''
+            }
+            onChange={(e) => onChange(e.target.value)}
+            onBlur={onBlur}
+          >
+            {(inputProps) => (
+              <TextField
+                {...inputProps}
+                fullWidth
+                label={BIRTHDATE_ATTRIBUTES.label}
+                variant="outlined"
+                error={!!errors.birthDate}
+                helperText={errors.birthDate?.message}
+              />
+            )}
+          </InputMask>
+        )}
       />
       <PasswordInput
         id={PASSWORD_ATTRIBUTES.id}

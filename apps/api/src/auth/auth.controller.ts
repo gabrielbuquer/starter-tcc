@@ -13,8 +13,10 @@ export class AuthController {
     return this.authService.signIn(signInDto.username, signInDto.password);
   }
 
-  @Post('sing-up')
+  @HttpCode(HttpStatus.OK)
+  @Post('sign-up')
   create(@Body() createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto);
     return this.authService.create(createUserDto);
   }
 

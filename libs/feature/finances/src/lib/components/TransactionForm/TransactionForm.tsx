@@ -19,7 +19,6 @@ import { TransactionTypeEnum } from '@monetix/shared/config';
 
 import { useTransactionCategories } from '../../services/transactions';
 import { useTransaction } from '../../hooks/useTransaction';
-import { useTransactionTable } from '../../contexts';
 
 import { Actions } from './TransactionForm.styled';
 import {
