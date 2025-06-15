@@ -32,7 +32,7 @@ export class StudentService {
 
   async create(classromm: Classroom, createStudentDto: CreateStudentDto) {
     await this.studentyRepository.save(
-      StudentMapper.toEntity(createStudentDto, classromm)
+      await StudentMapper.toEntity(createStudentDto, classromm)
     );
   }
 

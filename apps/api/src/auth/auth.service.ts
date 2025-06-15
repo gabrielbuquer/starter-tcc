@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Student } from '../student/entities/student.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,8 @@ export class AuthService {
     pass: string
   ): Promise<{ access_token: string; refresh_token: string }> {
     const user = await this.findOneByEmail(username);
-    if (user?.password !== pass) {
+    const isMatch = await bcrypt.compare(pass, user?.password);
+    if (!isMatch) {
       throw new UnauthorizedException();
     }
     const payload = this.extractPayload(user);
@@ -55,7 +57,7 @@ export class AuthService {
 
   extractPayload(user: User) {
     let newPayload;
-    console.log(user)
+    console.log(user);
     if (user instanceof Student) {
       const student = user as Student;
       newPayload = {
@@ -70,13 +72,13 @@ export class AuthService {
     return newPayload;
   }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user: User = new Student();
     user.name = createUserDto.name;
     user.birthDate = createUserDto.birthDate;
     user.email = createUserDto.email;
-    user.password = createUserDto.password;
-    return this.userRepository.save(user);
+    user.password = await bcrypt.hash(createUserDto.password, 10);
+    return await this.userRepository.save(user);
   }
 
   findAll(): Promise<User[]> {
