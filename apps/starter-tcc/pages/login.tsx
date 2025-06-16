@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 const LoginPage = () => {
   return (
     <>
-      <NextSeo title="Login | Monetix" />
+      <NextSeo title="Login" />
       <LoginScreen />
     </>
   );
