@@ -118,13 +118,14 @@ export class AuthService {
     return newPayload;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<{ id: string }> {
     const user: User = new Student();
     user.name = createUserDto.name;
     user.birthDate = createUserDto.birthDate;
     user.email = createUserDto.email;
     user.password = await bcrypt.hash(createUserDto.password, 10);
-    return await this.userRepository.save(user);
+    const createdUser = await this.userRepository.save(user);
+    return { id: createdUser.id };
   }
 
   findAll(): Promise<User[]> {

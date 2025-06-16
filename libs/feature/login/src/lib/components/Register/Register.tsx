@@ -24,7 +24,7 @@ type RegisterProps = {
 type RegisterFormData = {
   name: string;
   email: string;
-  birthDate: string;
+  birthDate: Date | string;
   password: string;
   matchedPassword: string;
 };
@@ -50,13 +50,14 @@ export const Register = ({ onBack }: RegisterProps) => {
       await authSignUp({
         name: formData.name,
         email: formData.email,
-        birthDate: formData.birthDate,
+        birthDate: formData.birthDate as string,
         password: formData.password,
       });
       showSnackBar({
         message: 'Usuário cadastrado com sucesso. Faça o login.',
         type: 'success',
       });
+      onBack();
     } catch (error) {
       console.error('Error during registration:', error);
       showSnackBar({

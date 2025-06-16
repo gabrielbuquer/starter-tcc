@@ -13,30 +13,35 @@ const COMPONENT = 'login';
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
-  index: number;
-  value: number;
+  type: LoginType;
+  value: LoginType;
+}
+
+export enum LoginType {
+  SIGNIN = 'signin',
+  REGISTER = 'register',
 }
 
 function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, type, ...other } = props;
 
   return (
     <div
       role="tabpanel"
-      hidden={value !== index}
-      id={`login-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      hidden={value !== type}
+      id={`login-tabpanel-${type}`}
+      aria-labelledby={`simple-tab-${type}`}
       {...other}
     >
-      {value === index && children}
+      {value === type && children}
     </div>
   );
 }
 
 export const LoginScreen = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(LoginType.SIGNIN);
 
-  const handleChange = (event: React.SyntheticEvent, value: number) => {
+  const handleChange = (event: React.SyntheticEvent, value: LoginType) => {
     setValue(value);
   };
 
@@ -50,14 +55,22 @@ export const LoginScreen = () => {
             aria-label="Selecione para Entrar ou Registrar"
             centered
           >
-            <Tab label="ENTRAR" {...a11yProps(COMPONENT, 'signin')} />
-            <Tab label="REGISTRE-SE" {...a11yProps(COMPONENT, 'register')} />
+            <Tab
+              label="ENTRAR"
+              value={LoginType.SIGNIN}
+              {...a11yProps(COMPONENT, LoginType.SIGNIN)}
+            />
+            <Tab
+              label="REGISTRE-SE"
+              value={LoginType.REGISTER}
+              {...a11yProps(COMPONENT, LoginType.REGISTER)}
+            />
           </Tabs>
-          <CustomTabPanel value={value} index={0}>
+          <CustomTabPanel value={value} type={LoginType.SIGNIN}>
             <SignIn />
           </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <Register onBack={() => handleChange(null, 0)} />
+          <CustomTabPanel value={value} type={LoginType.REGISTER}>
+            <Register onBack={() => handleChange(null, LoginType.SIGNIN)} />
           </CustomTabPanel>
         </Wrapper>
       </Box>
