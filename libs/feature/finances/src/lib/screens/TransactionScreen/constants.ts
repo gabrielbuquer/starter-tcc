@@ -1,4 +1,5 @@
 import { TransactionTypeEnum } from '@monetix/shared/config';
+import { Column } from '@monetix/shared/ui';
 
 export const transactionsFilter = [
   {
@@ -15,7 +16,7 @@ export const transactionsFilter = [
   },
 ];
 
-export const columns: any[] = [
+export const columns: Column[] = [
   { id: 'status', label: 'Status', minWidth: 50 },
   { id: 'date', label: 'Data', minWidth: 100 },
   {

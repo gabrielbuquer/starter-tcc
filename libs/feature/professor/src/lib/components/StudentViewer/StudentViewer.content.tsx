@@ -1,5 +1,5 @@
 import LinearProgress from '@mui/material/LinearProgress';
-import { Checkbox } from '@mui/material';
+import { Checkbox, Tooltip } from '@mui/material';
 
 import { CourseType } from '@monetix/shared/config';
 import { SimpleTable } from '@monetix/shared/ui';
@@ -10,10 +10,18 @@ export const rows = (courses: CourseType[]) => {
   return courses?.map((course) => ({
     id: course.id,
     name: course.name,
-    startDate: course.startDate || 'Sem data',
-    endDate: course.endDate || 'Sem data',
+    startDate: course.startDate || '-',
+    endDate: course.endDate || '-',
     progress: (
-      <LinearProgress variant="determinate" value={course.progress || 0} />
+      <Tooltip
+        title={
+          course.progress > 0
+            ? `${course.progress}% concluído`
+            : 'Progresso do curso'
+        }
+      >
+        <LinearProgress variant="determinate" value={course.progress || 0} />
+      </Tooltip>
     ),
     collapse: (
       <SimpleTable
@@ -21,9 +29,17 @@ export const rows = (courses: CourseType[]) => {
         rows={course.lessons?.map((lesson) => ({
           id: lesson.id,
           name: lesson.name,
-          startDate: lesson.startDate || 'Sem data',
-          endDate: lesson.endDate || 'Sem data',
-          progress: <Checkbox defaultChecked={lesson.done || false} disabled />,
+          startDate: lesson.startDate || '-',
+          endDate: lesson.endDate || '-',
+          progress: (
+            <Tooltip
+              title={lesson.endDate ? `Lição concluída` : 'Lição pendente'}
+            >
+              <div>
+                <Checkbox defaultChecked={!!lesson.endDate || false} disabled />
+              </div>
+            </Tooltip>
+          ),
         }))}
       />
     ),

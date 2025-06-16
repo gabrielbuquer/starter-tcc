@@ -19,51 +19,45 @@ export const EMAIL_ATTRIBUTES = {
 };
 
 export const COLUMNS: Column[] = [
-  { id: 'name', label: 'Curso', minWidth: 250 },
+  { id: 'name', label: 'Curso', minWidth: 290 },
   {
-    id: 'start-date',
+    id: 'startDate',
     label: 'Data de início',
-    minWidth: 200,
+    minWidth: 100,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
-    id: 'end-date',
+    id: 'endDate',
     label: 'Data de término',
-    minWidth: 200,
+    minWidth: 100,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
     id: 'progress',
     label: 'Progresso',
     minWidth: 100,
-    align: 'left',
-    format: (value: number) => value.toFixed(2),
+    align: 'center',
   },
 ];
 
 export const LESSON_COLUMNS: Column[] = [
   { id: 'name', label: 'Curso', minWidth: 250 },
   {
-    id: 'start-date',
+    id: 'startDate',
     label: 'Data de início',
-    minWidth: 200,
+    minWidth: 100,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
-    id: 'end-date',
+    id: 'endDate',
     label: 'Data de término',
-    minWidth: 200,
+    minWidth: 100,
     align: 'left',
-    format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
     id: 'progress',
     label: 'Progresso',
     minWidth: 100,
-    align: 'left',
-    format: (value: number) => value.toFixed(2),
+    align: 'center',
   },
 ];

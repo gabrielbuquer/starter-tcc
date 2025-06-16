@@ -6,10 +6,11 @@ import {
   TransactionTypeEnum,
 } from '@monetix/shared/config';
 import { currencyFormatter } from '@monetix/core-utils';
+import { Column } from '@monetix/shared/ui';
 
 import { GoalsAction } from '../../components/GoalsAction';
 
-export const columns: any[] = [
+export const columns: Column[] = [
   { id: 'expense', label: 'Despesas', minWidth: 170 },
   { id: 'goal', label: 'Meta', align: 'center', minWidth: 100 },
   {
