@@ -8,7 +8,7 @@ module.exports = {
   },
   publicRuntimeConfig: {
     publicApi: {
-      base: ''
+      base: '',
     },
   },
 };

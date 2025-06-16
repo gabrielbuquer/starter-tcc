@@ -46,7 +46,6 @@ export const getServerSideProps: GetServerSideProps = async ({
       },
     };
   } catch (err) {
-    console.log('Error fetching course:', err);
     return {
       notFound: true,
     };

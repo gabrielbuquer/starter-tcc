@@ -3,22 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 
-const publicRuntimeConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/financas',
-        permanent: true,
-      },
-      {
-        source: '/professor',
-        destination: '/professor/aulas',
-        permanent: true,
-      },
-    ];
-  },
-};
+const publicRuntimeConfig = {};
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -29,6 +14,16 @@ const nextConfig = {
   },
 
   publicRuntimeConfig,
+
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/financas',
+        permanent: true,
+      },
+    ];
+  },
 
   compiler: {
     styledComponents: true,

@@ -1,7 +1,6 @@
 import {
   AccountBalanceWalletOutlined,
   AutoStoriesOutlined,
-  HomeOutlined,
   SchoolOutlined,
 } from '@mui/icons-material';
 
@@ -11,18 +10,6 @@ export const getMenuLinks = (
   role?: 'teacher' | 'student',
 ): MenuLinksProps[] => {
   const links: MenuLinksProps[] = [
-    {
-      title: 'Início',
-      link: '/',
-      icon: <HomeOutlined />,
-      submenu: [],
-    },
-    {
-      title: 'Cursos',
-      link: '/cursos',
-      icon: <AutoStoriesOutlined />,
-      submenu: [],
-    },
     {
       title: 'Finanças',
       link: '/financas',
@@ -34,6 +21,15 @@ export const getMenuLinks = (
       ],
     },
   ];
+
+  if (role === 'student') {
+    links.unshift({
+      title: 'Cursos',
+      link: '/cursos',
+      icon: <AutoStoriesOutlined />,
+      submenu: [],
+    });
+  }
 
   if (role === 'teacher') {
     links.push({
