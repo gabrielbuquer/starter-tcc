@@ -79,7 +79,7 @@ export const transactionDataDelete = (data: TransactionDeleteData) => {
 
 export const useDeleteTransaction = () =>
   useSWRMutation(
-    [API_PATHS.FINANCES_API],
+    [API_PATHS.FINANCES_API, 'delete'],
     (_key, { arg }: { arg: TransactionDeleteData }) =>
       transactionDataDelete(arg),
   );
@@ -97,7 +97,11 @@ export const transactionCategoriesFetcher = (
 };
 
 export const useTransactionCategories = (type: TransactionTypeEnum) => {
-  return useSWR([`${API_PATHS.FINANCES_API}/${type}/categories`], () =>
-    transactionCategoriesFetcher(type),
+  return useSWR(
+    [`${API_PATHS.FINANCES_API}/${type}/categories`],
+    () => transactionCategoriesFetcher(type),
+    {
+      revalidateIfStale: false,
+    },
   );
 };

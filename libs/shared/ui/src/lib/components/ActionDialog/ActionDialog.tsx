@@ -46,7 +46,7 @@ export const ActionDialog = ({
       open={open}
       PaperComponent={isDraggable ? PaperComponent : undefined}
       aria-labelledby="draggable-dialog-title"
-      maxWidth="md"
+      maxWidth="sm"
       fullWidth={fullWidth}
     >
       <DialogHeader isDraggable={isDraggable}>

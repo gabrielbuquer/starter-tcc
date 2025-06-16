@@ -1,12 +1,7 @@
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 
-import {
-  TransactionCategoryType,
-  TransactionTypeEnum,
-  api,
-  getPaths,
-} from '@monetix/shared/config';
+import { api, getPaths } from '@monetix/shared/config';
 
 import {
   GoalsDataResponse,
@@ -47,45 +42,25 @@ export const useGoalsData = (params: GoalsQueryParams) => {
   );
 };
 
-// export const transactionDataPost = (data: TransactionPostData) => {
-//   return api.post(API_PATHS.FINANCES_API, data).then((res) => {
-//     return res.data;
-//   });
-// };
+export const goalDataPost = (data: GoalsPostData) => {
+  return api.post(goalsApiPath, data).then((res) => {
+    return res.data;
+  });
+};
 
-// export const usePostTransaction = () =>
-//   useSWRMutation(
-//     [API_PATHS.FINANCES_API],
-//     (_key, { arg }: { arg: TransactionPostData }) => transactionDataPost(arg),
-//   );
+export const usePostGoal = () =>
+  useSWRMutation([goalsApiPath], (_key, { arg }: { arg: GoalsPostData }) =>
+    goalDataPost(arg),
+  );
 
-// export const transactionDataDelete = (data: TransactionDeleteData) => {
-//   return api.del(`${API_PATHS.FINANCES_API}/${data.id}`).then((res) => {
-//     return res.data;
-//   });
-// };
+export const goalDataDelete = (data: GoalsDeleteData) => {
+  return api.del(`${goalsApiPath}/${data.id}`).then((res) => {
+    return res.data;
+  });
+};
 
-// export const useDeleteTransaction = () =>
-//   useSWRMutation(
-//     [API_PATHS.FINANCES_API],
-//     (_key, { arg }: { arg: TransactionDeleteData }) =>
-//       transactionDataDelete(arg),
-//   );
-
-// export const transactionCategoriesFetcher = (
-//   type: TransactionTypeEnum,
-// ): Promise<TransactionCategoryType[]> => {
-//   return api
-//     .get<
-//       TransactionCategoryType[]
-//     >(`${API_PATHS.FINANCES_API}/${type}/categories`)
-//     .then((res) => {
-//       return res.data;
-//     });
-// };
-
-// export const useTransactionCategories = (type: TransactionTypeEnum) => {
-//   return useSWR([`${API_PATHS.FINANCES_API}/${type}/categories`], () =>
-//     transactionCategoriesFetcher(type),
-//   );
-// };
+export const useDeleteGoal = () =>
+  useSWRMutation(
+    [goalsApiPath, 'delete'],
+    (_key, { arg }: { arg: GoalsDeleteData }) => goalDataDelete(arg),
+  );

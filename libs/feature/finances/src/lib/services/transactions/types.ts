@@ -24,7 +24,7 @@ export type TransactionDeleteData = TransactionType;
 
 export type TransactionPutData = Omit<
   TransactionType,
-  'id' | 'category' | 'enabled'
+  'category' | 'enabled'
 > & {
   categoryId: string;
 };

@@ -7,6 +7,7 @@ import { TransactionTypeEnum, a11yProps } from '@monetix/shared/config';
 
 import { MonthTotalizers } from '../../components/MonthTotalizers';
 import { useGoalsTable } from '../../contexts';
+import { useFinanceContext } from '../../contexts/FinanceContext';
 
 import {
   Container,
@@ -25,10 +26,12 @@ export const GoalsScreen = () => {
     goalsPage,
     isLoadingGoals,
     selectedType,
+    categoriesWithoutGoals,
     setSelectedType,
     setGoalsMonth,
     setGoalsPage,
   } = useGoalsTable();
+  const { setGoalsForm } = useFinanceContext();
 
   const handleTypeChange = (
     _: React.SyntheticEvent,
@@ -71,7 +74,7 @@ export const GoalsScreen = () => {
         <Content>
           <PaginatedTable
             columns={columns}
-            rows={rows(goals?.items ?? [])}
+            rows={rows(goals?.items ?? [], selectedType)}
             page={goalsPage}
             totalRows={goals?.meta?.totalItems}
             rowsPerPage={10}
@@ -81,10 +84,11 @@ export const GoalsScreen = () => {
               <Tooltip title="Criar meta" placement="right">
                 <IconButton
                   onClick={() => {
-                    console.log('teste');
+                    setGoalsForm({ open: true, formType: selectedType });
                   }}
                   size="medium"
                   aria-label={'Criar meta'}
+                  disabled={isLoadingGoals || !categoriesWithoutGoals?.length}
                 >
                   <Add />
                 </IconButton>

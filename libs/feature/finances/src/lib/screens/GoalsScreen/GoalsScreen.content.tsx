@@ -1,43 +1,64 @@
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { LinearProgress, Typography } from '@mui/material';
 
-import { GoalsResumeType, GoalsType } from '@monetix/shared/config';
-import { currencyFormatter, dateFormatter } from '@monetix/core-utils';
+import {
+  GoalsResumeType,
+  GoalsType,
+  TransactionTypeEnum,
+} from '@monetix/shared/config';
+import { currencyFormatter } from '@monetix/core-utils';
 
-import { TransactionAction } from '../../components/TransactionAction';
+import { GoalsAction } from '../../components/GoalsAction';
 
 export const columns: any[] = [
   { id: 'expense', label: 'Despesas', minWidth: 170 },
-  { id: 'goal', label: 'Meta', minWidth: 100 },
+  { id: 'goal', label: 'Meta', align: 'center', minWidth: 100 },
   {
-    id: 'spended',
+    id: 'spent',
     label: 'Realizado',
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
+    align: 'center',
   },
   {
-    id: 'remained',
-    label: 'A realizar',
+    id: 'progress',
+    label: 'Progresso',
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
+    align: 'center',
   },
   {
     id: 'result',
-    label: 'Excendente',
-    minWidth: 170,
+    label: 'Resultado',
+    minWidth: 120,
+    align: 'center',
+  },
+  {
+    id: 'actions',
+    label: 'Ações',
+    minWidth: 120,
     align: 'right',
-    format: (value: number) => value.toFixed(2),
   },
 ];
 
-export const rows = (goals: GoalsType[]) => {
+export const rows = (goals: GoalsType[], type: TransactionTypeEnum) => {
   return goals?.map((goal) => ({
     expense: goal?.category?.description ?? 'Categoria não definida',
-    goal: goal?.planed ?? 0,
-    spended: goal?.realized ?? 0,
-    remained: goal?.progress ?? 0,
-    result: goal?.diff ?? 0,
+    goal: currencyFormatter(goal?.planed ?? 0),
+    spent: currencyFormatter(goal?.realized ?? 0),
+    progress: (
+      <LinearProgress
+        variant="determinate"
+        value={Number(Math.min(goal?.progress ?? 0, 100))}
+      />
+    ),
+    result: (
+      <Typography
+        variant="h6"
+        component="span"
+        color={goal?.diff >= 0 ? 'success' : 'error'}
+      >
+        {currencyFormatter(goal?.diff ?? 0)}
+      </Typography>
+    ),
+    actions: <GoalsAction goal={goal} type={type} />,
   }));
 };
 
@@ -51,7 +72,7 @@ export const totalizers = (resume: GoalsResumeType) => [
     value: resume?.actual ?? 0,
   },
   {
-    label: 'Diferença',
+    label: 'Resultado',
     value: resume?.diff ?? 0,
   },
 ];

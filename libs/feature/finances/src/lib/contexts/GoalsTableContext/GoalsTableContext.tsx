@@ -1,6 +1,9 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react';
 
-import { TransactionTypeEnum } from '@monetix/shared/config';
+import {
+  TransactionCategoryType,
+  TransactionTypeEnum,
+} from '@monetix/shared/config';
 import {
   getCurrentMonth,
   getStartAndEndDateFromMonthValue,
@@ -8,13 +11,17 @@ import {
 
 import { GoalsDataResponse } from '../../services/goals/types';
 import { useGoal } from '../../hooks/useGoal';
+import { useTransactionCategories } from '../../services/transactions';
 
 type GoalsTableContextProps = {
   goals: GoalsDataResponse;
   goalsPage: number;
   goalsMonth: string;
   selectedType: TransactionTypeEnum;
+  categories: TransactionCategoryType[];
+  categoriesWithoutGoals: TransactionCategoryType[];
   isLoadingGoals: boolean;
+  isLoadingCategories: boolean;
   setSelectedType: (type: TransactionTypeEnum) => void;
   setGoalsPage: (page: number) => void;
   setGoalsMonth: (month: string) => void;
@@ -34,6 +41,8 @@ export const GoalsTableContextProvider = ({
   const [selectedType, setSelectedType] = useState<TransactionTypeEnum | null>(
     TransactionTypeEnum.INCOME,
   );
+  const { data: categories, isLoading: loadingCategories } =
+    useTransactionCategories(selectedType);
   const [goalsPage, setGoalsPage] = useState(0);
   const [goalsMonth, setGoalsMonth] = useState<string>(getCurrentMonth().value);
 
@@ -48,7 +57,14 @@ export const GoalsTableContextProvider = ({
     limit: 10,
   });
 
-  console.log('goalsA', goals);
+  const categoriesWithoutGoals = useMemo(
+    () =>
+      categories?.filter(
+        (category) =>
+          !goals?.items?.some((goal) => goal.category.id === category.id),
+      ),
+    [categories, goals],
+  );
 
   return (
     <GoalsTableContext.Provider
@@ -57,7 +73,10 @@ export const GoalsTableContextProvider = ({
         goalsMonth,
         goalsPage,
         selectedType,
+        categories,
+        categoriesWithoutGoals,
         isLoadingGoals: !goals || loadingGoals,
+        isLoadingCategories: !categories || loadingCategories,
         setSelectedType,
         setGoalsPage,
         setGoalsMonth,
