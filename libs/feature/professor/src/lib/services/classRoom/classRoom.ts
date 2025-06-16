@@ -5,6 +5,7 @@ import { ClassRoomType, api, getPaths } from '@monetix/shared/config';
 
 import {
   ClassRoomCoursesDataResponse,
+  ClassRoomPost,
   ClassRoomStudentsDataResponse,
   CoursesQueryParams,
   StudentsQueryParams,
@@ -29,7 +30,7 @@ export const useClassRoom = () => {
 export const classRoomCoursesFetcher = (
   classRoomId: string,
   page = 1,
-  limit = 2,
+  limit = 10,
   token?: string,
 ) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -66,8 +67,23 @@ export const useClassRoomCourses = ({
       ]
     : null;
 
-  return useSWR<ClassRoomCoursesDataResponse>(swrKey, () =>
-    classRoomCoursesFetcher(classRoomId, page, limit, token),
+  return useSWR<ClassRoomCoursesDataResponse>(
+    swrKey,
+    () => classRoomCoursesFetcher(classRoomId, page, limit, token),
+    { revalidateIfStale: true },
+  );
+};
+
+export const classRoomPost = (data: ClassRoomPost) => {
+  return api
+    .post<ClassRoomPost>(API_PATHS.CLASS_ROOM_API, data)
+    .then((res) => res.data);
+};
+
+export const usePostClassRoom = () => {
+  return useSWRMutation(
+    [API_PATHS.CLASS_ROOM_API, 'post'],
+    (_key, { arg }: { arg: ClassRoomPost }) => classRoomPost(arg),
   );
 };
 

@@ -6,10 +6,13 @@ import {
   Select,
   Typography,
 } from '@mui/material';
+import { useState } from 'react';
 
 import { Loader, PaginatedTable } from '@monetix/shared/ui';
 
 import { useClassManagement } from '../../contexts';
+import { ClassRoomForm } from '../../components/ClassRoomForm';
+import { useClassRoomForm } from '../../hooks/useClassroomForm';
 
 import { Actions, Container } from './ClassManagementScreen.styled';
 import { columns } from './constants';
@@ -26,6 +29,9 @@ export const ClassManagementScreen = () => {
     classRoomCoursesPage,
     setClassRoomCoursesPage,
   } = useClassManagement();
+
+  const { classRoomForm, openClassRoomForm, closeClassRoomForm } =
+    useClassRoomForm();
 
   if (isLoadingClasses) {
     return <Loader />;
@@ -54,30 +60,38 @@ export const ClassManagementScreen = () => {
             ))}
           </Select>
         </FormControl>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => openClassRoomForm()}
+        >
           Adicionar nova classe
         </Button>
       </Actions>
-      {classRoomCourses?.items?.length > 0 && (
-        <PaginatedTable
-          columns={columns}
-          rows={rows(classRoomCourses?.items)}
-          page={classRoomCoursesPage}
-          totalRows={classRoomCourses?.meta?.totalItems ?? 0}
-          onChangePage={(newPage) => setClassRoomCoursesPage(newPage)}
-          loading={isLoadingCourses}
-          rowsPerPage={10}
-          actions={
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setModalCourseOpen({ open: true, course: null })}
-            >
-              Adicionar novo curso
-            </Button>
-          }
-        />
-      )}
+      <PaginatedTable
+        columns={columns}
+        rows={rows(classRoomCourses?.items ?? [])}
+        page={classRoomCoursesPage}
+        totalRows={classRoomCourses?.meta?.totalItems ?? 0}
+        onChangePage={(newPage) => setClassRoomCoursesPage(newPage)}
+        loading={isLoadingCourses}
+        rowsPerPage={10}
+        actions={
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setModalCourseOpen({ open: true, course: null })}
+          >
+            Adicionar novo curso
+          </Button>
+        }
+      />
+
+      <ClassRoomForm
+        open={classRoomForm.open}
+        defaultValues={classRoomForm.defaultValues}
+        onClose={closeClassRoomForm}
+      />
     </Container>
   );
 };

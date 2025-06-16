@@ -8,8 +8,8 @@ export const rows = (courses: CourseType[]) => {
   return courses?.map((course) => ({
     enabled: <CourseSwitch {...course} />,
     name: course.name,
-    'start-date': course.startDate || 'Sem data',
-    'end-date': course.endDate || 'Sem data',
+    'start-date': course.startDate || '-',
+    'end-date': course.endDate || '-',
     progress: <LinearProgress variant="determinate" value={50} />,
     actions: <CourseAction {...course} />,
   }));

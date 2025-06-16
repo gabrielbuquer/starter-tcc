@@ -42,7 +42,7 @@ export const PaginatedTable = ({
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns?.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -57,7 +57,7 @@ export const PaginatedTable = ({
             {rows.map((row) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                  {columns.map((column) => {
+                  {columns?.map((column) => {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>

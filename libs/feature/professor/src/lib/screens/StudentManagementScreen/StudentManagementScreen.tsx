@@ -9,11 +9,10 @@ import {
 
 import { Loader, PaginatedTable } from '@monetix/shared/ui';
 
-import {
-  StudentManagementContextProvider,
-  useStudentManagement,
-} from '../../contexts/StudentManagementContext';
+import { useStudentManagement } from '../../contexts/StudentManagementContext';
 import { StudentViewer } from '../../components';
+import { useClassRoomForm } from '../../hooks/useClassroomForm';
+import { ClassRoomForm } from '../../components/ClassRoomForm';
 
 import { Actions, Container } from './StudentManagementScreen.styled';
 import { columns } from './constants';
@@ -29,6 +28,9 @@ export const StudentManagementScreen = () => {
     setClassRoomStudentsPage,
     classRoomStudentsPage,
   } = useStudentManagement();
+
+  const { classRoomForm, openClassRoomForm, closeClassRoomForm } =
+    useClassRoomForm();
 
   if (isLoadingClasses) {
     return <Loader />;
@@ -57,7 +59,11 @@ export const StudentManagementScreen = () => {
             ))}
           </Select>
         </FormControl>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => openClassRoomForm()}
+        >
           Adicionar nova classe
         </Button>
       </Actions>
@@ -70,8 +76,12 @@ export const StudentManagementScreen = () => {
         onChangePage={(newPage) => setClassRoomStudentsPage(newPage)}
         loading={isLoadingStudents}
       />
-
       <StudentViewer />
+      <ClassRoomForm
+        open={classRoomForm.open}
+        defaultValues={classRoomForm.defaultValues}
+        onClose={closeClassRoomForm}
+      />
     </Container>
   );
 };

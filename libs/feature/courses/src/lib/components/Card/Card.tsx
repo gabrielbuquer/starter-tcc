@@ -1,8 +1,11 @@
 import { Button, LinearProgress, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 import { Avatar } from '@monetix/shared/ui';
 import { CourseType, generateAcronym } from '@monetix/shared/config';
+
+import { useCheckCourse } from '../../services';
 
 import { Info } from './components/Info';
 import {
@@ -15,8 +18,6 @@ import {
 } from './Card.styled';
 import {
   COURSE_ACTION,
-  COURSE_DURATION,
-  COURSE_LESSONS,
   COURSE_PROGRESS,
   COURSE_UNAVAILABLE,
 } from './constants';
@@ -30,6 +31,15 @@ export const Card = ({
   enabled,
 }: CourseType) => {
   const { push } = useRouter();
+  const { data: session } = useSession();
+  const { trigger: checkCourse } = useCheckCourse(session?.user?.id ?? '', id);
+
+  const handleCourse = () => {
+    if (!progress) {
+      checkCourse();
+    }
+    push(`/cursos/${id}`);
+  };
 
   return (
     <Box>
@@ -58,11 +68,7 @@ export const Card = ({
         />
       </CourseInfo>
       <Actions>
-        <Button
-          variant="contained"
-          disabled={!enabled}
-          onClick={() => push(`/cursos/${id}`)}
-        >
+        <Button variant="contained" disabled={!enabled} onClick={handleCourse}>
           {enabled ? COURSE_ACTION : COURSE_UNAVAILABLE}
         </Button>
       </Actions>

@@ -32,7 +32,8 @@ export const studentCourseFetcher = (
 };
 
 export const useStudentCourse = (studentId: string, courseId: string) => {
-  return useSWR<CourseType>(studentCourserApi(studentId, courseId), () =>
+  const key = studentId ? `${studentCourserApi(studentId, courseId)}` : null;
+  return useSWR<CourseType>(key, () =>
     studentCourseFetcher(studentId, courseId),
   );
 };
@@ -42,9 +43,10 @@ export const checkLesson = (studentId: string, lessonId: string) => {
 };
 
 export const useCheckLesson = (studentId: string, lessonId: string) => {
-  return useSWRMutation(`${studentLessonApi(studentId, lessonId)}/check`, () =>
-    checkLesson(studentId, lessonId),
-  );
+  const key = studentId
+    ? `${studentLessonApi(studentId, lessonId)}/check`
+    : null;
+  return useSWRMutation(key, () => checkLesson(studentId, lessonId));
 };
 
 export const finishLesson = (studentId: string, lessonId: string) => {
@@ -52,9 +54,10 @@ export const finishLesson = (studentId: string, lessonId: string) => {
 };
 
 export const useFinishLesson = (studentId: string, lessonId: string) => {
-  return useSWRMutation(`${studentLessonApi(studentId, lessonId)}/finish`, () =>
-    finishLesson(studentId, lessonId),
-  );
+  const key = studentId
+    ? `${studentLessonApi(studentId, lessonId)}/finish`
+    : null;
+  return useSWRMutation(key, () => finishLesson(studentId, lessonId));
 };
 
 export const checkCourse = (studentId: string, courseId: string) => {
@@ -62,7 +65,8 @@ export const checkCourse = (studentId: string, courseId: string) => {
 };
 
 export const useCheckCourse = (studentId: string, courseId: string) => {
-  return useSWRMutation(`${studentCourseApi(studentId, courseId)}/check`, () =>
-    checkCourse(studentId, courseId),
-  );
+  const key = studentId
+    ? `${studentCourseApi(studentId, courseId)}/check`
+    : null;
+  return useSWRMutation(key, () => checkCourse(studentId, courseId));
 };

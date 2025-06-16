@@ -90,6 +90,7 @@ export class StudentService {
   async checkCourse(id: string, idCourser: string, idClassRoom: string) {
     const { course } = await this.couserService.findOne(idCourser, idClassRoom);
     const student = await this.findOne(id);
+    console.log('Checking course for student:', student.id, course.id);
 
     await this.registrationService.upset(student, course);
   }

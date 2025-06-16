@@ -31,6 +31,5 @@ export const Controllers = styled('aside')`
 `;
 
 export const Content = styled('div')`
-  ${({ theme }) => css`
-  `};
+  ${({ theme }) => css``};
 `;

@@ -1,9 +1,12 @@
 import {
   BaseCourseType,
+  ClassRoomType,
   CourseType,
   PaginationType,
   StudentType,
 } from '@monetix/shared/config';
+
+export type ClassRoomPost = Omit<ClassRoomType, 'id'>;
 
 export type CoursesQueryParams = {
   classRoomId: string;

@@ -33,11 +33,14 @@ export class RegistrationService {
   async finishLesson(student: Student, course: Course, lesson: Lesson) {
     const registration = await this.upset(student, course);
     console.log(registration);
-    const lessonStudent = await registration.lessons.find(
+    let lessonStudent = await registration.lessons.find(
       (l) => l.lesson.id === lesson.id,
     );
     if (!lessonStudent) {
-      throw new BadRequestException('Lesson not started');
+      await this.checkLesson(student, course, lesson);
+      lessonStudent = await registration.lessons.find(
+        (l) => l.lesson.id === lesson.id,
+      );
     }
     lessonStudent.endDate = new Date();
     this.updateProgress(registration);
