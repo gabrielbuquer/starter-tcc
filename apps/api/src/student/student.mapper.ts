@@ -1,3 +1,5 @@
+import * as bcrypt from 'bcrypt';
+
 import { Classroom } from '../classroom/entities/classroom.entity';
 
 import { ICourseResponseDTO } from './dto/student.courser.dto';
@@ -7,11 +9,14 @@ import { Registration } from './entities/registration.entity';
 import { Student } from './entities/student.entity';
 
 export class StudentMapper {
-  static toEntity(dto: CreateStudentDto, classRoom: Classroom): Student {
+  static async toEntity(
+    dto: CreateStudentDto,
+    classRoom: Classroom,
+  ): Promise<Student> {
     const student = new Student();
     student.name = dto.name;
     student.email = dto.email;
-    student.password = dto.password; //TODO: encrypt the password
+    student.password = await bcrypt.hash(dto.password, 10);
     student.classroom = classRoom;
     student.birthDate = dto.birthDate;
     return student;

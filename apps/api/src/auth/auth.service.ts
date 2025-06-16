@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { Student } from '../student/entities/student.entity';
 
@@ -18,9 +19,9 @@ export class AuthService {
 
   async signIn(username: string, pass: string): Promise<IAuthResponseDTO> {
     const user = await this.findOneByEmail(username);
-
-    if (!user || user.password !== pass) {
-      throw new UnauthorizedException('Credenciais inválidas');
+    const isMatch = await bcrypt.compare(pass, user?.password);
+    if (!isMatch) {
+      throw new UnauthorizedException();
     }
 
     const payload = this.extractPayload(user);
@@ -117,13 +118,13 @@ export class AuthService {
     return newPayload;
   }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user: User = new Student();
     user.name = createUserDto.name;
     user.birthDate = createUserDto.birthDate;
     user.email = createUserDto.email;
-    user.password = createUserDto.password;
-    return this.userRepository.save(user);
+    user.password = await bcrypt.hash(createUserDto.password, 10);
+    return await this.userRepository.save(user);
   }
 
   findAll(): Promise<User[]> {
