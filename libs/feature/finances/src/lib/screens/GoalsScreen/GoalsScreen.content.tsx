@@ -9,6 +9,7 @@ import { currencyFormatter } from '@monetix/core-utils';
 import { Column } from '@monetix/shared/ui';
 
 import { GoalsAction } from '../../components/GoalsAction';
+import { valuesByTransactionType } from '../../utils';
 
 export const columns: Column[] = [
   { id: 'expense', label: 'Despesas', minWidth: 170 },
@@ -54,26 +55,33 @@ export const rows = (goals: GoalsType[], type: TransactionTypeEnum) => {
       <Typography
         variant="h6"
         component="span"
-        color={goal?.diff >= 0 ? 'success' : 'error'}
+        color={
+          valuesByTransactionType(goal?.diff ?? 0, type) >= 0
+            ? 'success'
+            : 'error'
+        }
       >
-        {currencyFormatter(goal?.diff ?? 0)}
+        {currencyFormatter(valuesByTransactionType(goal?.diff ?? 0, type))}
       </Typography>
     ),
     actions: <GoalsAction goal={goal} type={type} />,
   }));
 };
 
-export const totalizers = (resume: GoalsResumeType) => [
+export const totalizers = (
+  resume: GoalsResumeType,
+  type: TransactionTypeEnum,
+) => [
   {
     label: 'Meta definida',
     value: resume?.goals ?? 0,
   },
   {
     label: 'Total projetado',
-    value: resume?.actual ?? 0,
+    value: valuesByTransactionType(resume?.actual ?? 0, type),
   },
   {
     label: 'Resultado',
-    value: resume?.diff ?? 0,
+    value: valuesByTransactionType(resume?.diff ?? 0, type),
   },
 ];

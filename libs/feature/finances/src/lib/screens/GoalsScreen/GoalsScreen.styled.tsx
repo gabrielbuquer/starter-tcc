@@ -1,7 +1,5 @@
 import { css, styled } from '@mui/material';
 
-import { MonthSelector } from '@monetix/shared/ui';
-
 export const Container = styled('div')`
   ${({ theme }) => css`
     display: flex;

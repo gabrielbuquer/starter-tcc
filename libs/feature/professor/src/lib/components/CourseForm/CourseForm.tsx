@@ -13,6 +13,7 @@ import { BaseCourseType, BaseLessonType } from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
 import { useCourse, usePostCourse, usePutCourse } from '../../services/courses';
+import { useClassManagement } from '../../contexts';
 
 import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
 import {
@@ -53,6 +54,7 @@ export const CourseForm = ({
     isLoading: loadingDefaultCourse,
     mutate: updateDefaultCourse,
   } = useCourse(isEditing ? defaultValues?.id : null);
+  const { updateCoursesList } = useClassManagement();
 
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
@@ -98,12 +100,14 @@ export const CourseForm = ({
       if (isEditing) {
         await updateCourse(formData);
         await updateDefaultCourse();
+        await updateCoursesList();
         showSnackBar({
           message: `Curso ${formData.name} atualizado com sucesso!`,
           type: 'success',
         });
       } else {
         await postCourse(formData);
+        await updateCoursesList();
         showSnackBar({
           message: `Curso ${formData.name} criado com sucesso!`,
           type: 'success',

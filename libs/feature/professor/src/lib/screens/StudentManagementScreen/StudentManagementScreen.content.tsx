@@ -8,7 +8,7 @@ export const rows = (students: StudentType[]) => {
   return students?.map((student) => ({
     name: student.name,
     email: student.email,
-    birthDate: student['date-of_birth'],
+    birthDate: student.birthDate,
     progress: <LinearProgress variant="determinate" value={50} />,
     actions: <StudentAction student={student} />,
   }));

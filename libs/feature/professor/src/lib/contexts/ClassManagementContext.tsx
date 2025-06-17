@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { KeyedMutator } from 'swr';
 
 import { ClassRoomType, CourseType } from '@monetix/shared/config';
 
@@ -19,6 +20,7 @@ type ClassManagementContextProps = {
   selectedClassRoom: string | null;
   isLoadingClasses: boolean;
   isLoadingCourses: boolean;
+  updateCoursesList: KeyedMutator<ClassRoomCoursesDataResponse>;
   setModalCourseOpen: (state: ModalCourseState) => void;
   setSelectedClassRoom: (classRoomId: string | null) => void;
   setClassRoomCoursesPage: (page: number) => void;
@@ -46,12 +48,15 @@ const ClassManagementContextProvider = ({
     classRooms?.[0].id,
   );
   const [classRoomCoursesPage, setClassRoomCoursesPage] = useState(0);
-  const { data: classRoomCourses, isLoading: loadingClassRoomCourses } =
-    useClassRoomCourses({
-      classRoomId: selectedClassRoom,
-      page: classRoomCoursesPage + 1,
-      limit: 10,
-    });
+  const {
+    data: classRoomCourses,
+    isLoading: loadingClassRoomCourses,
+    mutate: updateCoursesList,
+  } = useClassRoomCourses({
+    classRoomId: selectedClassRoom,
+    page: classRoomCoursesPage + 1,
+    limit: 10,
+  });
 
   const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({
     open: false,
@@ -71,6 +76,7 @@ const ClassManagementContextProvider = ({
         selectedClassRoom,
         isLoadingClasses: !classRooms || loadingClassRooms,
         isLoadingCourses: !classRoomCourses || loadingClassRoomCourses,
+        updateCoursesList,
         setModalCourseOpen,
         setSelectedClassRoom,
         setClassRoomCoursesPage,

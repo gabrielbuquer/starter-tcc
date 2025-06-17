@@ -24,11 +24,14 @@ export const StudentViewer = () => {
     setStudentView({ open: false });
   };
 
+  console.log('estudante', student);
+
   return (
     <ActionDialog
       open={studentView.open}
       title={TITLE_STUDENT}
       onClose={onClose}
+      maxWidth={'md'}
       fullWidth
     >
       <Grid container spacing={2}>
@@ -60,7 +63,7 @@ export const StudentViewer = () => {
           columns={COLUMNS}
           rows={rows(student?.courses || [])}
           page={1}
-          rowsPerPage={5}
+          rowsPerPage={10}
         />
         {isLoading && <Loader isFullScreen={false} />}
       </CourseTable>

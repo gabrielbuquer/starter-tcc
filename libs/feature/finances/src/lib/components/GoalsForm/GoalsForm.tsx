@@ -62,14 +62,16 @@ export const GoalsForm = ({
   const { data: categories } = useTransactionCategories(formType);
   const [loading, setLoading] = useState(false);
 
-  const categoriesWithoutGoals = useMemo(
-    () =>
-      categories?.filter(
-        (category) =>
-          !goals?.items?.some((goal) => goal.category.id === category.id),
-      ),
-    [categories, goals],
-  );
+  const categoriesWithoutGoals = useMemo(() => {
+    if (isEditing) {
+      return categories;
+    }
+
+    return categories?.filter(
+      (category) =>
+        !goals?.items?.some((goal) => goal.category.id === category.id),
+    );
+  }, [categories, goals, isEditing]);
 
   const methods = useForm<GoalsFormData>({
     mode: 'onBlur',

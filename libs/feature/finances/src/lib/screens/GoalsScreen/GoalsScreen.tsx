@@ -68,7 +68,7 @@ export const GoalsScreen = () => {
           </Box>
           <MonthTotalizers
             title="Total do mês"
-            totalizers={totalizers(goals?.resume)}
+            totalizers={totalizers(goals?.resume, selectedType)}
           />
         </Controllers>
         <Content>
