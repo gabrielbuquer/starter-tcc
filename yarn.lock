@@ -11861,13 +11861,6 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-nest-next@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/nest-next/-/nest-next-10.1.0.tgz#71f04061d369df3525cf38016ae78a24e6aef120"
-  integrity sha512-DmKZdYsfhF9lamnz1Nfj/mG3Ei4zOiWnlO6Vjvvi8PljwPdVJL8EaiPo7UV3CjmdIPIJ0Icu8rBkF59Z3E87fA==
-  dependencies:
-    rxjs "^7.5.5"
-
 nestjs-typeorm-paginate@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/nestjs-typeorm-paginate/-/nestjs-typeorm-paginate-4.1.0.tgz#ca12165a20720f10c92a5b196c67fa28f0344bc7"
@@ -13982,7 +13975,7 @@ rxjs@7.8.1:
   dependencies:
     tslib "^2.1.0"
 
-rxjs@^7.4.0, rxjs@^7.5.5, rxjs@^7.8.0:
+rxjs@^7.4.0, rxjs@^7.8.0:
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.2.tgz#955bc473ed8af11a002a2be52071bf475638607b"
   integrity sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==
