@@ -35,9 +35,3 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t monetix-front -f "apps/starter-tcc/Dockerfile" .
-
-      - name: Run local
-        run: docker run -p 3001:3001 monetix-front
-
-      # - name: Push Docker image to registry
-      #   run: docker push monetix-front
