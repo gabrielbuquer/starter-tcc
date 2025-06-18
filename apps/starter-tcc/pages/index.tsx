@@ -15,6 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const API_PATHS = getPaths();
   const session = await getServerSession(context.req, context.res, authOptions);
   try {
+    // TODO: Implement data fetching here
     console.log('Session:', session, API_PATHS);
     return {
       props: {

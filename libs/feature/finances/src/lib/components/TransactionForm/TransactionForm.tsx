@@ -189,7 +189,7 @@ export const TransactionForm = ({
           >
             Salvar
           </LoadingButton>
-          <Button fullWidth variant="outlined" type="submit" onClick={onClose}>
+          <Button fullWidth variant="outlined" onClick={onClose}>
             Cancelar
           </Button>
         </Actions>

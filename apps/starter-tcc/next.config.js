@@ -3,7 +3,17 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 
-const publicRuntimeConfig = {};
+const publicRuntimeConfig = {
+  publicApi: {
+    base: process.env.API_URL,
+  },
+};
+
+const serverRuntimeConfig = {
+  internalApi: {
+    base: process.env.API_URL,
+  },
+};
 
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
@@ -14,6 +24,8 @@ const nextConfig = {
   },
 
   publicRuntimeConfig,
+  serverRuntimeConfig,
+  output: 'standalone',
 
   async redirects() {
     return [
@@ -30,9 +42,6 @@ const nextConfig = {
   },
 };
 
-const plugins = [
-  // Add more Next.js plugins to this list if needed.
-  withNx,
-];
+const plugins = [withNx];
 
 module.exports = composePlugins(...plugins)(nextConfig);

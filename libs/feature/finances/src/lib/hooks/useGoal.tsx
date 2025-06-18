@@ -35,7 +35,7 @@ export function useGoal() {
   };
 
   const updateGoal = async (goal: GoalsPostData) => {
-    console.log('updateGoal', goal);
+    // TODO: Implement update logic
     // try {
     //   await triggerPost(goal);
     //   updateTransactions();

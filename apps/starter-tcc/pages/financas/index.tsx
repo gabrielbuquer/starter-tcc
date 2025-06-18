@@ -16,6 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
   try {
     console.log('Session:', session, API_PATHS);
+    // TODO: Implement data fetching here
     return {
       props: {
         centeredContent: false,

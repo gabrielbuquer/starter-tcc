@@ -49,13 +49,6 @@ export const GoalsForm = ({
   formType,
   onClose,
 }: GoalsFormProps) => {
-  console.log('GoalsForm', {
-    open,
-    isEditing,
-    defaultValues,
-    formType,
-    onClose,
-  });
   const { goals } = useGoalsTable();
   const { titleNew, titleEdit } = FORM_DATA[formType];
   const { postGoal, updateGoal } = useGoal();

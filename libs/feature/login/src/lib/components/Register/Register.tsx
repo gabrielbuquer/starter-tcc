@@ -44,8 +44,6 @@ export const Register = ({ onBack }: RegisterProps) => {
   } = methods;
 
   const onSubmit = async (formData: RegisterFormData) => {
-    console.log(formData);
-
     try {
       await authSignUp({
         name: formData.name,

@@ -1,22 +1,16 @@
 import { InternalAxiosRequestConfig } from 'axios';
-import { getSession } from 'next-auth/react';
 
 import {
   HttpClientRequestConfig,
-  corsRequestConfig,
-  getClientHeaders,
   httpClient,
   isClientSide,
 } from '@monetix/core-utils';
 
 export const api = httpClient(
   {
-    baseUrl: 'http://localhost:3000/api',
+    baseUrl: process.env.NEXT_PUBLIC_API_URL,
   },
   {
-    headers: {
-      ...getClientHeaders(),
-    },
     timeout: 50000,
   },
   {
@@ -26,18 +20,22 @@ export const api = httpClient(
   },
 );
 
-export const getHeaders = async (config: HttpClientRequestConfig) => {
+const getHeaders = async (config: HttpClientRequestConfig) => {
   let headers = {
     ...config.headers,
   };
-  const session = await getSession();
 
-  const token = session?.user?.accessToken;
+  if (typeof window !== 'undefined') {
+    const { getSession } = await import('next-auth/react');
+    const session = await getSession();
+    // @ts-expect-error token possivelmente não tipado corretamente
+    const token = session?.user?.accessToken;
 
-  headers = {
-    ...headers,
-    Authorization: token ? `Bearer ${token}` : '',
-  };
+    headers = {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    };
+  }
 
   return headers;
 };
@@ -50,9 +48,7 @@ api.client.interceptors.request.use(
       config.headers = headers;
     }
 
-    const newConfig = corsRequestConfig(config);
-
-    return newConfig as InternalAxiosRequestConfig;
+    return config as InternalAxiosRequestConfig;
   },
   function (error) {
     return Promise.reject(error);

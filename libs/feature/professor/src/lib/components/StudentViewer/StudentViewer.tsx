@@ -24,8 +24,6 @@ export const StudentViewer = () => {
     setStudentView({ open: false });
   };
 
-  console.log('estudante', student);
-
   return (
     <ActionDialog
       open={studentView.open}

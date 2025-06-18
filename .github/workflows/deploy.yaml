@@ -1,0 +1,43 @@
+name: Deploy to Production
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 22.16.0
+
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Cache yarn dependencies
+        uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: |
+            **/node_modules
+          key: monetix-cache-yarn-${{ hashFiles('yarn.lock', '*/yarn.lock') }}
+
+      - name: Install dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: yarn
+
+      - name: Build application
+        run: |
+          echo "🔨 Iniciando build do app..."
+          npm run build:app
+
+      - name: Build Docker image
+        run: docker build -t monetix-front -f "apps/starter-tcc/Dockerfile" .
+
+      - name: Run local
+        run: docker run -p 3001:3001 monetix-front
+
+      # - name: Push Docker image to registry
+      #   run: docker push monetix-front
