@@ -1,0 +1,155 @@
+{
+  "version": 3,
+  "pages404": true,
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    },
+    {
+      "source": "/",
+      "destination": "/financas",
+      "statusCode": 308,
+      "regex": "^(?!/_next)/(?:/)?$"
+    }
+  ],
+  "headers": [],
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/cursos/[courseId]",
+      "regex": "^/cursos/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPcourseId": "nxtPcourseId"
+      },
+      "namedRegex": "^/cursos/(?<nxtPcourseId>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/404",
+      "regex": "^/404(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/404(?:/)?$"
+    },
+    {
+      "page": "/cursos",
+      "regex": "^/cursos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/cursos(?:/)?$"
+    },
+    {
+      "page": "/financas",
+      "regex": "^/financas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/financas(?:/)?$"
+    },
+    {
+      "page": "/financas/metas",
+      "regex": "^/financas/metas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/financas/metas(?:/)?$"
+    },
+    {
+      "page": "/financas/transacoes",
+      "regex": "^/financas/transacoes(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/financas/transacoes(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/professor/alunos",
+      "regex": "^/professor/alunos(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/professor/alunos(?:/)?$"
+    },
+    {
+      "page": "/professor/aulas",
+      "regex": "^/professor/aulas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/professor/aulas(?:/)?$"
+    }
+  ],
+  "dataRoutes": [
+    {
+      "page": "/",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/index\\.json$"
+    },
+    {
+      "page": "/cursos",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos\\.json$"
+    },
+    {
+      "page": "/cursos/[courseId]",
+      "routeKeys": {
+        "nxtPcourseId": "nxtPcourseId"
+      },
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos/(?<nxtPcourseId>[^/]+?)\\.json$"
+    },
+    {
+      "page": "/financas",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas\\.json$"
+    },
+    {
+      "page": "/financas/metas",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas/metas\\.json$"
+    },
+    {
+      "page": "/financas/transacoes",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas/transacoes\\.json$"
+    },
+    {
+      "page": "/login",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/login\\.json$"
+    },
+    {
+      "page": "/professor/alunos",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/professor/alunos\\.json$"
+    },
+    {
+      "page": "/professor/aulas",
+      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/professor/aulas\\.json$"
+    }
+  ],
+  "rsc": {
+    "header": "RSC",
+    "varyHeader": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch",
+    "prefetchHeader": "Next-Router-Prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSuffix": ".prefetch.rsc",
+    "prefetchSegmentHeader": "Next-Router-Segment-Prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments"
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  },
+  "rewrites": []
+}
