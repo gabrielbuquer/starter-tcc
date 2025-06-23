@@ -1,16 +1,16 @@
 {
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
   "/404": "pages/404.html",
   "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/cursos": "pages/cursos.js",
-  "/cursos/[courseId]": "pages/cursos/[courseId].js",
-  "/login": "pages/login.js",
   "/financas/metas": "pages/financas/metas.js",
+  "/cursos": "pages/cursos.js",
   "/financas/transacoes": "pages/financas/transacoes.js",
+  "/cursos/[courseId]": "pages/cursos/[courseId].js",
   "/financas": "pages/financas.js",
   "/": "pages/index.js",
+  "/professor/alunos": "pages/professor/alunos.js",
   "/professor/aulas": "pages/professor/aulas.js",
-  "/professor/alunos": "pages/professor/alunos.js"
+  "/login": "pages/login.js"
 }

@@ -22,7 +22,7 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
-
+  basePath: '/monetix',
   publicRuntimeConfig,
   serverRuntimeConfig,
   output: 'standalone',

@@ -19,9 +19,6 @@ export const studentCourseFetcher = (
   courseId: string,
   token?: string,
 ) => {
-  console.log(
-    `Fetching course for student ${studentId} with course ID ${courseId}`,
-  );
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
   return api

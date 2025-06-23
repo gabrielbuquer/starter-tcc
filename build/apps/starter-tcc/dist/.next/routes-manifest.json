@@ -2,8 +2,16 @@
   "version": 3,
   "pages404": true,
   "caseSensitive": false,
-  "basePath": "",
+  "basePath": "/monetix",
   "redirects": [
+    {
+      "source": "/monetix/",
+      "destination": "/monetix",
+      "basePath": false,
+      "internal": true,
+      "statusCode": 308,
+      "regex": "^/monetix/$"
+    },
     {
       "source": "/:path+/",
       "destination": "/:path+",
@@ -12,10 +20,10 @@
       "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
     },
     {
-      "source": "/",
-      "destination": "/financas",
+      "source": "/monetix",
+      "destination": "/monetix/financas",
       "statusCode": 308,
-      "regex": "^(?!/_next)/(?:/)?$"
+      "regex": "^(?!/monetix/_next)/monetix(?:/)?$"
     }
   ],
   "headers": [],
@@ -96,43 +104,43 @@
   "dataRoutes": [
     {
       "page": "/",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/index\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/index\\.json$"
     },
     {
       "page": "/cursos",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos\\.json$"
     },
     {
       "page": "/cursos/[courseId]",
       "routeKeys": {
         "nxtPcourseId": "nxtPcourseId"
       },
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos/([^/]+?)\\.json$",
-      "namedDataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/cursos/(?<nxtPcourseId>[^/]+?)\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos/(?<nxtPcourseId>[^/]+?)\\.json$"
     },
     {
       "page": "/financas",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas\\.json$"
     },
     {
       "page": "/financas/metas",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas/metas\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas/metas\\.json$"
     },
     {
       "page": "/financas/transacoes",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/financas/transacoes\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas/transacoes\\.json$"
     },
     {
       "page": "/login",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/login\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/login\\.json$"
     },
     {
       "page": "/professor/alunos",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/professor/alunos\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/professor/alunos\\.json$"
     },
     {
       "page": "/professor/aulas",
-      "dataRouteRegex": "^/_next/data/mr6l\\-XoY\\-hLezLI35UEy5/professor/aulas\\.json$"
+      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/professor/aulas\\.json$"
     }
   ],
   "rsc": {

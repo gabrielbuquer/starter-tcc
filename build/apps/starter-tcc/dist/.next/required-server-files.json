@@ -11,7 +11,7 @@
     },
     "distDir": "../../apps/starter-tcc/dist/.next",
     "cleanDistDir": true,
-    "assetPrefix": "",
+    "assetPrefix": "/monetix",
     "cacheMaxMemorySize": 52428800,
     "configOrigin": "next.config.js",
     "useFileSystemPublicRoutes": true,
@@ -45,7 +45,7 @@
         256,
         384
       ],
-      "path": "/_next/image",
+      "path": "/monetix/_next/image",
       "loader": "default",
       "loaderFile": "",
       "domains": [],
@@ -68,9 +68,9 @@
       "pagesBufferLength": 5
     },
     "amp": {
-      "canonicalBase": ""
+      "canonicalBase": "/monetix"
     },
-    "basePath": "",
+    "basePath": "/monetix",
     "sassOptions": {},
     "trailingSlash": false,
     "i18n": null,
