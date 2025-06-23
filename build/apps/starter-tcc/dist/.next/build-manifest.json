@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/5ESHNzNkDHIFI7qcLqP3v/_buildManifest.js",
-    "static/5ESHNzNkDHIFI7qcLqP3v/_ssgManifest.js"
+    "static/8yS85dXwweuu28RH6Z4Ax/_buildManifest.js",
+    "static/8yS85dXwweuu28RH6Z4Ax/_ssgManifest.js"
   ],
   "rootMainFiles": [],
   "rootMainFilesTree": {},
@@ -57,7 +57,7 @@
       "static/chunks/912-513a45f154209102.js",
       "static/chunks/672-275f83e75f92730e.js",
       "static/chunks/908-4f85961d190dc16d.js",
-      "static/chunks/44-eb3350e215cab58e.js",
+      "static/chunks/44-5d200994c759ff71.js",
       "static/chunks/pages/cursos-c1f9bb32b57904e2.js"
     ],
     "/cursos/[courseId]": [
@@ -69,7 +69,7 @@
       "static/chunks/912-513a45f154209102.js",
       "static/chunks/672-275f83e75f92730e.js",
       "static/chunks/908-4f85961d190dc16d.js",
-      "static/chunks/44-eb3350e215cab58e.js",
+      "static/chunks/44-5d200994c759ff71.js",
       "static/chunks/pages/cursos/[courseId]-99521e268795ff84.js"
     ],
     "/financas": [

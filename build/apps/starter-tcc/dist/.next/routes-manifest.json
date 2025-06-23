@@ -104,43 +104,43 @@
   "dataRoutes": [
     {
       "page": "/",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/index\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/index\\.json$"
     },
     {
       "page": "/cursos",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/cursos\\.json$"
     },
     {
       "page": "/cursos/[courseId]",
       "routeKeys": {
         "nxtPcourseId": "nxtPcourseId"
       },
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos/([^/]+?)\\.json$",
-      "namedDataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/cursos/(?<nxtPcourseId>[^/]+?)\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/cursos/([^/]+?)\\.json$",
+      "namedDataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/cursos/(?<nxtPcourseId>[^/]+?)\\.json$"
     },
     {
       "page": "/financas",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/financas\\.json$"
     },
     {
       "page": "/financas/metas",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas/metas\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/financas/metas\\.json$"
     },
     {
       "page": "/financas/transacoes",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/financas/transacoes\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/financas/transacoes\\.json$"
     },
     {
       "page": "/login",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/login\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/login\\.json$"
     },
     {
       "page": "/professor/alunos",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/professor/alunos\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/professor/alunos\\.json$"
     },
     {
       "page": "/professor/aulas",
-      "dataRouteRegex": "^/_next/data/5ESHNzNkDHIFI7qcLqP3v/professor/aulas\\.json$"
+      "dataRouteRegex": "^/_next/data/8yS85dXwweuu28RH6Z4Ax/professor/aulas\\.json$"
     }
   ],
   "rsc": {
