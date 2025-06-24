@@ -9,6 +9,7 @@ export const CLASS_ROOM_API_PATH = '/class-room';
 export const STUDENT_API_PATH = '/student';
 export const STUDENTS_API_PATH = '/students';
 export const LESSON_API_PATH = '/lesson';
+export const NEXT_AUTH_API = `/api/auth`;
 
 export const PUBLIC_PATH = '/';
 export const PUBLIC_ASSETS_PATH = `${PUBLIC_PATH}assets`;

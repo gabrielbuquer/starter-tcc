@@ -4,8 +4,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { authSignIn, refreshToken } from '@monetix/feature/login';
 import { AuthUser } from '@monetix/shared/config';
 
-console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
-
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({

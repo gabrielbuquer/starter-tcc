@@ -2,7 +2,6 @@ import { Resolver, useForm } from 'react-hook-form';
 import { Button, Grid2 as Grid, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { ActionDialog, showSnackBar } from '@monetix/shared/ui';
 
@@ -84,7 +83,7 @@ export const ClassRoomForm = ({
           />
         </Grid>
         <Actions>
-          <LoadingButton
+          <Button
             fullWidth
             variant="contained"
             type="submit"
@@ -92,7 +91,7 @@ export const ClassRoomForm = ({
             loading={loading}
           >
             Salvar
-          </LoadingButton>
+          </Button>
           <Button fullWidth variant="outlined" type="submit" onClick={onClose}>
             Cancelar
           </Button>

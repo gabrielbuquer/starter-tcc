@@ -1,5 +1,6 @@
 export type SharedPathsKeyType =
   | 'AUTH_API'
+  | 'NEXT_AUTH_API'
   | 'FINANCES_API'
   | 'GOALS_API'
   | 'USER_API'
@@ -9,19 +10,11 @@ export type SharedPathsKeyType =
   | 'STUDENT_API'
   | 'STUDENTS_API'
   | 'CLASS_ROOM_API'
-  | 'LESSON_API';
+  | 'LESSON_API'
+  | 'PUBLIC_ROOT'
+  | 'PUBLIC_ASSETS_PATH'
+  | 'PUBLIC_ASSETS_IMAGES_PATH';
 
-type PublicPathsType = {
-  PUBLIC: {
-    ROOT: string;
-    ASSETS: {
-      ROOT: string;
-      IMAGES: string;
-    };
-  };
-};
-
-export type SharedPathsType = Record<SharedPathsKeyType, string> &
-  PublicPathsType;
+export type SharedPathsType = Record<SharedPathsKeyType, string>;
 
 export type SharedCorePathsType = SharedPathsType;

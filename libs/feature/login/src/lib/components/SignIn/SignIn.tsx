@@ -2,7 +2,6 @@ import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import LoadingButton from '@mui/lab/LoadingButton';
 import { useState } from 'react';
 
 import { PasswordInput, showSnackBar } from '@monetix/shared/ui';
@@ -19,8 +18,8 @@ export const SignIn = () => {
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
   const methods = useForm<SignInFormData>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   const {
@@ -82,14 +81,14 @@ export const SignIn = () => {
           },
         })}
       />
-      <LoadingButton
+      <Button
         type="submit"
         variant="contained"
         disabled={!isValid}
         loading={loading}
       >
         Entrar
-      </LoadingButton>
+      </Button>
     </Form>
   );
 };

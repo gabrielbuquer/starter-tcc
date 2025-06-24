@@ -11,7 +11,6 @@ import {
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useMemo, useState } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { ActionDialog } from '@monetix/shared/ui';
 import { TransactionTypeEnum } from '@monetix/shared/config';
@@ -150,7 +149,7 @@ export const GoalsForm = ({
           </FormControl>
         </Grid>
         <Actions>
-          <LoadingButton
+          <Button
             fullWidth
             variant="contained"
             type="submit"
@@ -158,7 +157,7 @@ export const GoalsForm = ({
             loading={loading}
           >
             Salvar
-          </LoadingButton>
+          </Button>
           <Button fullWidth variant="outlined" type="submit" onClick={onClose}>
             Cancelar
           </Button>
