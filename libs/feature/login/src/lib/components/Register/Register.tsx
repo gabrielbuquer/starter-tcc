@@ -5,7 +5,7 @@ import InputMask from 'react-input-mask';
 
 import { PasswordInput, showSnackBar } from '@monetix/shared/ui';
 
-import { authSignUp } from '../../services';
+import { authStudentSignUp } from '../../services';
 
 import { Form } from './Register.styled';
 import { schema } from './Register.schema';
@@ -19,6 +19,7 @@ import {
 
 type RegisterProps = {
   onBack: () => void;
+  classRoomId?: string | null;
 };
 
 type RegisterFormData = {
@@ -29,7 +30,7 @@ type RegisterFormData = {
   matchedPassword: string;
 };
 
-export const Register = ({ onBack }: RegisterProps) => {
+export const Register = ({ onBack, classRoomId }: RegisterProps) => {
   const methods = useForm<RegisterFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
@@ -45,12 +46,15 @@ export const Register = ({ onBack }: RegisterProps) => {
 
   const onSubmit = async (formData: RegisterFormData) => {
     try {
-      await authSignUp({
-        name: formData.name,
-        email: formData.email,
-        birthDate: formData.birthDate as string,
-        password: formData.password,
-      });
+      await authStudentSignUp(
+        {
+          name: formData.name,
+          email: formData.email,
+          birthDate: formData.birthDate as string,
+          password: formData.password,
+        },
+        classRoomId,
+      );
       showSnackBar({
         message: 'Usuário cadastrado com sucesso. Faça o login.',
         type: 'success',

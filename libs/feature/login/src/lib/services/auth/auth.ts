@@ -10,6 +10,18 @@ export const authSignIn = (data: SignInData): Promise<AuthUser> => {
     .then((res) => res.data);
 };
 
+export const authStudentSignUp = (
+  data: SignUpData,
+  classRoomId: string,
+): Promise<AuthUser> => {
+  return api
+    .post<
+      AuthUser,
+      SignUpData
+    >(`${API_PATHS.CLASS_ROOM_API}/${classRoomId}/${API_PATHS.STUDENTS_API}`, data)
+    .then((res) => res.data);
+};
+
 export const authSignUp = (data: SignUpData): Promise<AuthUser> => {
   return api
     .post<AuthUser, SignUpData>(`${API_PATHS.AUTH_API}/sign-up`, data)
