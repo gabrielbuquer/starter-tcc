@@ -1,18 +1,35 @@
 import {
   ReactNode,
   createContext,
-  useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react';
+import { KeyedMutator } from 'swr';
 
-import { LessonType } from '@monetix/shared/config';
+import { ClassRoomType, CourseType } from '@monetix/shared/config';
+
+import { useClassRoom, useClassRoomCourses } from '../services';
+import { CourseForm } from '../components/CourseForm';
+import { ClassRoomCoursesDataResponse } from '../services/classRoom/types';
 
 type ClassManagementContextProps = {
-  lessons: LessonType[];
-  selectedLesson: LessonType;
-  currentStep: number;
-  setSelectedLesson: (lessonId: number) => void;
+  classRooms: ClassRoomType[];
+  classRoomCourses: ClassRoomCoursesDataResponse;
+  classRoomCoursesPage: number;
+  selectedClassRoom: string | null;
+  isLoadingClasses: boolean;
+  isLoadingCourses: boolean;
+  updateCoursesList: KeyedMutator<ClassRoomCoursesDataResponse>;
+  setModalCourseOpen: (state: ModalCourseState) => void;
+  setSelectedClassRoom: (classRoomId: string | null) => void;
+  setClassRoomCoursesPage: (page: number) => void;
+};
+
+type ModalCourseState = {
+  open: boolean;
+  course?: Partial<CourseType>;
+  completeCourse?: CourseType;
 };
 
 export type ClassManagementContextPropsProviderProps = {
@@ -26,38 +43,59 @@ export const ClassManagementContext = createContext(
 const ClassManagementContextProvider = ({
   children,
 }: ClassManagementContextPropsProviderProps) => {
-  const lessons = [];
-  const [selectedLesson, setSelectedLesson] = useState<LessonType>(lessons[0]);
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const { data: classRooms, isLoading: loadingClassRooms } = useClassRoom();
+  const [selectedClassRoom, setSelectedClassRoom] = useState<string | null>(
+    classRooms?.[0].id,
+  );
+  const [classRoomCoursesPage, setClassRoomCoursesPage] = useState(0);
+  const {
+    data: classRoomCourses,
+    isLoading: loadingClassRoomCourses,
+    mutate: updateCoursesList,
+  } = useClassRoomCourses({
+    classRoomId: selectedClassRoom,
+    page: classRoomCoursesPage + 1,
+    limit: 10,
+  });
 
-  const memoizedSetSelectedLesson = useCallback((lessonStep: number) => {
-    const stepToUpdate =
-      lessonStep < 0
-        ? 0
-        : lessonStep >= lessons.length
-          ? lessons.length - 1
-          : lessonStep;
-    const lesson = lessons[stepToUpdate];
-    setSelectedLesson(lesson);
-    setCurrentStep(stepToUpdate);
-  }, []);
+  const [modalCourseOpen, setModalCourseOpen] = useState<ModalCourseState>({
+    open: false,
+  });
+
+  useEffect(() => {
+    if (classRooms?.[0]?.id) {
+      setSelectedClassRoom(classRooms[0].id);
+    }
+  }, [classRooms]);
 
   return (
     <ClassManagementContext.Provider
       value={{
-        lessons,
-        selectedLesson,
-        currentStep,
-        setSelectedLesson: memoizedSetSelectedLesson,
+        classRooms,
+        classRoomCourses,
+        selectedClassRoom,
+        isLoadingClasses: !classRooms || loadingClassRooms,
+        isLoadingCourses: !classRoomCourses || loadingClassRoomCourses,
+        updateCoursesList,
+        setModalCourseOpen,
+        setSelectedClassRoom,
+        setClassRoomCoursesPage,
+        classRoomCoursesPage,
       }}
     >
       {children}
+      <CourseForm
+        open={modalCourseOpen.open}
+        isEditing={!!modalCourseOpen.course}
+        defaultValues={modalCourseOpen.course}
+        onClose={() => setModalCourseOpen({ open: false })}
+      />
     </ClassManagementContext.Provider>
   );
 };
 
-const useClassManagementContext = () => {
+const useClassManagement = () => {
   return useContext(ClassManagementContext);
 };
 
-export { ClassManagementContextProvider, useClassManagementContext };
+export { ClassManagementContextProvider, useClassManagement };

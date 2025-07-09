@@ -1,8 +1,6 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
 import { TransactionScreen } from './TransactionScreen';
-
 
 export default {
   title: 'Screens / TransactionScreen',
@@ -11,7 +9,7 @@ export default {
     layout: 'fullscreen',
     nextjs: {
       appDirectory: true,
-    }
+    },
   },
 } as Meta<typeof TransactionScreen>;
 

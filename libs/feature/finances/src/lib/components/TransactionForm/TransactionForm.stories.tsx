@@ -1,4 +1,7 @@
 import { Meta, StoryFn } from '@storybook/react';
+
+import { TransactionTypeEnum } from '@monetix/shared/config';
+
 import { TransactionForm, TransactionFormProps } from './TransactionForm';
 
 export default {
@@ -11,7 +14,7 @@ export default {
     layout: 'fullscreen',
     nextjs: {
       appDirectory: true,
-    }
+    },
   },
 } as Meta<typeof TransactionForm>;
 
@@ -26,7 +29,7 @@ export const Expense: StoryFn<TransactionFormProps> = (props) => {
 export const Income: StoryFn<TransactionFormProps> = (props) => {
   return (
     <div style={{ width: '100%' }}>
-      <TransactionForm {...props} formType='income' />
+      <TransactionForm {...props} formType={TransactionTypeEnum.INCOME} />
     </div>
   );
 };

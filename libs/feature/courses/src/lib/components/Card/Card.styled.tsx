@@ -51,7 +51,8 @@ export const CourseInfo = styled('div')`
     width: 100%;
     border-bottom: 1px solid ${theme.palette.grey[200]};
     box-sizing: border-box;
-    &>div {
+    padding: ${theme.spacing(2)} 0;
+    & > div {
       flex: 1;
       &:not(:last-child) {
         border-right: 1px solid ${theme.palette.divider};

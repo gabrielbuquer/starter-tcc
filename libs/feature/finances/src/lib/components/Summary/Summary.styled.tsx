@@ -1,7 +1,7 @@
 import { css, styled } from '@mui/material';
 
 export const Container = styled('div')`
-  ${({ theme }) => css`
+  ${({ theme, onClick }) => css`
     display: flex;
     align-items: center;
     width: 100%;
@@ -10,13 +10,13 @@ export const Container = styled('div')`
     box-shadow: 0 2px 5px ${theme.palette.grey[300]};
     padding: ${theme.spacing(1.5)} ${theme.spacing(2)};
     box-sizing: border-box;
+    cursor: ${onClick ? 'pointer' : 'default'};
 
     & > svg {
       font-size: 40px;
       color: ${theme.palette.primary.light};
       fill: ${theme.palette.primary.light};
-      transition: all .15s ease-in-out;
-
+      transition: all 0.15s ease-in-out;
     }
 
     &:hover {
@@ -35,4 +35,3 @@ export const TextWrapper = styled('div')`
     flex: 1;
   `};
 `;
-

@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next';
+import { NextSeo } from 'next-seo';
 
 import { LoginScreen } from '@monetix/feature/login';
 
@@ -26,7 +27,12 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const LoginPage = () => {
-  return <LoginScreen />;
+  return (
+    <>
+      <NextSeo title="Login" />
+      <LoginScreen />
+    </>
+  );
 };
 
 export default LoginPage;

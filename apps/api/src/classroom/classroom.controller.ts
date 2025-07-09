@@ -9,14 +9,13 @@ import {
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 
+import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
 import { CreateStudentDto } from '../student/dto/student.create';
 import { StudentService } from '../student/student.service';
-import { RequireUserType } from '../auth/decorator/require-user-type.decorator';
 
 import { ClassroomService } from './classroom.service';
-import { CreateClassroomDto } from './dto/create-classroom.dto';
-import { Classroom } from './entities/classroom.entity';
 import { ICourseClassroomDTO } from './dto/classroom.dto';
+import { CreateClassroomDto } from './dto/create-classroom.dto';
 
 @Controller('/api/class-room')
 export class ClassroomController {
@@ -66,6 +65,7 @@ export class ClassroomController {
     @Query('page') page = 1,
     @Query('limit') limit = 10,
   ) {
+    console.log('listAllCourses');
     limit = limit > 100 ? 100 : limit;
     return await this.classroomService.listAllCourses(page, limit, id);
   }

@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { Repository } from 'typeorm';
 
-import { ClassroomCourser } from '../classroom/entities/classroom-course';
 import { Classroom } from '../classroom/entities/classroom.entity';
 import { CourseService } from '../course/course.service';
 import { LessonService } from '../course/lesson.service';
@@ -16,10 +15,11 @@ import { LessonService } from '../course/lesson.service';
 import { CreateStudentDto } from './dto/student.create';
 import { IStudentResponseDTO } from './dto/student.response';
 import { UpdateStudentDto } from './dto/student.update';
+import { Registration } from './entities/registration.entity';
 import { Student } from './entities/student.entity';
 import { RegistrationService } from './registration.service';
 import { StudentMapper } from './student.mapper';
-import { Registration } from './entities/registration.entity';
+import { ICourseResponseDTO } from './dto/student.courser.dto';
 
 @Injectable()
 export class StudentService {
@@ -34,8 +34,27 @@ export class StudentService {
 
   async create(classromm: Classroom, createStudentDto: CreateStudentDto) {
     await this.studentyRepository.save(
-      StudentMapper.toEntity(createStudentDto, classromm),
+      await StudentMapper.toEntity(createStudentDto, classromm),
     );
+  }
+
+  async getAllCourser(student: Student): Promise<ICourseResponseDTO[]> {
+    const registrations =
+      await this.registrationService.findAllByStudent(student);
+    return registrations.map((registration) =>
+      StudentMapper.createRegistrationResponse(registration),
+    );
+  }
+
+  async findById(id: string): Promise<Student> {
+    const student = await this.studentyRepository
+      .createQueryBuilder('student')
+      .leftJoinAndSelect('student.classroom', 'classroom')
+      .where('student.id = :id', { id })
+      .andWhere('student.type = :type', { type: 'Student' })
+      .getOne();
+    if (!student) throw new NotFoundException('Student not found');
+    return student;
   }
 
   async findByClassId(
@@ -71,6 +90,7 @@ export class StudentService {
   async checkCourse(id: string, idCourser: string, idClassRoom: string) {
     const { course } = await this.couserService.findOne(idCourser, idClassRoom);
     const student = await this.findOne(id);
+    console.log('Checking course for student:', student.id, course.id);
 
     await this.registrationService.upset(student, course);
   }

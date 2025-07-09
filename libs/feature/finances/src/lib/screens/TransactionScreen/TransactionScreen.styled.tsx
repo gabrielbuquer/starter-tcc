@@ -4,7 +4,7 @@ export const Container = styled('div')`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    gap: ${theme.spacing(2)};
+    gap: ${theme.spacing(6)};
     width: 100%;
   `};
 `;

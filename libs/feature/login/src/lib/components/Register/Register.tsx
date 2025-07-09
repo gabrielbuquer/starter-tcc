@@ -1,24 +1,36 @@
-import { Resolver, useForm } from 'react-hook-form';
-import { Button, TextField } from "@mui/material";
+import { Controller, Resolver, useForm } from 'react-hook-form';
+import { Button, TextField } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Form } from "./Register.styled";
-import { PasswordInput } from "@monetix/shared/ui";
+import InputMask from 'react-input-mask';
+
+import { PasswordInput, showSnackBar } from '@monetix/shared/ui';
+
+import { authStudentSignUp } from '../../services';
+
+import { Form } from './Register.styled';
 import { schema } from './Register.schema';
-import { BIRTHDATE_ATTRIBUTES, EMAIL_ATTRIBUTES, MATCHED_PASSWORD_ATTRIBUTES, NAME_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
+import {
+  BIRTHDATE_ATTRIBUTES,
+  EMAIL_ATTRIBUTES,
+  MATCHED_PASSWORD_ATTRIBUTES,
+  NAME_ATTRIBUTES,
+  PASSWORD_ATTRIBUTES,
+} from './constants';
 
 type RegisterProps = {
   onBack: () => void;
-}
+  classRoomId?: string | null;
+};
 
 type RegisterFormData = {
   name: string;
   email: string;
-  birthDate: string;
+  birthDate: Date | string;
   password: string;
   matchedPassword: string;
-}
+};
 
-export const Register = ({ onBack }: RegisterProps) => {
+export const Register = ({ onBack, classRoomId }: RegisterProps) => {
   const methods = useForm<RegisterFormData>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
@@ -26,14 +38,36 @@ export const Register = ({ onBack }: RegisterProps) => {
   });
 
   const {
+    control,
     register,
     formState: { errors, isValid },
     handleSubmit,
   } = methods;
 
   const onSubmit = async (formData: RegisterFormData) => {
-    console.log(formData);
-  }
+    try {
+      await authStudentSignUp(
+        {
+          name: formData.name,
+          email: formData.email,
+          birthDate: formData.birthDate as string,
+          password: formData.password,
+        },
+        classRoomId,
+      );
+      showSnackBar({
+        message: 'Usuário cadastrado com sucesso. Faça o login.',
+        type: 'success',
+      });
+      onBack();
+    } catch (error) {
+      console.error('Error during registration:', error);
+      showSnackBar({
+        message: 'Erro ao cadastrar usuário. Tente novamente.',
+        type: 'error',
+      });
+    }
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -53,13 +87,32 @@ export const Register = ({ onBack }: RegisterProps) => {
         helperText={errors.email?.message}
         {...register('email')}
       />
-      <TextField
-        id={BIRTHDATE_ATTRIBUTES.id}
-        label={BIRTHDATE_ATTRIBUTES.label}
-        variant="outlined"
-        error={!!errors.birthDate}
-        helperText={errors.birthDate?.message}
-        {...register('birthDate')}
+      <Controller
+        name="birthDate"
+        control={control}
+        render={({ field: { onChange, onBlur, value, ref, name } }) => (
+          <InputMask
+            mask="99/99/9999"
+            value={
+              value instanceof Date
+                ? value.toLocaleDateString('pt-BR')
+                : value ?? ''
+            }
+            onChange={(e) => onChange(e.target.value)}
+            onBlur={onBlur}
+          >
+            {(inputProps) => (
+              <TextField
+                {...inputProps}
+                fullWidth
+                label={BIRTHDATE_ATTRIBUTES.label}
+                variant="outlined"
+                error={!!errors.birthDate}
+                helperText={errors.birthDate?.message}
+              />
+            )}
+          </InputMask>
+        )}
       />
       <PasswordInput
         id={PASSWORD_ATTRIBUTES.id}
@@ -80,9 +133,13 @@ export const Register = ({ onBack }: RegisterProps) => {
       <Button type="submit" variant="contained" disabled={!isValid}>
         Entrar
       </Button>
-      <Button variant="contained" sx={{ bgcolor: 'primary.light' }} onClick={() => onBack()}>
+      <Button
+        variant="contained"
+        sx={{ bgcolor: 'primary.light' }}
+        onClick={() => onBack()}
+      >
         Voltar
       </Button>
     </Form>
-  )
+  );
 };

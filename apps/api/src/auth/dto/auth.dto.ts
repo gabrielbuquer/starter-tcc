@@ -7,4 +7,6 @@ export interface IAuthResponseDTO {
   type: string;
   accessToken: string;
   refreshToken: string;
+  accessTokenExpires: string;
+  refreshTokenExpires: string;
 }

@@ -1,18 +1,35 @@
 import { GetServerSideProps } from 'next';
+import { getServerSession } from 'next-auth/next';
+import { NextSeo } from 'next-seo';
 
-import { ClassManagementScreen } from '@monetix/feature/professor';
+import {
+  ClassManagementContextProvider,
+  ClassManagementScreen,
+  classRoomsFetcher,
+} from '@monetix/feature/professor';
+import { getPaths } from '@monetix/shared/config';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+import { authOptions } from '../../api/auth/[...nextauth]';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const API_PATHS = getPaths();
+  const session = await getServerSession(context.req, context.res, authOptions);
+
   try {
+    const classRooms = await classRoomsFetcher(session?.user?.accessToken);
     return {
       props: {
         centeredContent: false,
         simpleHeader: false,
         hasContainer: true,
         hasMargin: true,
+        fallback: {
+          [API_PATHS.CLASS_ROOM_API]: classRooms,
+        },
       },
     };
   } catch (err) {
+    console.log('Error fetching class rooms:', err);
     return {
       notFound: true,
     };
@@ -20,7 +37,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const ClassManagementPage = () => {
-  return <ClassManagementScreen />;
+  return (
+    <ClassManagementContextProvider>
+      <NextSeo title="Gestão de Aulas" />
+      <ClassManagementScreen />
+    </ClassManagementContextProvider>
+  );
 };
 
 export default ClassManagementPage;

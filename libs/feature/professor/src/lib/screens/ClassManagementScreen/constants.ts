@@ -1,4 +1,6 @@
-export const columns: any[] = [
+import { Column } from '@monetix/shared/ui';
+
+export const columns: Column[] = [
   { id: 'enabled', label: 'Habilitado', minWidth: 50 },
   { id: 'name', label: 'Curso', minWidth: 100 },
   {

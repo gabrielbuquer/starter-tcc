@@ -1,29 +1,37 @@
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import { Container } from "./StepList.styled";
-import { LessonType } from "@monetix/shared/config";
-import { Box } from "@monetix/shared/ui";
-import { useCourseContext } from "../../contexts/CourseContext";
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { CheckCircle } from '@mui/icons-material';
 
-interface StepListProps {
-  lessons: Partial<LessonType>[];
-}
+import { Box } from '@monetix/shared/ui';
 
-export const StepList = ({ lessons }: StepListProps) => {
-  const { selectedLesson, setSelectedLesson } = useCourseContext();
+import { useCourseContext } from '../../contexts/CourseContext';
+import { ButtonFinish } from '../ButtonFinish';
+
+import { Container, LessonStatus, Wrapper } from './StepList.styled';
+
+export const StepList = () => {
+  const { lessons, selectedLesson, setSelectedLesson } = useCourseContext();
+
   return (
-    <Box>
-      <Container>
-        {lessons.map((lesson, i) => (
-          <ListItemButton
-            component="button"
-            key={lesson.id}
-            selected={selectedLesson.id === lesson.id}
-            onClick={() => setSelectedLesson(i)}>
-            <ListItemText primary={`${i + 1} - ${lesson.name}`} />
-          </ListItemButton>
-        ))}
-      </Container>
-    </Box>
+    <Container>
+      <Box>
+        <Wrapper>
+          {lessons?.map((lesson, i) => (
+            <ListItemButton
+              component="button"
+              key={lesson.id}
+              selected={selectedLesson?.id === lesson.id}
+              onClick={() => setSelectedLesson(i)}
+            >
+              <ListItemText primary={`${i + 1} - ${lesson?.name}`} />
+              <LessonStatus>
+                {lesson?.endDate && <CheckCircle color="primary" />}
+              </LessonStatus>
+            </ListItemButton>
+          ))}
+        </Wrapper>
+      </Box>
+      <ButtonFinish />
+    </Container>
   );
-}
+};

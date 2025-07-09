@@ -12,7 +12,7 @@ export const rows = [
     spended: 1300,
     remained: 0,
     result: -100,
-  }
+  },
 ];
 
 export const totalizers = [
@@ -27,5 +27,5 @@ export const totalizers = [
   {
     label: 'Diferença',
     value: -200,
-  }
-]
+  },
+];

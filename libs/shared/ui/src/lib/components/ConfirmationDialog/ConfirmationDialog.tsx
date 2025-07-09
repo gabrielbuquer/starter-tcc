@@ -1,16 +1,34 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Typography } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from '@mui/material';
 
 export type ConfimationDialogProps = {
   open: boolean;
   title: string;
   text: string;
   isLoading?: boolean;
+  cancelButtonText?: string;
+  successButtonText?: string;
   handleSuccess: () => void;
   handleCancel: () => void;
-}
+};
 
-export const ConfirmationDialog = ({ open = true, title, text, isLoading, handleSuccess, handleCancel }: ConfimationDialogProps) => {
+export const ConfirmationDialog = ({
+  open = true,
+  title,
+  text,
+  isLoading,
+  cancelButtonText = 'Cancelar',
+  successButtonText = 'Continuar',
+  handleSuccess,
+  handleCancel,
+}: ConfimationDialogProps) => {
   return (
     <Dialog
       open={open}
@@ -32,15 +50,11 @@ export const ConfirmationDialog = ({ open = true, title, text, isLoading, handle
         </DialogContentText>
       </DialogContent>
       <DialogActions style={{ padding: '0 16px 16px 16px' }}>
-        <LoadingButton onClick={handleCancel}>Cancelar</LoadingButton>
-        <LoadingButton
-          variant="contained"
-          loading={isLoading}
-          onClick={handleSuccess}
-        >
-          Continuar
-        </LoadingButton>
+        <Button onClick={handleCancel}>{cancelButtonText}</Button>
+        <Button variant="contained" loading={isLoading} onClick={handleSuccess}>
+          {successButtonText}
+        </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};

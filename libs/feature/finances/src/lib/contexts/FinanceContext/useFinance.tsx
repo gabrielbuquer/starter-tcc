@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 
-import { TransactionFormProps } from '../../components';
-
 import { FinanceContext } from './FinanceContext';
 
 export function useFinanceContext() {
@@ -12,28 +10,4 @@ export function useFinanceContext() {
     );
   }
   return context;
-}
-
-export function useTransactionForm() {
-  const { setTransactionForm } = useFinanceContext();
-
-  const openForm = (
-    formType: 'expense' | 'income',
-    defaultValues: TransactionFormProps['defaultValues'] = null,
-  ) => {
-    console.log('openForm', formType, defaultValues);
-    const isEditing = defaultValues !== null;
-    setTransactionForm({
-      open: true,
-      formType,
-      isEditing,
-      defaultValues,
-    });
-  };
-
-  const closeForm = () => {
-    setTransactionForm((prev) => ({ ...prev, open: false }));
-  };
-
-  return { openForm, closeForm };
 }

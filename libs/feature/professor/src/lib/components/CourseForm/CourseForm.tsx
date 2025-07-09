@@ -1,16 +1,24 @@
 import { Resolver, useFieldArray, useForm } from 'react-hook-form';
 import { Button, Grid2 as Grid, TextField, Typography } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ActionDialog, SortableList } from '@monetix/shared/ui';
-import { LessonType } from '@monetix/shared/config';
+import {
+  ActionDialog,
+  Loader,
+  SortableList,
+  showSnackBar,
+} from '@monetix/shared/ui';
+import { BaseCourseType, BaseLessonType } from '@monetix/shared/config';
 
 import { LessonForm, LessonFormData } from '../LessonForm';
+import { useCourse, usePostCourse, usePutCourse } from '../../services/courses';
+import { useClassManagement } from '../../contexts';
 
 import { Actions, LessonsBox, LessonsHeader } from './CourseForm.styled';
 import {
   DESCRIPTION_ATTRIBUTES,
+  EMPTY_COURSE,
   FORM_DATA,
   LESSON_ATTRIBUTES,
   NAME_ATTRIBUTES,
@@ -20,19 +28,15 @@ import { SortableLesson } from './components/SortableLesson';
 
 type ModalLessonState = {
   open: boolean;
-  lesson?: Partial<LessonType>;
+  lesson?: BaseLessonType;
 };
 
-type CourseFormData = {
-  name: string;
-  description: string;
-  lessons: Partial<LessonType>[];
-};
+type CourseFormData = BaseCourseType;
 
 export type CourseFormProps = {
   open: boolean;
   isEditing?: boolean;
-  defaultValues?: CourseFormData | object;
+  defaultValues?: Partial<CourseFormData>;
   onClose?: () => void;
   onSubmit?: () => void;
 };
@@ -45,9 +49,19 @@ export const CourseForm = ({
   onSubmit,
 }: CourseFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA;
+  const {
+    data: defaultCourse,
+    isLoading: loadingDefaultCourse,
+    mutate: updateDefaultCourse,
+  } = useCourse(isEditing ? defaultValues?.id : null);
+  const { updateCoursesList } = useClassManagement();
+
   const [modalLessonOpen, setModalLessonOpen] = useState<ModalLessonState>({
     open: false,
   });
+
+  const { trigger: postCourse } = usePostCourse();
+  const { trigger: updateCourse } = usePutCourse();
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
@@ -61,6 +75,7 @@ export const CourseForm = ({
     formState: { errors, isValid },
     handleSubmit,
     control,
+    reset,
   } = methods;
 
   const { fields, move, append, remove, update } = useFieldArray({
@@ -81,9 +96,43 @@ export const CourseForm = ({
   };
 
   const internalSubmit = async (formData: CourseFormData) => {
-    console.log(formData, 'formData');
+    try {
+      if (isEditing) {
+        await updateCourse(formData);
+        await updateDefaultCourse();
+        await updateCoursesList();
+        showSnackBar({
+          message: `Curso ${formData.name} atualizado com sucesso!`,
+          type: 'success',
+        });
+      } else {
+        await postCourse(formData);
+        await updateCoursesList();
+        showSnackBar({
+          message: `Curso ${formData.name} criado com sucesso!`,
+          type: 'success',
+        });
+      }
+      onSubmit?.();
+    } catch (error) {
+      showSnackBar({
+        message: `Erro ao ${isEditing ? 'atualizar' : 'criar'} curso ${formData.name}. Verifique os dados e tente novamente.`,
+        type: 'error',
+      });
+    }
+
     onClose?.();
   };
+
+  useEffect(() => {
+    if (open && !loadingDefaultCourse) {
+      reset(defaultCourse ?? EMPTY_COURSE);
+    }
+  }, [defaultCourse, open, reset]);
+
+  if (loadingDefaultCourse) {
+    return <Loader />;
+  }
 
   return (
     <ActionDialog
@@ -164,7 +213,7 @@ export const CourseForm = ({
           >
             Salvar
           </Button>
-          <Button fullWidth variant="outlined" type="submit">
+          <Button fullWidth variant="outlined" onClick={onClose}>
             Cancelar
           </Button>
         </Actions>

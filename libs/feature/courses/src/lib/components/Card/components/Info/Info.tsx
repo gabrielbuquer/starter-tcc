@@ -1,20 +1,29 @@
-import { Typography } from "@mui/material";
-import { Box, Content } from "./Info.styled";
+import { Typography } from '@mui/material';
+import { isValidElement } from 'react';
+
+import { Box, Content } from './Info.styled';
 
 type InfoProps = {
   title: string;
-  content: string;
+  content: string | JSX.Element;
   icon: JSX.Element;
-}
+};
 
-export const Info = ({ title, content, icon}: InfoProps) => {
+export const Info = ({ title, content, icon }: InfoProps) => {
+  const isJSXElement = isValidElement(content);
+
   return (
     <Box>
       {icon}
       <Content>
         <Typography variant="caption">{title}</Typography>
-        <Typography variant="body1">{content}</Typography>
+
+        {isJSXElement ? (
+          content
+        ) : (
+          <Typography variant="body1">{content}</Typography>
+        )}
       </Content>
     </Box>
-  )
+  );
 };

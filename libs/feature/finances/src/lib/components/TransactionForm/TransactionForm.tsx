@@ -11,14 +11,20 @@ import {
   TextField,
 } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useState } from 'react';
 
 import { ActionDialog } from '@monetix/shared/ui';
+import { TransactionTypeEnum } from '@monetix/shared/config';
+
+import { useTransactionCategories } from '../../services/transactions';
+import { useTransaction } from '../../hooks/useTransaction';
 
 import { Actions } from './TransactionForm.styled';
 import {
   CATEGORY_ATTRIBUTES,
   DATE_ATTRIBUTES,
   DESCRIPTION_ATTRIBUTES,
+  EMPTY_TRANSACTION,
   FORM_DATA,
   VALUE_ATTRIBUTES,
 } from './constants';
@@ -33,7 +39,7 @@ type TransactionFormData = {
 
 export type TransactionFormProps = {
   open: boolean;
-  formType: 'expense' | 'income';
+  formType: TransactionTypeEnum;
   isEditing?: boolean;
   defaultValues?: TransactionFormData;
   onClose?: () => void;
@@ -47,6 +53,9 @@ export const TransactionForm = ({
   onClose,
 }: TransactionFormProps) => {
   const { titleNew, titleEdit } = FORM_DATA[formType];
+  const { postTransaction, updateTransaction } = useTransaction();
+  const { data: categories } = useTransactionCategories(formType);
+  const [loading, setLoading] = useState(false);
 
   const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
@@ -60,11 +69,27 @@ export const TransactionForm = ({
     formState: { errors, isValid },
     handleSubmit,
     control,
+    reset,
   } = methods;
 
   const onSubmit = async (formData: TransactionFormData) => {
-    console.log(formData);
+    setLoading(true);
+    const transactionHandler = isEditing ? updateTransaction : postTransaction;
+    await transactionHandler({
+      ...formData,
+      categoryId: formData.category,
+      date: new Date(formData.date).toISOString(),
+      type: formType,
+    });
+    setLoading(false);
+    onClose?.();
   };
+
+  useEffect(() => {
+    if (open) {
+      reset(defaultValues ?? EMPTY_TRANSACTION);
+    }
+  }, [defaultValues, open, reset]);
 
   return (
     <ActionDialog
@@ -108,20 +133,33 @@ export const TransactionForm = ({
             />
           </Grid>
           <Grid size={6}>
-            <InputMask mask="99/99/9999" maskChar=" " {...register('date')}>
-              {(props) => {
-                return (
-                  <TextField
-                    {...props}
-                    fullWidth
-                    label={DATE_ATTRIBUTES.label}
-                    variant="outlined"
-                    error={!!errors.date}
-                    helperText={errors.date?.message}
-                  />
-                );
-              }}
-            </InputMask>
+            <Controller
+              name="date"
+              control={control}
+              render={({ field: { onChange, onBlur, value, ref, name } }) => (
+                <InputMask
+                  mask="99/99/9999"
+                  value={
+                    value instanceof Date
+                      ? value.toLocaleDateString('pt-BR')
+                      : value ?? ''
+                  }
+                  onChange={(e) => onChange(e.target.value)}
+                  onBlur={onBlur}
+                >
+                  {(inputProps) => (
+                    <TextField
+                      {...inputProps}
+                      fullWidth
+                      label={DATE_ATTRIBUTES.label}
+                      variant="outlined"
+                      error={!!errors.date}
+                      helperText={errors.date?.message}
+                    />
+                  )}
+                </InputMask>
+              )}
+            />
           </Grid>
           <FormControl fullWidth>
             <InputLabel id="category-select-label">Categoria</InputLabel>
@@ -129,11 +167,14 @@ export const TransactionForm = ({
               labelId="category-select-label"
               id="category-select"
               label={CATEGORY_ATTRIBUTES.label}
+              defaultValue={defaultValues?.category || ''}
               {...register('category')}
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {categories?.map((category) => (
+                <MenuItem key={category.id} value={category.id}>
+                  {category.description}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -143,10 +184,11 @@ export const TransactionForm = ({
             variant="contained"
             type="submit"
             disabled={!isValid}
+            loading={loading}
           >
             Salvar
           </Button>
-          <Button fullWidth variant="outlined" type="submit">
+          <Button fullWidth variant="outlined" onClick={onClose}>
             Cancelar
           </Button>
         </Actions>

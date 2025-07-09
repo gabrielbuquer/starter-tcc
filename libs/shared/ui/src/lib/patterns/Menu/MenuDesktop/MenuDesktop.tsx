@@ -6,8 +6,8 @@ import { MenuItem } from './MenuItem';
 import { NavigationList, NavigationRoot } from './MenuDesktop.styled';
 
 export const MenuDesktop = () => {
-  const { data } = useSession();
-  const menu = getMenuLinks(data?.user?.type);
+  const { data: session } = useSession();
+  const menu = getMenuLinks(session?.user?.type);
   return (
     <NavigationRoot>
       <NavigationList>

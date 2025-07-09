@@ -8,4 +8,8 @@ export interface ICourseResponseDTO {
   startDate: Date;
   endDate: Date | null;
   progress: number | null;
+  teacher: {
+    id: string;
+    name: string;
+  };
 }

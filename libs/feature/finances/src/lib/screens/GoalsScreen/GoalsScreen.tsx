@@ -1,74 +1,96 @@
 import { useState } from 'react';
-import { Container, Content, Controllers, MainGrid } from './GoalsScreen.styled';
 import { IconButton, Tab, Tabs, Tooltip } from '@mui/material';
-import { Box, PaginatedTable } from '@monetix/shared/ui';
-import { rows, totalizers } from './GoalsScreen.mock';
-import { a11yProps } from '@monetix/shared/config';
+import Add from '@mui/icons-material/Add';
+
+import { Box, MonthSelector, PaginatedTable } from '@monetix/shared/ui';
+import { TransactionTypeEnum, a11yProps } from '@monetix/shared/config';
+
 import { MonthTotalizers } from '../../components/MonthTotalizers';
-import Edit from '@mui/icons-material/Edit';
+import { useGoalsTable } from '../../contexts';
+import { useFinanceContext } from '../../contexts/FinanceContext';
+
+import {
+  Container,
+  Content,
+  Controllers,
+  Filter,
+  MainGrid,
+} from './GoalsScreen.styled';
+import { columns, rows, totalizers } from './GoalsScreen.content';
 
 const COMPONENT = 'goals';
 
-const columns: any[] = [
-  { id: 'expense', label: 'Despesas', minWidth: 170 },
-  { id: 'goal', label: 'Meta', minWidth: 100 },
-  {
-    id: 'spended',
-    label: 'Realizado',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
-  },
-  {
-    id: 'remained',
-    label: 'A realizar',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('pt-BR'),
-  },
-  {
-    id: 'result',
-    label: 'Excendente',
-    minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toFixed(2),
-  },
-];
-
 export const GoalsScreen = () => {
-  const [value, setValue] = useState(0);
+  const {
+    goals,
+    goalsPage,
+    isLoadingGoals,
+    selectedType,
+    categoriesWithoutGoals,
+    setSelectedType,
+    setGoalsMonth,
+    setGoalsPage,
+  } = useGoalsTable();
+  const { setGoalsForm } = useFinanceContext();
 
-  const handleChange = (event: React.SyntheticEvent, value: number) => {
-    setValue(value);
+  const handleTypeChange = (
+    _: React.SyntheticEvent,
+    value: TransactionTypeEnum,
+  ) => {
+    setSelectedType(value);
   };
 
   return (
     <Container>
-      <Tabs value={value} onChange={handleChange} aria-label="Selecione entre Despesas ou Receitas" centered>
-        <Tab label="Despesas" {...a11yProps(COMPONENT, 'expenses')} />
-        <Tab label="Receitas" {...a11yProps(COMPONENT, 'income')} />
+      <Tabs
+        value={selectedType}
+        onChange={handleTypeChange}
+        aria-label="Selecione entre Despesas ou Receitas"
+        centered
+      >
+        <Tab
+          label="Receitas"
+          value={TransactionTypeEnum.INCOME}
+          {...a11yProps(COMPONENT, TransactionTypeEnum.INCOME)}
+        />
+        <Tab
+          label="Despesas"
+          value={TransactionTypeEnum.EXPENSE}
+          {...a11yProps(COMPONENT, TransactionTypeEnum.EXPENSE)}
+        />
       </Tabs>
       <MainGrid>
         <Controllers>
           <Box>
-            Controle Data
+            <Filter>
+              <MonthSelector onChange={(e) => setGoalsMonth(e)} fullWidth />
+            </Filter>
           </Box>
-          <MonthTotalizers title="Total do mês" totalizers={totalizers} />
+          <MonthTotalizers
+            title="Total do mês"
+            totalizers={totalizers(goals?.resume, selectedType)}
+          />
         </Controllers>
         <Content>
           <PaginatedTable
             columns={columns}
-            rows={rows}
-            page={0}
+            rows={rows(goals?.items ?? [], selectedType)}
+            page={goalsPage}
+            totalRows={goals?.meta?.totalItems}
             rowsPerPage={10}
+            loading={isLoadingGoals}
+            onChangePage={(page) => setGoalsPage(page)}
             actions={
-              <Tooltip title="Editar metas" placement="right">
+              <Tooltip title="Criar meta" placement="right">
                 <IconButton
-                  onClick={() => {console.log('teste')}}
+                  onClick={() => {
+                    setGoalsForm({ open: true, formType: selectedType });
+                  }}
                   size="medium"
-                  aria-label={'Editar metas'}
+                  aria-label={'Criar meta'}
+                  disabled={isLoadingGoals || !categoriesWithoutGoals?.length}
                 >
-                  <Edit />
+                  <Add />
                 </IconButton>
               </Tooltip>
             }
@@ -76,5 +98,5 @@ export const GoalsScreen = () => {
         </Content>
       </MainGrid>
     </Container>
-  )
-}
+  );
+};

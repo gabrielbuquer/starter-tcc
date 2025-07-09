@@ -61,3 +61,10 @@ export const CATEGORY_ATTRIBUTES = {
     INVALID: 'Informe uma categoria válida.',
   },
 };
+
+export const EMPTY_TRANSACTION = {
+  description: '',
+  value: undefined,
+  date: new Date(),
+  category: '',
+};

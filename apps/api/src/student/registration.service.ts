@@ -33,11 +33,14 @@ export class RegistrationService {
   async finishLesson(student: Student, course: Course, lesson: Lesson) {
     const registration = await this.upset(student, course);
     console.log(registration);
-    const lessonStudent = await registration.lessons.find(
+    let lessonStudent = await registration.lessons.find(
       (l) => l.lesson.id === lesson.id,
     );
     if (!lessonStudent) {
-      throw new BadRequestException('Lesson not started');
+      await this.checkLesson(student, course, lesson);
+      lessonStudent = await registration.lessons.find(
+        (l) => l.lesson.id === lesson.id,
+      );
     }
     lessonStudent.endDate = new Date();
     this.updateProgress(registration);
@@ -61,6 +64,46 @@ export class RegistrationService {
     await this.repository.save(registration);
   }
 
+  async getProgressByStudentAndCourse(
+    studentId: string,
+    courseId: string,
+  ): Promise<number> {
+    const registration = await this.repository.findOne({
+      where: {
+        student: { id: studentId },
+        course: { id: courseId },
+      },
+    });
+    if (!registration) {
+      return 0;
+    }
+    return registration.progress;
+  }
+
+  async findAllByStudent(student: Student): Promise<Registration[]> {
+    return await this.repository.find({
+      where: {
+        student: student,
+      },
+      relations: ['lessons', 'lessons.lesson', 'course', 'course.lessons'],
+    });
+  }
+
+  async removeAllProgressFromCourse(courseId: string): Promise<void> {
+    const registrations = await this.repository.find({
+      where: { course: { id: courseId } },
+      relations: ['lessons'],
+    });
+
+    for (const reg of registrations) {
+      reg.lessons = [];
+      reg.progress = 0;
+      reg.startDate = new Date();
+      reg.endDate = null;
+    }
+    await this.repository.save(registrations);
+  }
+
   async upset(student: Student, course: Course): Promise<Registration> {
     const registration: Registration | null = await this.repository.findOne({
       where: {
@@ -69,7 +112,6 @@ export class RegistrationService {
       },
       relations: ['lessons', 'lessons.lesson', 'course', 'course.lessons'],
     });
-    console.log(registration);
     if (registration) {
       return registration;
     }
@@ -87,8 +129,6 @@ export class RegistrationService {
     classRoom: Classroom,
     course: Course,
   ): Promise<number> {
-    console.log(classRoom);
-    console.log(course);
     const sum = await this.repository
       .createQueryBuilder('registration')
       .select('SUM(registration.progress)', 'progress')

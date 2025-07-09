@@ -5,6 +5,10 @@
     "declaration": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/lib/patterns/Menu/constants.tsx", "src/lib/layout/MainLayout/MainLayout.styled.tsx"],
+  "include": [
+    "src/**/*.ts",
+    "src/lib/patterns/Menu/constants.tsx",
+    "src/lib/layout/MainLayout/MainLayout.styled.tsx"
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

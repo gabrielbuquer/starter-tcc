@@ -1,20 +1,24 @@
-import { Container, MainGrid } from './CourseScreen.styled';
-import { StepList } from '../../components/StepList';
-import { MOCK_LESSONS } from '../../components/StepList/StepList.mock';
-import { Content } from '../../components/Content';
-import { CourseContextProvider } from '../../contexts/CourseContext';
+import { Loader } from '@monetix/shared/ui';
 
+import { StepList } from '../../components/StepList';
+import { Content } from '../../components/Content';
+import { useCourseContext } from '../../contexts/CourseContext';
+
+import { Container, MainGrid } from './CourseScreen.styled';
 
 export const CourseScreen = () => {
-  return (
-    <CourseContextProvider>
-      <Container>
-        <MainGrid>
-          <Content />
-          <StepList lessons={MOCK_LESSONS} />
-        </MainGrid>
-      </Container>
-    </CourseContextProvider>
+  const { isLoading } = useCourseContext();
 
-  )
-}
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <Container>
+      <MainGrid>
+        <Content />
+        <StepList />
+      </MainGrid>
+    </Container>
+  );
+};

@@ -16,6 +16,15 @@ import { StudentService } from './student.service';
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
 
+  @Get('/:id')
+  async getStudent(@Param('id') id: string) {
+    const student = await this.studentService.findById(id);
+    const courses = await this.studentService.getAllCourser(student);
+    const response = StudentMapper.createStudentResponse(student);
+    response.courses = courses;
+    return response;
+  }
+
   @RequireUserType('student')
   @Patch('/:id/course/:idCourse/check')
   async checkCourser(
@@ -44,7 +53,6 @@ export class StudentController {
     await this.studentService.finishLesson(id, idLesson);
   }
 
-  @RequireUserType('student')
   @Get('/:id/courser/:idCourser')
   async getCourser(
     @Param('id') id: string,

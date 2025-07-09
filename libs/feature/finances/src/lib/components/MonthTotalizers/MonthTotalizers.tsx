@@ -1,10 +1,13 @@
+import { Typography } from '@mui/material';
+
 import { Box } from '@monetix/shared/ui';
-import { TotalizerContainer, TotalizerLine } from "./MonthTotalizers.styled";
-import { Typography } from "@mui/material";
+import { currencyFormatter } from '@monetix/core-utils';
+
+import { TotalizerContainer, TotalizerLine } from './MonthTotalizers.styled';
 
 export interface MonthTotalizersProps {
   title: string;
-  totalizers: Totalizer[]
+  totalizers: Totalizer[];
 }
 
 interface Totalizer {
@@ -12,7 +15,10 @@ interface Totalizer {
   value: number;
 }
 
-export const MonthTotalizers = ({ title, totalizers }: MonthTotalizersProps) => {
+export const MonthTotalizers = ({
+  title,
+  totalizers,
+}: MonthTotalizersProps) => {
   return (
     <Box title={title}>
       <TotalizerContainer>
@@ -21,15 +27,16 @@ export const MonthTotalizers = ({ title, totalizers }: MonthTotalizersProps) => 
             <Typography variant="h5" component="h3">
               {totalizer?.label}
             </Typography>
-            <Typography variant="h6" component="span" color={totalizer?.value > 0 ? 'success' : 'error'}>
-              {totalizer?.value?.toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
+            <Typography
+              variant="h6"
+              component="span"
+              color={totalizer?.value > 0 ? 'success' : 'error'}
+            >
+              {currencyFormatter(totalizer?.value ?? 0)}
             </Typography>
           </TotalizerLine>
         ))}
       </TotalizerContainer>
     </Box>
-  )
+  );
 };

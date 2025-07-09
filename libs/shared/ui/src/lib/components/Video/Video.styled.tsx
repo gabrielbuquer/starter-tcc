@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const VideoBox = styled.div`
+export const VideoBox = styled('div')`
   ${({ theme }) => css`
     display: flex;
     position: relative;

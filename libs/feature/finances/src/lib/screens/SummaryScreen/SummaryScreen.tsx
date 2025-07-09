@@ -1,76 +1,116 @@
-import { Box } from '@monetix/shared/ui';
+import { Button, Grid2 as Grid } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+
+import { BarChart, Box, PieChart } from '@monetix/shared/ui';
+import { currencyFormatter } from '@monetix/core-utils';
+
 import { MainGrid } from '../../containers/MainGrid';
+import { useFinanceOverview } from '../../services/overview';
+import { useSummary } from '../../contexts/SummaryContext';
+
 import { Container } from './SummaryScreen.styled';
-import { Grid2 as Grid} from '@mui/material';
-import { PieChart, BarChart } from '@monetix/shared/ui';
+import {
+  mapperBalances,
+  mapperTotals,
+  mapperTransactionsValue,
+} from './SummaryScreen.content';
 
 export const desktopOS = [
   {
     label: 'Salário',
-    value: 1500.00,
+    value: 1500.0,
   },
   {
     label: 'Prémios',
-    value: 200.00,
+    value: 200.0,
   },
   {
     label: 'Empréstimos',
-    value: 1000.00,
+    value: 1000.0,
   },
 ];
 
 export const SummaryScreen = () => {
+  const { push } = useRouter();
+  const {
+    amount,
+    amountMonth,
+    incomeMonth,
+    expenseMonth,
+    incomes,
+    expenses,
+    totals,
+    balances,
+  } = useSummary();
+
+  const graphBalances = useMemo(
+    () => mapperBalances(balances ?? []),
+    [balances],
+  );
+  const graphTotals = useMemo(() => mapperTotals(totals ?? []), [totals]);
   return (
     <Container>
-      <MainGrid />
+      <MainGrid
+        resume={{
+          amount,
+          amountMonth,
+          totalExpense: expenseMonth,
+          totalIncome: incomeMonth,
+        }}
+        reportOption={false}
+      />
       <Grid container spacing={2}>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas">
-            <PieChart
-              data={desktopOS}
-            />
+            <PieChart data={mapperTransactionsValue(incomes)} type="income" />
           </Box>
         </Grid>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Despesas">
-            <PieChart
-              data={desktopOS}
-            />
+            <PieChart data={mapperTransactionsValue(expenses)} type="expense" />
           </Box>
         </Grid>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Balanço mensal">
             <BarChart
-              type='balance'
+              type="balance"
+              dates={graphBalances.dates}
               series={[
                 {
-                  data: [230.02, 120.99, 24, -34, 100, -50],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
+                  data: graphBalances.series,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
               ]}
             />
           </Box>
         </Grid>
-        <Grid size={6}>
+        <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas x Despesas">
             <BarChart
+              dates={graphTotals.dates}
               series={[
                 {
-                  data: [1230.00, 1250.00, 1330.00, 1800.00, 200, 2000],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
+                  data: graphTotals.incomes,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
                 },
                 {
-                  data: [1000, 800.99, 1200, 2500, 700, 1000],
-                  valueFormatter: (item) => `R$ ${item?.toFixed(2)}`,
-                }
+                  data: graphTotals.expenses,
+                  valueFormatter: (item) => currencyFormatter(item ?? 0),
+                },
               ]}
             />
           </Box>
         </Grid>
-        <Box title="Últimas Transações">
-          teste
-        </Box>
+        <Button
+          size="small"
+          variant="contained"
+          fullWidth
+          onClick={() => push('/financas/transacoes')}
+        >
+          Ver as últimas transações
+        </Button>
       </Grid>
     </Container>
-  )
-}
+  );
+};

@@ -1,5 +1,4 @@
 import {
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -12,7 +11,7 @@ import { Props } from './types';
 
 export const SimpleTable = ({ columns, rows, hasTableHead = false }: Props) => {
   return (
-    <TableContainer sx={{ maxHeight: 440 }}>
+    <TableContainer>
       <Table stickyHeader aria-label="sticky table">
         {hasTableHead && (
           <TableHead>

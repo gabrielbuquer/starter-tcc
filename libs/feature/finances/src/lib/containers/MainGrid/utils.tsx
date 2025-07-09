@@ -1,23 +1,43 @@
-import { Savings, AddCircle, RemoveCircle, Insights } from "@mui/icons-material";
+import { AddCircle, RemoveCircle, Savings } from '@mui/icons-material';
 
-export const content = [
-  {
-    title: "Meu balanço",
-    content: "R$ 100,00",
-    icon: <Savings />,
-  },
-  {
-    title: "Receita do mês",
-    content: "R$ 100,00",
-    icon: <AddCircle />,
-  },
-  {
-    title: "Despesas do mês",
-    content: "R$ 100,00",
-    icon: <RemoveCircle />,
-  },
-  {
-    title: "Ver relatórios",
-    icon: <Insights />,
-  },
-]
+import { currencyFormatter } from '@monetix/core-utils';
+
+import { MainGridResume } from './types';
+
+export const content = ({
+  amount,
+  amountMonth,
+  totalExpense,
+  totalIncome,
+}: MainGridResume) => {
+  const items = [
+    {
+      title: 'Meu balanço',
+      content: amount,
+      icon: <Savings />,
+    },
+    {
+      title: 'Balanço do mês',
+      content: amountMonth,
+      icon: <Savings />,
+    },
+    {
+      title: 'Receita do mês',
+      content: totalIncome,
+      icon: <AddCircle />,
+    },
+    {
+      title: 'Despesas do mês',
+      content: totalExpense,
+      icon: <RemoveCircle />,
+    },
+  ];
+
+  return items
+    .filter(({ content }) => typeof content === 'number' && content !== 0)
+    .map(({ title, content, icon }) => ({
+      title,
+      content: currencyFormatter(content),
+      icon,
+    }));
+};

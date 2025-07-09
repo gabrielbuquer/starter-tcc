@@ -1,9 +1,10 @@
-import { Typography } from "@mui/material";
-import { Container, Wrapper } from "./Box.styled";
+import { Typography } from '@mui/material';
+
+import { Container, Wrapper } from './Box.styled';
 
 type BoxProps = {
   children: React.ReactNode;
-  title?: string
+  title?: string;
 };
 
 export const Box = ({ children, title }: BoxProps) => {
@@ -14,9 +15,7 @@ export const Box = ({ children, title }: BoxProps) => {
           {title}
         </Typography>
       )}
-      <Wrapper>
-        {children}
-      </Wrapper>
+      <Wrapper>{children}</Wrapper>
     </Container>
   );
 };

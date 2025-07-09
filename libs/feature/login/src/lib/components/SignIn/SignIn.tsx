@@ -1,8 +1,10 @@
 import { Button, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 
-import { PasswordInput } from '@monetix/shared/ui';
+import { PasswordInput, showSnackBar } from '@monetix/shared/ui';
 
 import { EMAIL_ATTRIBUTES, PASSWORD_ATTRIBUTES } from './constants';
 import { Form } from './SignIn.styled';
@@ -13,9 +15,11 @@ type SignInFormData = {
 };
 
 export const SignIn = () => {
+  const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
   const methods = useForm<SignInFormData>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
   });
 
   const {
@@ -25,18 +29,27 @@ export const SignIn = () => {
   } = methods;
 
   const onSubmit = async (formData: SignInFormData) => {
-    console.log(formData);
+    setLoading(true);
     const res = await signIn('credentials', {
       username: formData.email,
       password: formData.password,
-      redirect: true,
+      redirect: false,
       callbackUrl: '/',
     });
 
     if (res?.ok) {
-      // redireciona para dashboard ou home
+      push('/');
+      showSnackBar({
+        message: 'Login realizado com sucesso.',
+        type: 'success',
+      });
+      setLoading(false);
     } else {
-      // mostra erro
+      setLoading(false);
+      showSnackBar({
+        message: 'Verifique os dados e tente novamente.',
+        type: 'error',
+      });
     }
   };
 
@@ -68,7 +81,12 @@ export const SignIn = () => {
           },
         })}
       />
-      <Button type="submit" variant="contained" disabled={!isValid}>
+      <Button
+        type="submit"
+        variant="contained"
+        disabled={!isValid}
+        loading={loading}
+      >
         Entrar
       </Button>
     </Form>

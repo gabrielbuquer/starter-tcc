@@ -17,6 +17,7 @@ export type ActionDialogProps = {
   children?: React.ReactNode;
   isDraggable?: boolean;
   fullWidth?: boolean;
+  maxWidth?: Breakpoint;
   onClose?: () => void;
 };
 
@@ -39,6 +40,7 @@ export const ActionDialog = ({
   children,
   isDraggable = false,
   fullWidth = false,
+  maxWidth = 'sm',
   onClose,
 }: ActionDialogProps) => {
   return (
@@ -46,7 +48,7 @@ export const ActionDialog = ({
       open={open}
       PaperComponent={isDraggable ? PaperComponent : undefined}
       aria-labelledby="draggable-dialog-title"
-      maxWidth="md"
+      maxWidth={maxWidth}
       fullWidth={fullWidth}
     >
       <DialogHeader isDraggable={isDraggable}>

@@ -3,45 +3,68 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-import { PaginatedTable } from '@monetix/shared/ui';
+import { MonthSelector, PaginatedTable } from '@monetix/shared/ui';
+import { TransactionTypeEnum } from '@monetix/shared/config';
 
 import { MainGrid } from '../../containers/MainGrid';
-import { FinanceContextProvider } from '../../contexts/FinanceContext/FinanceContext';
+import { useTransactionTable } from '../../contexts';
 
 import { Container, Content, Filters } from './TransactionScreen.styled';
-import { rows } from './TransactionScreen.mock';
 import { columns, transactionsFilter } from './constants';
+import { rows } from './TransactionScreen.content';
 
 export const TransactionScreen = () => {
+  const {
+    transactions,
+    transactionsPage,
+    selectedType,
+    isLoadingTransactions,
+    setSelectedType,
+    setTransactionsPage,
+    setTransactionsMonth,
+  } = useTransactionTable();
+
   return (
-    <FinanceContextProvider>
-      <Container>
-        <MainGrid />
-        <Content>
-          <Filters>
-            <FormControl sx={{ minWidth: 140 }} size="small">
-              <InputLabel id="transaction-select-label">Transações</InputLabel>
-              <Select
-                label={'Tipo de transação'}
-                labelId="transaction-select-label"
-                defaultValue={transactionsFilter[0].value}
-              >
-                {transactionsFilter.map((item) => (
-                  <MenuItem key={item.value} value={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Filters>
-          <PaginatedTable
-            columns={columns}
-            rows={rows}
-            page={0}
-            rowsPerPage={10}
-          />
-        </Content>
-      </Container>
-    </FinanceContextProvider>
+    <Container>
+      <MainGrid
+        resume={{
+          amount: 0,
+          amountMonth: transactions?.resume?.amount || 0,
+          totalExpense: transactions?.resume?.totalExpense || 0,
+          totalIncome: transactions?.resume?.totalIncome || 0,
+        }}
+      />
+      <Content>
+        <Filters>
+          <MonthSelector onChange={(e) => setTransactionsMonth(e)} />
+          <FormControl sx={{ minWidth: 140 }} size="small">
+            <InputLabel id="transaction-select-label">Transações</InputLabel>
+            <Select
+              label={'Tipo de transação'}
+              labelId="transaction-select-label"
+              defaultValue={selectedType ?? transactionsFilter[0].value}
+              onChange={(e) =>
+                setSelectedType(e.target.value as TransactionTypeEnum)
+              }
+            >
+              {transactionsFilter.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Filters>
+        <PaginatedTable
+          columns={columns}
+          rows={rows(transactions?.items || [])}
+          page={transactionsPage}
+          totalRows={transactions?.meta?.totalItems}
+          rowsPerPage={10}
+          loading={isLoadingTransactions}
+          onChangePage={(page) => setTransactionsPage(page)}
+        />
+      </Content>
+    </Container>
   );
 };

@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Course } from './course.entity';
 
 export enum LessonType {
@@ -17,6 +18,8 @@ export class Lesson {
   type: LessonType;
   @Column({ type: 'varchar', length: 255 })
   url: string;
+  @Column({ type: 'int', default: 0 })
+  order: number;
   @ManyToOne(() => Course, (course) => course.lessons, {
     eager: true,
   })

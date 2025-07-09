@@ -1,8 +1,6 @@
-import React from 'react';
 import { Meta, StoryFn } from '@storybook/react';
 
 import { GoalsScreen } from './GoalsScreen';
-
 
 export default {
   title: 'Screens / GoalsScreen',
@@ -11,7 +9,7 @@ export default {
     layout: 'fullscreen',
     nextjs: {
       appDirectory: true,
-    }
+    },
   },
 } as Meta<typeof GoalsScreen>;
 

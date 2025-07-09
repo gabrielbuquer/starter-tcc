@@ -1,8 +1,13 @@
 import { GetServerSideProps } from 'next';
+import { NextSeo } from 'next-seo';
 
-import { FinanceLayout, SummaryScreen } from '@monetix/feature/finances';
+import {
+  FinanceLayout,
+  SummaryContextProvider,
+  SummaryScreen,
+} from '@monetix/feature/finances';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     return {
       props: {
@@ -24,7 +29,12 @@ const FinanceSummaryPage = () => {
 };
 
 FinanceSummaryPage.getLayout = (page: React.ReactNode) => {
-  return <FinanceLayout>{page}</FinanceLayout>;
+  return (
+    <SummaryContextProvider>
+      <NextSeo title="Finanças" />
+      <FinanceLayout>{page}</FinanceLayout>
+    </SummaryContextProvider>
+  );
 };
 
 export default FinanceSummaryPage;
