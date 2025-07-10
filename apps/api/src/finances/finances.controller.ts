@@ -124,8 +124,10 @@ export class FinancesController {
   async getGoals(
     @GetSub() userId: string,
     @Param('type') type: 'expense' | 'income',
+    @Query() filter: FilterTransactionDto,
   ) {
-    return await this.financesService.getProgressGoals(userId, type);
+    filter.type = type;
+    return await this.financesService.getProgressGoals(userId, filter);
   }
 
   @Delete('/goals/:id')

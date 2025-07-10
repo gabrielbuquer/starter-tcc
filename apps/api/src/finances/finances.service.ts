@@ -374,18 +374,17 @@ export class FinancesService {
 
   async getProgressGoals(
     userId: string,
-    type: 'expense' | 'income',
+    filter: FilterTransactionDto,
     page = 1,
     limit = 10,
   ): Promise<PaginatedWithResumeGoalsDTO<GoalsProgressDto>> {
-    console.log('type', type);
     const query = this.goalRepository
       .createQueryBuilder('goal')
       .leftJoinAndSelect('goal.category', 'category')
       .where('goal.studentId = :userId', { userId });
 
-    if (type) {
-      query.andWhere('category.type = :type', { type });
+    if (filter.type) {
+      query.andWhere('category.type = :type', { type: filter.type });
     }
 
     const paginated = await paginate<Goal>(query, {
@@ -399,6 +398,8 @@ export class FinancesService {
           const realizedFromCategory = await this.getValueFromCategory(
             userId,
             item.category.id,
+            filter['start-date'],
+            filter['end-date'],
           );
           return {
             id: item.id,
@@ -415,8 +416,8 @@ export class FinancesService {
       }),
     );
 
-    const totalGoals = await this.getSumOfGoals(userId, type);
-    const totalActual = await this.getTotal(userId, type);
+    const totalGoals = await this.getSumOfGoals(userId, filter);
+    const totalActual = await this.getTotal(userId, filter);
 
     return {
       ...paginated,
@@ -429,7 +430,10 @@ export class FinancesService {
     };
   }
 
-  async getTotal(userId: string, type?: 'expense' | 'income' | undefined) {
+  async getTotal(
+    userId: string,
+    filter: FilterTransactionDto,
+  ): Promise<number> {
     const query = this.transactionRepository
       .createQueryBuilder('t')
       .select('SUM(t.value)', 'totalValue')
@@ -437,8 +441,18 @@ export class FinancesService {
       .where('t.studentId = :userId', { userId })
       .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
 
-    if (type) {
-      query.andWhere('category.type = :type', { type });
+    if (filter.type) {
+      query.andWhere('category.type = :type', { type: filter.type });
+    }
+
+    if (filter['start-date']) {
+      query.andWhere('t.date >= :startDate', {
+        startDate: filter['start-date'],
+      });
+    }
+
+    if (filter['end-date']) {
+      query.andWhere('t.date <= :endDate', { endDate: filter['end-date'] });
     }
 
     const result = await query.getRawOne();
@@ -447,7 +461,7 @@ export class FinancesService {
 
   async getSumOfGoals(
     userId: string,
-    type?: 'expense' | 'income' | undefined,
+    filter: FilterTransactionDto,
   ): Promise<number> {
     const query = this.goalRepository
       .createQueryBuilder('goal')
@@ -455,8 +469,8 @@ export class FinancesService {
       .leftJoin('goal.category', 'category')
       .where('goal.studentId = :userId', { userId });
 
-    if (type) {
-      query.andWhere('category.type = :type', { type });
+    if (filter.type) {
+      query.andWhere('category.type = :type', { type: filter.type });
     }
 
     const result = await query.getRawOne();
@@ -466,14 +480,21 @@ export class FinancesService {
   async getValueFromCategory(
     userId: string,
     categoryId: string,
+    startDate?: Date,
+    endDate?: Date,
   ): Promise<number> {
     const query = this.transactionRepository
       .createQueryBuilder('t')
       .select('SUM(t.value)', 'totalValue')
       .where('t.studentId = :userId', { userId })
-      .andWhere('t.categoryId = :categoryId', { categoryId })
-      .andWhere("DATE_TRUNC('month', t.date) = DATE_TRUNC('month', NOW())");
+      .andWhere('t.categoryId = :categoryId', { categoryId });
 
+    if (startDate) {
+      query.andWhere('t.date >= :startDate', { startDate });
+    }
+    if (endDate) {
+      query.andWhere('t.date <= :endDate', { endDate });
+    }
     const result = await query.getRawOne();
     return Number(result.totalValue) || 0;
   }
