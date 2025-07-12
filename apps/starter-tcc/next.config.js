@@ -40,7 +40,6 @@ const nextConfig = {
   ...configAssetPrefix,
   publicRuntimeConfig,
   serverRuntimeConfig,
-  output: 'standalone',
 
   async redirects() {
     return [
