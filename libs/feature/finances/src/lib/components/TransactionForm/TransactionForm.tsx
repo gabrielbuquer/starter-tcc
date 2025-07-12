@@ -58,7 +58,7 @@ export const TransactionForm = ({
   const [loading, setLoading] = useState(false);
 
   const methods = useForm<TransactionFormData>({
-    mode: 'onBlur',
+    mode: 'onChange',
     reValidateMode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema) as Resolver<TransactionFormData>,
