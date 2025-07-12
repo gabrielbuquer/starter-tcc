@@ -7,7 +7,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Logout, Person } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -70,13 +70,6 @@ export const AccountMenu = () => {
           <Typography variant="body1">{session?.user?.email}</Typography>
         </UserWrapper>
         <Divider sx={{ mb: 1 }} />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Person fontSize="small" />
-          </ListItemIcon>
-          Perfil
-        </MenuItem>
-        <Divider />
         <MenuItem onClick={() => signOut({ callbackUrl: LOGIN })}>
           <ListItemIcon>
             <Logout fontSize="small" />
