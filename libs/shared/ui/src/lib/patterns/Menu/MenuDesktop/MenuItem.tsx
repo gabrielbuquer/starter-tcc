@@ -1,8 +1,16 @@
 import { useRouter } from 'next/navigation';
-import { MenuLinksProps } from "../types";
 
-import { Arrow, MenuContent, MenuContentItem, NavigationCaret, NavigationContent, NavigationIndicator, NavigationItem, NavigationLink, NavigationTrigger } from "./MenuDesktop.styled";
+import { MenuLinksProps } from '../types';
 
+import {
+  MenuContent,
+  MenuContentItem,
+  NavigationCaret,
+  NavigationContent,
+  NavigationItem,
+  NavigationLink,
+  NavigationTrigger,
+} from './MenuDesktop.styled';
 
 export const MenuItem = (option: MenuLinksProps) => {
   const { push } = useRouter();
@@ -10,25 +18,20 @@ export const MenuItem = (option: MenuLinksProps) => {
   return (
     <NavigationItem>
       <NavigationTrigger>
-        <NavigationLink href={option.link}>
-          {option.title}
-        </NavigationLink>
-        {hasSubmenu && (
-          <NavigationCaret sx={{ fontSize: 18 }}  />
-        )}
+        <NavigationLink href={option.link}>{option.title}</NavigationLink>
+        {hasSubmenu && <NavigationCaret sx={{ fontSize: 18 }} />}
       </NavigationTrigger>
       {hasSubmenu && (
         <NavigationContent>
-          <NavigationIndicator>
-            <Arrow />
-          </NavigationIndicator>
           <MenuContent>
             {option?.submenu?.map((item) => (
-                <MenuContentItem key={item.title} onClick={() => push(item.link)}>{item.title}</MenuContentItem>
+              <MenuContentItem key={item.title} onClick={() => push(item.link)}>
+                {item.title}
+              </MenuContentItem>
             ))}
           </MenuContent>
         </NavigationContent>
       )}
     </NavigationItem>
   );
-}
+};

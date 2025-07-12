@@ -69,39 +69,6 @@ export const NavigationList = styled(NavigationMenu.List)`
   `};
 `;
 
-export const NavigationIndicator = styled(NavigationMenu.Indicator)`
-  ${() => css`
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    height: 10px;
-    top: 100%;
-    overflow: hidden;
-    z-index: 1;
-    transition:
-      width,
-      transform 250ms ease;
-    &[data-state='visible'] {
-      animation: ${FadeIn} 200ms ease;
-    }
-    &[data-state='hidden'] {
-      animation: ${FadeOut} 200ms ease;
-    }
-  `};
-`;
-
-export const Arrow = styled('div')`
-  ${() => css`
-    position: relative;
-    top: 70%;
-    background-color: white;
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    border-top-left-radius: 2px;
-  `};
-`;
-
 export const NavigationItem = styled(NavigationMenu.Item)`
   ${() => css`
     position: relative;
