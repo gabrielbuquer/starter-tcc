@@ -1,4 +1,5 @@
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -6,7 +7,6 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 export type ConfimationDialogProps = {
   open: boolean;
@@ -50,14 +50,10 @@ export const ConfirmationDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions style={{ padding: '0 16px 16px 16px' }}>
-        <LoadingButton onClick={handleCancel}>{cancelButtonText}</LoadingButton>
-        <LoadingButton
-          variant="contained"
-          loading={isLoading}
-          onClick={handleSuccess}
-        >
+        <Button onClick={handleCancel}>{cancelButtonText}</Button>
+        <Button variant="contained" loading={isLoading} onClick={handleSuccess}>
           {successButtonText}
-        </LoadingButton>
+        </Button>
       </DialogActions>
     </Dialog>
   );

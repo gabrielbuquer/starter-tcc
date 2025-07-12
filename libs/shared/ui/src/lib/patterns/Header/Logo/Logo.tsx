@@ -1,7 +1,7 @@
-import Image from 'next/image'
+import Image from 'next/image';
 import { useMediaQuery, useTheme } from '@mui/material';
-import { LogoAsLink } from './Logo.styled';
 
+import { LogoAsLink } from './Logo.styled';
 
 export type LogoProps = {
   href: string;
@@ -13,7 +13,12 @@ export const Logo = ({ href }: LogoProps) => {
 
   return (
     <LogoAsLink href={href}>
-      <Image width={isMobile ? 60 : 120} height={isMobile ? 40 : 80} src="/assets/images/logo/logo.png" alt="Logo do Monetix" />
+      <Image
+        width={isMobile ? 60 : 120}
+        height={isMobile ? 40 : 80}
+        src="/assets/images/logo/logo.png"
+        alt="Logo do Monetix"
+      />
     </LogoAsLink>
   );
 };

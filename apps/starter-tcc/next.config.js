@@ -3,6 +3,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 
+const shouldHaveConfig = process.env.NODE_ENV === 'production';
+
 const publicRuntimeConfig = {
   publicApi: {
     base: process.env.API_URL,
@@ -15,6 +17,18 @@ const serverRuntimeConfig = {
   },
 };
 
+const configAssetPrefix = shouldHaveConfig
+  ? {
+      assetPrefix: '/monetix',
+    }
+  : {};
+
+const configBasePath = shouldHaveConfig
+  ? {
+      basePath: '/monetix',
+    }
+  : {};
+
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
@@ -22,7 +36,8 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
-
+  ...configBasePath,
+  ...configAssetPrefix,
   publicRuntimeConfig,
   serverRuntimeConfig,
   output: 'standalone',

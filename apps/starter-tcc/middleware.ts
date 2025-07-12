@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-import { getBaseUrls } from '@monetix/shared/config';
+import { getBasePathUrls, getBaseUrls } from '@monetix/shared/config';
 
 export async function middleware(req: NextRequest) {
   const { LOGIN } = getBaseUrls();
+  const { LOGIN: LOGIN_BASE_PATH } = getBasePathUrls();
+
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token) {
     if (req.nextUrl.pathname !== LOGIN) {
-      return NextResponse.redirect(new URL(LOGIN, req.url));
+      return NextResponse.redirect(new URL(LOGIN_BASE_PATH, req.url));
     }
     return NextResponse.next();
   }
@@ -28,7 +30,7 @@ export async function middleware(req: NextRequest) {
 
   if (isAccessTokenExpired && isRefreshTokenExpired) {
     if (req.nextUrl.pathname !== LOGIN) {
-      return NextResponse.redirect(new URL(LOGIN, req.url));
+      return NextResponse.redirect(new URL(LOGIN_BASE_PATH, req.url));
     }
   }
 

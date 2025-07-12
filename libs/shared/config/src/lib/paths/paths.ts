@@ -1,3 +1,7 @@
+import { isProdEnv } from '@monetix/core-utils';
+
+import { withBasePath } from '../utils/basePath';
+
 import * as PATHS from './constants';
 import { SharedCorePathsType } from './types';
 
@@ -13,13 +17,21 @@ const PATHS_CONFIG = {
   STUDENTS_API: PATHS.STUDENTS_API_PATH,
   CLASS_ROOM_API: PATHS.CLASS_ROOM_API_PATH,
   LESSON_API: PATHS.LESSON_API_PATH,
-  PUBLIC: {
-    ROOT: PATHS.PUBLIC_PATH,
-    ASSETS: {
-      ROOT: PATHS.PUBLIC_ASSETS_PATH,
-      IMAGES: PATHS.PUBLIC_IMAGES_PATH,
-    },
-  },
+  NEXT_AUTH_API: PATHS.NEXT_AUTH_API,
+  PUBLIC_ROOT: PATHS.PUBLIC_PATH,
+  PUBLIC_ASSETS_PATH: PATHS.PUBLIC_ASSETS_PATH,
+  PUBLIC_ASSETS_IMAGES_PATH: PATHS.PUBLIC_IMAGES_PATH,
+};
+
+export const getBasePaths = (): SharedCorePathsType => {
+  if (isProdEnv) {
+    const entries = Object.entries(PATHS_CONFIG).map(([key, value]) => [
+      key,
+      withBasePath(value),
+    ]);
+    return Object.fromEntries(entries) as SharedCorePathsType;
+  }
+  return PATHS_CONFIG;
 };
 
 export const getPaths = (): SharedCorePathsType => PATHS_CONFIG;

@@ -4,6 +4,9 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { SessionProvider } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 
+import { isProdEnv } from '@monetix/core-utils';
+import { getBasePathUrls, getBasePaths } from '@monetix/shared/config';
+
 import { MetaTags } from '../MetaTags';
 import { Preconnect } from '../Preconnect';
 import { SwrProvider, SwrProviderPropsType } from '../SwrProvider';
@@ -82,13 +85,14 @@ export const MonetixProvider = ({
   children,
   swrFallback,
 }: MonetixProviderPropsType) => {
+  const { NEXT_AUTH_API } = getBasePaths();
   return (
     <>
       <Head>
         <MetaTags />
         <Preconnect urlsList={preconnectUrls} />
       </Head>
-      <SessionProvider>
+      <SessionProvider basePath={NEXT_AUTH_API}>
         <SwrProvider swrFallback={swrFallback}>
           <ThemeProvider theme={theme}>
             <NextSeo titleTemplate="%s | Monetix" />

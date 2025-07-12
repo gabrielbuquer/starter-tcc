@@ -87,7 +87,7 @@ export const authOptions: AuthOptions = {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: '/monetix/login',
   },
   session: {
     strategy: 'jwt',

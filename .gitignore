@@ -48,5 +48,11 @@ Thumbs.db
 .next
 out
 
+<<<<<<< HEAD
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+=======
+# mantain build dist
+!build/**/dist
+!build/**/.next
+>>>>>>> main

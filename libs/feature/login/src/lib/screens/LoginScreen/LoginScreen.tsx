@@ -1,5 +1,6 @@
 import { Tab, Tabs } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { Box } from '@monetix/shared/ui';
 import { a11yProps } from '@monetix/shared/config';
@@ -40,6 +41,21 @@ function CustomTabPanel(props: TabPanelProps) {
 
 export const LoginScreen = () => {
   const [value, setValue] = useState(LoginType.SIGNIN);
+  const [classRoomId, setClassRoomId] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const { classRoomId: classRoomIdParam } = router.query;
+
+    if (classRoomIdParam) {
+      setClassRoomId(
+        Array.isArray(classRoomIdParam)
+          ? classRoomIdParam[0]
+          : classRoomIdParam,
+      );
+      setValue(LoginType.REGISTER);
+    }
+  }, [router.query]);
 
   const handleChange = (event: React.SyntheticEvent, value: LoginType) => {
     setValue(value);
@@ -60,17 +76,24 @@ export const LoginScreen = () => {
               value={LoginType.SIGNIN}
               {...a11yProps(COMPONENT, LoginType.SIGNIN)}
             />
-            <Tab
-              label="REGISTRE-SE"
-              value={LoginType.REGISTER}
-              {...a11yProps(COMPONENT, LoginType.REGISTER)}
-            />
+            {classRoomId && (
+              <Tab
+                label="REGISTRE-SE"
+                value={LoginType.REGISTER}
+                {...a11yProps(COMPONENT, LoginType.REGISTER)}
+              />
+            )}
           </Tabs>
           <CustomTabPanel value={value} type={LoginType.SIGNIN}>
             <SignIn />
           </CustomTabPanel>
           <CustomTabPanel value={value} type={LoginType.REGISTER}>
-            <Register onBack={() => handleChange(null, LoginType.SIGNIN)} />
+            {classRoomId && (
+              <Register
+                onBack={() => handleChange(null, LoginType.SIGNIN)}
+                classRoomId={classRoomId}
+              />
+            )}
           </CustomTabPanel>
         </Wrapper>
       </Box>

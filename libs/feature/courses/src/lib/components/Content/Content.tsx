@@ -33,7 +33,7 @@ const contentElement = (lesson: LessonType) => {
   };
 
   return (
-    elements[lesson?.type] || (
+    elements[lesson?.type as keyof typeof elements] || (
       <Typography>Tipo de conteúdo não suportado</Typography>
     )
   );
