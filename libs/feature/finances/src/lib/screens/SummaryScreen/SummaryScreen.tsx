@@ -2,7 +2,7 @@ import { Button, Grid2 as Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
-import { BarChart, Box, PieChart } from '@monetix/shared/ui';
+import { BarChart, Box, Loader, PieChart } from '@monetix/shared/ui';
 import { currencyFormatter } from '@monetix/core-utils';
 
 import { MainGrid } from '../../containers/MainGrid';
@@ -42,6 +42,7 @@ export const SummaryScreen = () => {
     expenses,
     totals,
     balances,
+    isLoadingOverview,
   } = useSummary();
 
   const graphBalances = useMemo(
@@ -49,6 +50,11 @@ export const SummaryScreen = () => {
     [balances],
   );
   const graphTotals = useMemo(() => mapperTotals(totals ?? []), [totals]);
+
+  if (isLoadingOverview) {
+    return <Loader />;
+  }
+
   return (
     <Container>
       <MainGrid
