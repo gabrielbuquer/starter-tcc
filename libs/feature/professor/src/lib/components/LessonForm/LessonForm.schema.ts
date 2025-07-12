@@ -9,12 +9,12 @@ export const schema = yup
     name: yup
       .string()
       .min(2, NAME_ATTRIBUTES.errorMessages.TOO_SHORT)
-      .max(50, NAME_ATTRIBUTES.errorMessages.TOO_LONG)
+      .max(80, NAME_ATTRIBUTES.errorMessages.TOO_LONG)
       .required(NAME_ATTRIBUTES.errorMessages.REQUIRED),
     url: yup
       .string()
       .min(2, URL_ATTRIBUTES.errorMessages.TOO_SHORT)
-      .max(100, URL_ATTRIBUTES.errorMessages.TOO_LONG)
+      .max(2000, URL_ATTRIBUTES.errorMessages.TOO_LONG)
       .url(URL_ATTRIBUTES.errorMessages.INVALID)
       .required(URL_ATTRIBUTES.errorMessages.REQUIRED),
     type: yup

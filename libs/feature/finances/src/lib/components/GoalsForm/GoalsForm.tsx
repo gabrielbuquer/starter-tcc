@@ -67,7 +67,7 @@ export const GoalsForm = ({
 
   const methods = useForm<GoalsFormData>({
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema) as Resolver<GoalsFormData>,
   });

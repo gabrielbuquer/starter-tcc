@@ -65,7 +65,7 @@ export const CourseForm = ({
 
   const methods = useForm<CourseFormData>({
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema) as Resolver<CourseFormData>,
   });

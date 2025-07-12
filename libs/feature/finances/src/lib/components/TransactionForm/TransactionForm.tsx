@@ -59,7 +59,7 @@ export const TransactionForm = ({
 
   const methods = useForm<TransactionFormData>({
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema) as Resolver<TransactionFormData>,
   });
