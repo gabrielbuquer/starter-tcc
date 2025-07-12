@@ -16,7 +16,7 @@ export const Logo = ({ href }: LogoProps) => {
       <Image
         width={isMobile ? 60 : 120}
         height={isMobile ? 40 : 80}
-        src="/assets/images/logo/logo.png"
+        src="/monetix/assets/images/logo/logo.png"
         alt="Logo do Monetix"
       />
     </LogoAsLink>

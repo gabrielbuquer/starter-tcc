@@ -1,5 +1,5 @@
 export const MetaTags = () => {
-  const FAVICON_PATH = `/favicon.ico`;
+  const FAVICON_PATH = `/monetix/favicon.ico`;
   return (
     <>
       <meta
