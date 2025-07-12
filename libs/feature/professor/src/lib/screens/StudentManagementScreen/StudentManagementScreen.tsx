@@ -7,14 +7,15 @@ import {
   Typography,
 } from '@mui/material';
 
-import { Loader, PaginatedTable } from '@monetix/shared/ui';
+import { Loader, PaginatedTable, showSnackBar } from '@monetix/shared/ui';
+import { copyToClipBoard, getBasePathUrls } from '@monetix/shared/config';
 
 import { useStudentManagement } from '../../contexts/StudentManagementContext';
 import { StudentViewer } from '../../components';
 import { useClassRoomForm } from '../../hooks/useClassroomForm';
 import { ClassRoomForm } from '../../components/ClassRoomForm';
 
-import { Actions, Container } from './StudentManagementScreen.styled';
+import { Actions, Buttons, Container } from './StudentManagementScreen.styled';
 import { columns } from './constants';
 import { rows } from './StudentManagementScreen.content';
 
@@ -24,10 +25,12 @@ export const StudentManagementScreen = () => {
     classRoomStudents,
     isLoadingClasses,
     isLoadingStudents,
+    selectedClassRoom,
     setSelectedClassRoom,
     setClassRoomStudentsPage,
     classRoomStudentsPage,
   } = useStudentManagement();
+  const { LOGIN: LOGIN_BASE_PATH } = getBasePathUrls();
 
   const { classRoomForm, openClassRoomForm, closeClassRoomForm } =
     useClassRoomForm();
@@ -35,6 +38,17 @@ export const StudentManagementScreen = () => {
   if (isLoadingClasses) {
     return <Loader />;
   }
+
+  const handleCopyLink = () => {
+    const currentDomain = window.location.origin;
+    const url = `${currentDomain}${LOGIN_BASE_PATH}?classRoomId=${selectedClassRoom}`;
+    copyToClipBoard(url);
+
+    showSnackBar({
+      message: `Link da sala copiado com sucesso!`,
+      type: 'success',
+    });
+  };
 
   return (
     <Container>
@@ -59,13 +73,22 @@ export const StudentManagementScreen = () => {
             ))}
           </Select>
         </FormControl>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => openClassRoomForm()}
-        >
-          Adicionar nova classe
-        </Button>
+        <Buttons>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleCopyLink()}
+          >
+            Gerar link
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => openClassRoomForm()}
+          >
+            Adicionar nova classe
+          </Button>
+        </Buttons>
       </Actions>
       <PaginatedTable
         columns={columns}
