@@ -9,7 +9,6 @@ const publicRuntimeConfig = {
   publicApi: {
     base: process.env.API_URL,
   },
-  basePath: process.env.VERCEL ? '' : '/monetix',
 };
 
 const serverRuntimeConfig = {
