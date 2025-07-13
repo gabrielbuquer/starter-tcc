@@ -6,7 +6,6 @@ import {
   Select,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
 
 import { Loader, PaginatedTable } from '@monetix/shared/ui';
 

@@ -11,7 +11,6 @@ export const rows = (students: StudentType[]) => {
     name: student.name,
     email: student.email,
     birthDate: dateFormatter(student.birthDate) || '-',
-    progress: <LinearProgress variant="determinate" value={50} />,
     actions: <StudentAction student={student} />,
   }));
 };

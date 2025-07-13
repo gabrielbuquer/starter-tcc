@@ -17,13 +17,6 @@ export const columns: Column[] = [
     format: (value: number) => value.toLocaleString('pt-BR'),
   },
   {
-    id: 'progress',
-    label: 'Progresso',
-    minWidth: 100,
-    align: 'left',
-    format: (value: number) => value.toFixed(2),
-  },
-  {
     id: 'actions',
     label: 'Ações',
     minWidth: 50,
