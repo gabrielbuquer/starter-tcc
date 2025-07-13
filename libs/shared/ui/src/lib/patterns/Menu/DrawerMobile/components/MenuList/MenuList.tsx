@@ -6,10 +6,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { Logout } from '@mui/icons-material';
 import { signOut } from 'next-auth/react';
 
-import { getBaseUrls } from '@monetix/shared/config';
+import { getBasePathUrls } from '@monetix/shared/config';
 
 export const MenuList = () => {
-  const { LOGIN } = getBaseUrls();
+  const { LOGIN } = getBasePathUrls();
   return (
     <>
       <List>

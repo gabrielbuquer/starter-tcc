@@ -9,6 +9,7 @@ const publicRuntimeConfig = {
   publicApi: {
     base: process.env.API_URL,
   },
+  basePath: process.env.VERCEL ? '' : '/monetix',
 };
 
 const serverRuntimeConfig = {
@@ -46,6 +47,11 @@ const nextConfig = {
       {
         source: '/',
         destination: '/financas',
+        permanent: true,
+      },
+      {
+        source: '/monetix',
+        destination: '/monetix/financas',
         permanent: true,
       },
     ];

@@ -27,5 +27,6 @@ export const LessonStatus = styled('div')`
     height: ${theme.spacing(2.5)};
     background-color: ${theme.palette.grey[300]};
     border-radius: 50%;
+    flex-shrink: 0;
   `};
 `;
