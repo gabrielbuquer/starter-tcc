@@ -32,7 +32,6 @@ export function useTransaction() {
         type: 'success',
       });
     } catch (error) {
-      console.log(error);
       showSnackBar({
         message: `Erro ao criar a transação "${transaction.description}". Tente novamente mais tarde.`,
         type: 'error',
