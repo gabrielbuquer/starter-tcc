@@ -33,7 +33,7 @@ type RegisterFormData = {
 export const Register = ({ onBack, classRoomId }: RegisterProps) => {
   const methods = useForm<RegisterFormData>({
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schema) as Resolver<RegisterFormData>,
   });
 

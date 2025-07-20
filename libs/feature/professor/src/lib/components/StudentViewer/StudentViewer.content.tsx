@@ -3,6 +3,7 @@ import { Checkbox, Tooltip } from '@mui/material';
 
 import { CourseType } from '@monetix/shared/config';
 import { SimpleTable } from '@monetix/shared/ui';
+import { dateFormatter } from '@monetix/core-utils';
 
 import { LESSON_COLUMNS } from './constants';
 
@@ -10,8 +11,8 @@ export const rows = (courses: CourseType[]) => {
   return courses?.map((course) => ({
     id: course.id,
     name: course.name,
-    startDate: course.startDate || '-',
-    endDate: course.endDate || '-',
+    startDate: dateFormatter(course.startDate) || '-',
+    endDate: dateFormatter(course.endDate) || '-',
     progress: (
       <Tooltip
         title={
@@ -29,8 +30,8 @@ export const rows = (courses: CourseType[]) => {
         rows={course.lessons?.map((lesson) => ({
           id: lesson.id,
           name: lesson.name,
-          startDate: lesson.startDate || '-',
-          endDate: lesson.endDate || '-',
+          startDate: dateFormatter(lesson.startDate) || '-',
+          endDate: dateFormatter(lesson.endDate) || '-',
           progress: (
             <Tooltip
               title={lesson.endDate ? `Lição concluída` : 'Lição pendente'}

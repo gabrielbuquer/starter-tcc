@@ -7,11 +7,11 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Logout, Person } from '@mui/icons-material';
+import { Logout } from '@mui/icons-material';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 
-import { generateAcronym, getBaseUrls } from '@monetix/shared/config';
+import { generateAcronym, getBasePathUrls } from '@monetix/shared/config';
 
 import { Avatar } from '../../../components';
 
@@ -21,7 +21,7 @@ export const AccountMenu = () => {
   const { data: session } = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { LOGIN } = getBaseUrls();
+  const { LOGIN } = getBasePathUrls();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -70,13 +70,6 @@ export const AccountMenu = () => {
           <Typography variant="body1">{session?.user?.email}</Typography>
         </UserWrapper>
         <Divider sx={{ mb: 1 }} />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Person fontSize="small" />
-          </ListItemIcon>
-          Perfil
-        </MenuItem>
-        <Divider />
         <MenuItem onClick={() => signOut({ callbackUrl: LOGIN })}>
           <ListItemIcon>
             <Logout fontSize="small" />

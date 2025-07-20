@@ -2,12 +2,12 @@ import { Button, Grid2 as Grid } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
-import { BarChart, Box, PieChart } from '@monetix/shared/ui';
+import { BarChart, Box, Loader, PieChart } from '@monetix/shared/ui';
 import { currencyFormatter } from '@monetix/core-utils';
 
 import { MainGrid } from '../../containers/MainGrid';
-import { useFinanceOverview } from '../../services/overview';
 import { useSummary } from '../../contexts/SummaryContext';
+import { EmptyState } from '../../components/EmptyState';
 
 import { Container } from './SummaryScreen.styled';
 import {
@@ -42,6 +42,7 @@ export const SummaryScreen = () => {
     expenses,
     totals,
     balances,
+    isLoadingOverview,
   } = useSummary();
 
   const graphBalances = useMemo(
@@ -49,6 +50,11 @@ export const SummaryScreen = () => {
     [balances],
   );
   const graphTotals = useMemo(() => mapperTotals(totals ?? []), [totals]);
+
+  if (isLoadingOverview) {
+    return <Loader />;
+  }
+
   return (
     <Container>
       <MainGrid
@@ -63,43 +69,62 @@ export const SummaryScreen = () => {
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas">
-            <PieChart data={mapperTransactionsValue(incomes)} type="income" />
+            {incomes && incomes.length > 0 ? (
+              <PieChart data={mapperTransactionsValue(incomes)} type="income" />
+            ) : (
+              <EmptyState message="Sem dados de receitas para exibir" />
+            )}
           </Box>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Despesas">
-            <PieChart data={mapperTransactionsValue(expenses)} type="expense" />
+            {expenses && expenses.length > 0 ? (
+              <PieChart
+                data={mapperTransactionsValue(expenses)}
+                type="expense"
+              />
+            ) : (
+              <EmptyState message="Sem dados de despesas para exibir" />
+            )}
           </Box>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Balanço mensal">
-            <BarChart
-              type="balance"
-              dates={graphBalances.dates}
-              series={[
-                {
-                  data: graphBalances.series,
-                  valueFormatter: (item) => currencyFormatter(item ?? 0),
-                },
-              ]}
-            />
+            {graphBalances.dates && graphBalances.dates.length > 0 ? (
+              <BarChart
+                type="balance"
+                dates={graphBalances.dates}
+                series={[
+                  {
+                    data: graphBalances.series,
+                    valueFormatter: (item) => currencyFormatter(item ?? 0),
+                  },
+                ]}
+              />
+            ) : (
+              <EmptyState message="Sem dados de balanço para exibir" />
+            )}
           </Box>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Box title="Receitas x Despesas">
-            <BarChart
-              dates={graphTotals.dates}
-              series={[
-                {
-                  data: graphTotals.incomes,
-                  valueFormatter: (item) => currencyFormatter(item ?? 0),
-                },
-                {
-                  data: graphTotals.expenses,
-                  valueFormatter: (item) => currencyFormatter(item ?? 0),
-                },
-              ]}
-            />
+            {graphTotals.dates && graphTotals.dates.length > 0 ? (
+              <BarChart
+                dates={graphTotals.dates}
+                series={[
+                  {
+                    data: graphTotals.incomes,
+                    valueFormatter: (item) => currencyFormatter(item ?? 0),
+                  },
+                  {
+                    data: graphTotals.expenses,
+                    valueFormatter: (item) => currencyFormatter(item ?? 0),
+                  },
+                ]}
+              />
+            ) : (
+              <EmptyState message="Sem dados comparativos para exibir" />
+            )}
           </Box>
         </Grid>
         <Button

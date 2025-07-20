@@ -32,7 +32,7 @@ export const ClassRoomForm = ({
 
   const methods = useForm<ClassRoomFormData>({
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     defaultValues,
     resolver: yupResolver(schema) as Resolver<ClassRoomFormData>,
   });

@@ -23,10 +23,18 @@ export const Actions = styled('div')`
     display: flex;
     gap: ${theme.spacing(2)};
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    ${theme.breakpoints.down('sm')} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   `};
 `;
 
-export const Content = styled('div')`
-  ${({ theme }) => css``};
+export const Buttons = styled('div')`
+  ${({ theme }) => css`
+    display: flex;
+    gap: ${theme.spacing(1)};
+  `};
 `;

@@ -4,6 +4,6 @@ export type StudentType = {
   id: string;
   name: string;
   email: string;
-  birthDate: boolean;
+  birthDate: string;
   courses: CourseType[];
 };

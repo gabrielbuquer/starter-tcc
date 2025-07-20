@@ -40,13 +40,17 @@ const nextConfig = {
   ...configAssetPrefix,
   publicRuntimeConfig,
   serverRuntimeConfig,
-  output: 'standalone',
 
   async redirects() {
     return [
       {
         source: '/',
         destination: '/financas',
+        permanent: true,
+      },
+      {
+        source: '/monetix',
+        destination: '/monetix/financas',
         permanent: true,
       },
     ];

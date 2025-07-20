@@ -42,8 +42,8 @@ export const LessonForm = ({
   onClose,
 }: LessonFormProps) => {
   const methods = useForm<LessonFormData>({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+    mode: 'onChange',
+    reValidateMode: 'onChange',
     defaultValues: defaultValues ?? DEFAULT_VALUES,
     resolver: yupResolver(schema) as Resolver<LessonFormData>,
   });

@@ -18,8 +18,6 @@ export const SwrProvider = ({
     <SWRConfig
       value={{
         fallback,
-        revalidateOnFocus: false,
-        revalidateIfStale: false,
       }}
     >
       {children}
